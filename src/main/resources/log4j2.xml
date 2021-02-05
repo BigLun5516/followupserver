@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Configuration status="INFO" monitorInterval="30">
+    <Properties>
+        <!--  输出路径  -->
+<!--                <Property name="logpath">C:/Users/lgg/Desktop/log</Property>-->
+        <Property name="logpath">/home/followup/follw/</Property>
+    </Properties>
+    <Appenders>
+        <!-- 优先级从高到低分别是 OFF、FATAL、ERROR、WARN、INFO、DEBUG、ALL -->
+        <!-- 单词解释： Match：匹配 DENY：拒绝 Mismatch：不匹配 ACCEPT：接受 -->
+        <!-- DENY，日志将立即被抛弃不再经过其他过滤器； NEUTRAL，有序列表里的下个过滤器过接着处理日志； ACCEPT，日志会被立即处理，不再经过剩余过滤器。 -->
+        <!--输出日志的格式
+         %d{yyyy-MM-dd HH:mm:ss, SSS} : 日志生产时间
+         %p : 日志输出格式
+         %c : logger的名称
+         %m : 日志内容，即 logger.info("message")
+         %n : 换行符
+         %C : Java类名
+         %L : 日志输出所在行数
+         %M : 日志输出所在方法名
+         hostName : 本地机器名
+         hostAddress : 本地ip地址 -->
+
+        <!--这个输出控制台的配置，这里输出除了warn和error级别的信息到System.out -->
+        <Console name="console_out_appender" target="SYSTEM_OUT">
+            <!-- 控制台只输出level及以上级别的信息(onMatch),其他的直接拒绝(onMismatch) . -->
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT"
+                             onMismatch="DENY" />
+            <!-- 输出日志的格式 -->
+            <PatternLayout pattern="%5p [%t] %d{yyyy-MM-dd HH:mm:ss} (%F:%L) %m%n" />
+        </Console>
+        <!-- 这个输出控制台的配置，这里输出error级别的信息到System.err，在eclipse控制台上看到的是红色文字 -->
+        <Console name="console_err_appender" target="SYSTEM_ERR">
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT"
+                             onMismatch="DENY" />
+            <PatternLayout pattern="%5p [%t] %d{yyyy-MM-dd HH:mm:ss} (%F:%L) %m%n" />
+        </Console>
+
+        <RollingFile name="debug" fileName="${logpath}/debug/erp_debug.log"
+                     filePattern="${logpath}/debug/erp_debug_%d{yyyy-MM-dd}-%i.log">
+            <Filters>
+                <ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="[%d][%-5p][%t] %m (%F:%L)%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="24" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="5 MB"/>\
+            </Policies>
+            <DefaultRolloverStrategy max="30">
+                <Delete basePath="${logpath}/debug" maxDepth="1">
+                    <IfFileName glob="erp_debug_*.log"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <RollingFile name="info" fileName="${logpath}/info/erp_info.log"
+                     filePattern="${logpath}/info/erp_info_%d{yyyy-MM-dd}-%i.log">
+            <Filters>
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="[%d][%-5p][%t] %m (%F:%L)%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="24" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="5 MB"/>\
+            </Policies>
+            <DefaultRolloverStrategy max="30">
+                <Delete basePath="${logpath}/info" maxDepth="1">
+                    <IfFileName glob="erp_info_*.log"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <RollingFile name="warn" fileName="${logpath}/warn/erp_warn.log"
+                     filePattern="${logpath}/warn/erp_warn_%d{yyyy-MM-dd}-%i.log">
+            <Filters>
+                <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="[%d][%-5p][%t] %m (%F:%L)%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="24" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="5 MB"/>\
+            </Policies>
+            <DefaultRolloverStrategy max="30">
+                <Delete basePath="${logpath}/warn" maxDepth="1">
+                    <IfFileName glob="erp_warn_*.log"/>
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <RollingFile name="error" fileName="${logpath}/error/erp_error.log"
+                     filePattern="${logpath}/error/erp_error_%d{yyyy-MM-dd}-%i.log">
+            <Filters>
+                <ThresholdFilter level="fatal" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="[%d][%-5p][%t] %m (%F:%L)%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="24" modulate="true"/>
+                <!--   每个文件最大50M -->
+                <SizeBasedTriggeringPolicy size="5 MB"/>\
+            </Policies>
+            <DefaultRolloverStrategy max="30">
+                <Delete basePath="${logpath}/error" maxDepth="1">
+                    <IfFileName glob="erp_error_*.log"/>
+                    <!-- 设置最大保存时间为15天-->
+                    <IfLastModified age="15d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+    </Appenders>
+    <!--切换输出级别-->
+    <Loggers>
+        <Root level="debug">
+            <AppenderRef ref="console_out_appender"/>
+            <AppenderRef ref="debug"/>
+            <AppenderRef ref="info"/>
+            <AppenderRef ref="warn"/>
+            <AppenderRef ref="error"/>
+        </Root>
+    </Loggers>
+</Configuration>

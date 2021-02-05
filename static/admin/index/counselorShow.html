@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>辅导员查看页面</title>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/admin.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/my.css"/>
+</head>
+<body>
+<div class="wrap-container welcome-container">
+    <div class="row">
+        <div class="welcome-left-container col-lg-9 left-map-css">
+            <div class="data-show">
+                <ul class="clearfix">
+                    <li class="col-sm-12 col-md-4 col-xs-12">
+                        <a href="javascript:;" class="clearfix">
+                            <div class="icon-bg bg-org f-l">
+                                <span class="iconfont">&#xe606;</span>
+                            </div>
+                            <div class="right-text-con">
+                                <p class="name">注册数</p>
+                                <p><span class="color-org">89</span>数据<span class="iconfont">&#xe628;</span></p>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="col-sm-12 col-md-4 col-xs-12">
+                        <a href="javascript:;" class="clearfix">
+                            <div class="icon-bg bg-blue f-l">
+                                <span class="iconfont">&#xe602;</span>
+                            </div>
+                            <div class="right-text-con">
+                                <p class="name">预警数</p>
+                                <p><span class="color-blue">189</span>数据<span class="iconfont">&#xe628;</span></p>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="col-sm-12 col-md-4 col-xs-12">
+                        <a href="javascript:;" class="clearfix">
+                            <div class="icon-bg bg-green f-l">
+                                <span class="iconfont">&#xe605;</span>
+                            </div>
+                            <div class="right-text-con">
+                                <p class="name">测评数</p>
+                                <p><span class="color-green">221</span>数据<span class="iconfont">&#xe60f;</span></p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!--图表-->
+            <div class="chart-panel panel panel-default">
+                <div class="panel-body" id="yearChart" style="height: 700px;">
+            </div>
+            </div>
+            <!--服务器信息-->
+            <!--					<div class="server-panel panel panel-default">-->
+            <!--						<div class="panel-header">服务器信息</div>-->
+            <!--						<div class="panel-body clearfix">-->
+            <!--							<div class="col-md-2">-->
+            <!--								<p class="title">服务器环境</p>-->
+            <!--								<span class="info">Nginx/1.0.6</span>-->
+            <!--							</div>-->
+            <!--							<div class="col-md-2">-->
+            <!--								<p class="title">服务器IP地址</p>-->
+            <!--								<span class="info">127.0.0.1   </span>-->
+            <!--							</div>-->
+            <!--							<div class="col-md-2">-->
+            <!--								<p class="title">服务器域名</p>-->
+            <!--								<span class="info">localhost </span>-->
+            <!--							</div>-->
+            <!--							<div class="col-md-2">-->
+            <!--								<p class="title"> JAVA版本</p>-->
+            <!--								<span class="info">1.8.074</span>-->
+            <!--							</div>-->
+            <!--							<div class="col-md-2">-->
+            <!--								<p class="title">数据库信息</p>-->
+            <!--								<span class="info">5.6.12-log </span>-->
+            <!--							</div>-->
+            <!--							&lt;!&ndash;<div class="col-md-2">&ndash;&gt;-->
+            <!--								&lt;!&ndash;<p class="title">服务器当前时间</p>&ndash;&gt;-->
+            <!--								&lt;!&ndash;<span class="info">2016-06-22 11:37:35</span>&ndash;&gt;-->
+            <!--							&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--						</div>-->
+            <!--					</div>-->
+        </div>
+        <div class="welcome-edge col-lg-3 right-chart-css">
+            <!--最新留言-->
+            <div class="panel panel-default comment-panel " >
+                <div class="panel-body">
+                    <div class="panel-body" id="kChart" style="height: 400px;width: 100%;">
+                    </div>
+                </div>
+            </div>
+            <!--联系-->
+            <div class="panel panel-default contact-panel">
+                <div class="panel-body">
+                    <div class="panel-body" id="educationChart" style="height: 400px;width: 100%;">
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default contact-panel">
+                <div class="panel-body">
+                    <div class="panel-body" id="ageChart" style="height: 400px;width: 100%;">
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+    <!--备案-->
+    <div style="width:300px;margin: 0 auto; padding:20px 0;">
+        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=42018502004474" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+            <img src="../../static/admin/images/beian.png" style="float:left;"/>
+            <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">鄂公网安备 42018502004474号</p>
+        </a>
+    </div>
+</div>
+<script src="../../static/admin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/admin/lib/echarts-new/dist/echarts.js"></script>
+<script src="../../static/admin/lib/echarts-new/map/js/china.js"></script>
+<script type="text/javascript">
+    layui.use(['layer','jquery'], function(){
+        var layer 	= layui.layer;
+        var $=layui.jquery;
+        //图表
+
+        var nameColor = " rgb(55, 75, 113)"
+        var name_fontFamily = '等线'
+        var name_fontSize = 18
+        //================================健康分布玫瑰花图================================//
+        var kCharts = echarts.init(document.getElementById('kChart'));
+        var kOption = {
+            title: {
+                text: '计算机学院学生心理健康分布',
+                x: 'center',
+                textStyle: {
+                    color: nameColor,
+                    fontFamily: name_fontFamily,
+                    fontSize: name_fontSize
+                }
+            },
+            angleAxis: {
+                interval: 1,
+                type: 'category',
+                data:['正常', '轻度', '中度', '重度'],
+                z: 10,
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: "#5ab1ef",
+                        width: 3,
+                        type: "solid"
+                    },
+                },
+                axisLabel: {
+                    interval: 0,
+                    show: true,
+                    color: "#5ab1ef",
+                    margin: 8,
+                    fontSize: 16
+                },
+            },
+            radiusAxis: {
+                min: 0,
+                max: 100,
+                interval: 20,
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: "#5ab1ef",
+                        width: 3,
+                        type: "solid"
+                    },
+                },
+                axisLabel: {
+                    formatter: '{value} %',
+                    show: true,
+                    padding: [0, 0, 20, 0],
+                    color: "#5ab1ef",
+                    fontSize: 16
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: "#5ab1ef",
+                        width: 2,
+                        type: "solid"
+                    }
+                }
+            },
+            polar: {},
+            series: [{
+                type: 'bar',
+                data: [{
+                    value: 87,
+                    itemStyle: {
+                        normal: {
+                            color: "#ff9a2a"
+                        }
+                    }
+                },
+                    {
+                        value: 20,
+                        itemStyle: {
+                            normal: {
+                                color: "#de4443"
+                            }
+                        }
+                    },
+                    {
+                        value: 25,
+                        itemStyle: {
+                            normal: {
+                                color: "#ba3e43"
+                            }
+                        }
+                    },
+                    {
+                        value: 10,
+                        itemStyle: {
+                            normal: {
+                                color: "#d94071"
+                            }
+                        }
+                    }
+
+                ],
+                coordinateSystem: 'polar',
+            }],
+        };
+        kCharts.setOption(kOption);
+        //================================健康分布玫瑰花图================================//
+
+
+        //================================招生人数柱状图================================//
+        var yearCharts =echarts.init(document.getElementById('yearChart'));
+        var colors = ['#5793f3', '#d14a61', '#675bba'];
+        var yearOption = {
+            color: colors,
+
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {type: 'cross'}
+            },
+            grid: {
+                right: '9%'
+            },
+
+            legend: {
+                data:['招生人数','患病人数']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    axisTick: {
+                        alignWithLabel: true
+                    },
+                    data: ['2000年','2001年','2002年','2003年','2004年','2005年','2006年','2007年','2008年','2009年','2010年','2011年','2012年','2013年','2014年','2015年','2016年','2017年','2018年','2019年']
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '患病人数/人',
+                    min: 0,
+                    position: 'right',
+                    axisLine: {
+                        lineStyle: {
+                            color: colors[1]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value}'
+                    }
+                },
+
+                {
+                    type: 'value',
+                    name: '招生人数/千人',
+                    min: 0,
+                    position: 'left',
+                    axisLine: {
+                        lineStyle: {
+                            color: colors[2]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value}'
+                    }
+                }
+            ],
+            series: [
+                {
+                    name:'招生人数',
+                    type:'bar',
+                    data:[2.0, 4.9, 7.0, 8.0,9.0,9.0,12,13,18,19, 20.0,23.2,25.6,30.9,32.6,36.7,35.0,40,50,50.1]
+                },
+
+                {
+                    name:'患病人数',
+                    type:'line',
+                    yAxisIndex: 1,
+                    data:[2.0, 2.2, 3.3, 4.5, 6.3, 10, 10, 13.4, 13.0, 16.5, 18.0,20.3, 23.4, 24.0, 25.5, 30, 31,33,30,28]
+                }
+            ]
+        };
+        yearCharts.setOption(yearOption);
+        //================================招生人数柱状图================================//
+
+
+        //================================横向柱状图================================//
+        var educationCharts = echarts.init(document.getElementById('educationChart'));
+        var educationColors = ["#48b8ef", "#f48953", "#f9de69", "#666262", "#f96969", "#77e07d"];
+        var educationOption = {
+            title: {
+                text: '学历分布百分比',
+                x: 'center',
+                textStyle: {
+                    color: nameColor,
+                    fontFamily: name_fontFamily,
+                    fontSize: name_fontSize
+                }
+            },
+            tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            legend: {
+                top:'5%',
+                data: ['无', '轻度抑郁','中度抑郁','重度抑郁']
+            },
+            grid: {
+                left: '1%',
+                right: '5%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis:  {
+                type: 'value',
+                max: 100,
+            },
+            yAxis: {
+                type: 'category',
+                data: ['本科生','研究生','博士生']
+            },
+            series: [
+                {
+                    name: '无',
+                    type: 'bar',
+                    stack: '总量',
+                    barWidth: 30,
+                    itemStyle:{
+                        normal: {
+                            color: educationColors[0],
+                            barBorderRadius: [20, 20, 20, 20],
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    z:  20,
+                    data: [63, 58, 45]
+                },
+                {
+                    name: '轻度抑郁',
+                    type: 'bar',
+                    stack: '总量',
+                    itemStyle:{
+                        normal: {
+                            color: educationColors[1],
+                            shadowBlur: [0, 0, 0, 10],
+                            shadowColor: educationColors[1],
+                            barBorderRadius: [20, 20, 20, 20],
+                            shadowOffsetX: -20,
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    z: 15,
+                    data: [19,15,27]
+                },
+                {
+                    name: '中度抑郁',
+                    type: 'bar',
+                    stack: '总量',
+                    itemStyle:{
+                        normal: {
+                            barBorderRadius: [20, 20, 20, 20],
+                            color: educationColors[2],
+                            shadowBlur: [0, 0, 0, 10],
+                            shadowColor: educationColors[2],
+                            shadowOffsetX: -20,
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    z:10,
+                    data: [11, 18, 15]
+                },
+                {
+                    name: '重度抑郁',
+                    type: 'bar',
+                    stack: '总量',
+                    itemStyle:{
+                        normal: {
+                            barBorderRadius: [20, 20, 20, 20],
+                            color: educationColors[3],
+                            shadowBlur: [0, 0, 0, 10],
+                            shadowColor: educationColors[3],
+                            shadowOffsetX: -20,
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    z:5,
+                    data: [7, 9, 13]
+                },
+            ]
+        };
+        educationCharts.setOption(educationOption)
+        //================================横向柱状图================================//
+
+
+        //================================专业柱状图================================//
+        var ageCharts = echarts.init(document.getElementById('ageChart'));
+        var ageOption = {
+            title: {
+                text: '各专业心理健康分布',
+                x: 'center',
+                textStyle: {
+                    color: nameColor,
+                    fontFamily: name_fontFamily,
+                    fontSize: name_fontSize
+                }
+            },
+            backgroundColor:'white',
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                left: '2%',
+                right: '4%',
+                bottom: '14%',
+                top:'16%',
+                containLabel: true
+            },
+            legend: {
+                data: ['无', '轻度', '中度','重度'],
+                x:'center',
+                top:'5%',
+                textStyle: {
+                    color: "blue"
+                },
+                itemWidth: 12,
+                itemHeight: 10,
+                // itemGap: 35
+            },
+            xAxis: {
+                type: 'category',
+                data: ['计算机科学','物联网','网络安全','多媒体技术',],
+                axisLine: {
+                    lineStyle: {
+                        color: 'black'
+
+                    }
+                },
+                axisLabel: {
+                    // interval: 0,
+                    // rotate: 40,
+                    textStyle: {
+                        fontFamily: 'Microsoft YaHei'
+                    }
+                },
+            },
+
+            yAxis: {
+                type: 'value',
+                axisLine: {
+                    show: false,
+                    lineStyle: {
+                        color: 'black'
+                    }
+                },
+                splitLine: {
+                    show: true,
+                    lineStyle: {
+                        color: '#33ccff'
+                    }
+                },
+                axisLabel: {}
+            },
+            "dataZoom": [{
+                "show": true,
+                "height": 12,
+                "xAxisIndex": [
+                    0
+                ],
+                bottom:'8%',
+                "start": 10,
+                "end": 90,
+                handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
+                handleSize: '110%',
+                handleStyle:{
+                    color:"black",
+
+                },
+                textStyle:{
+                    color:"black"},
+                borderColor:"black"
+            }, {
+                "type": "inside",
+                "show": true,
+                "height": 15,
+                "start": 1,
+                "end": 35
+            }],
+            series: [{
+                name: '无',
+                type: 'bar',
+                barWidth: '15%',
+                itemStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#fccb05'
+                        }, {
+                            offset: 1,
+                            color: '#f5804d'
+                        }]),
+                        barBorderRadius: 12,
+                    },
+                },
+                data: [69, 55, 72, 78]
+            },
+                {
+                    name: '轻度',
+                    type: 'bar',
+                    barWidth: '15%',
+                    itemStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: '#8bd46e'
+                            }, {
+                                offset: 1,
+                                color: '#09bcb7'
+                            }]),
+                            barBorderRadius: 11,
+                        }
+
+                    },
+                    data: [18, 25, 17, 16]
+                },
+                {
+                    name: '中度',
+                    type: 'bar',
+                    barWidth: '15%',
+                    itemStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: '#248ff7'
+                            }, {
+                                offset: 1,
+                                color: '#6851f1'
+                            }]),
+                            barBorderRadius: 11,
+                        }
+                    },
+                    data: [8, 12, 7, 4]
+                },
+                {
+                    name: '重度',
+                    type: 'bar',
+                    barWidth: '15%',
+                    itemStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: '#cc6633'
+                            }, {
+                                offset: 1,
+                                color: '#cc0033'
+                            }]),
+                            barBorderRadius: 11,
+                        }
+                    },
+                    data: [5, 8, 4, 2]
+                }]
+        };
+
+        var app = {
+            currentIndex: -1,
+        };
+        setInterval(function () {
+            var dataLen = ageOption.series[0].data.length;
+
+            // 取消之前高亮的图形
+            ageCharts.dispatchAction({
+                type: 'downplay',
+                seriesIndex: 0,
+                dataIndex: app.currentIndex
+            });
+            app.currentIndex = (app.currentIndex + 1) % dataLen;
+            //console.log(app.currentIndex);
+            // 高亮当前图形
+            ageCharts.dispatchAction({
+                type: 'highlight',
+                seriesIndex: 0,
+                dataIndex: app.currentIndex,
+            });
+            // 显示 tooltip
+            ageCharts.dispatchAction({
+                type: 'showTip',
+                seriesIndex: 0,
+                dataIndex: app.currentIndex
+            });
+
+
+        }, 1000);
+        ageCharts.setOption(ageOption);
+        //================================专业柱状图================================//
+        $(window).resize(function(){
+            educationCharts.resize();
+            ageCharts.resize();
+            yearCharts.resize();
+            kCharts.resize();
+        })
+    });
+</script>
+</body>
+</html>

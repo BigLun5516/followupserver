@@ -1,0 +1,74 @@
+.left-map-css{
+    width: 60%;
+}
+.right-chart-css{
+    width: 40%;
+}
+.right-haft-css{
+    width:50%;
+}
+.left-haft-css{
+    width:50%;
+}
+.persion-top{
+    height: 270px;
+}
+.persion-css{
+	display: flex;
+	flex-direction: row;
+    height:350px;
+	width: 100%;
+}
+.width-clearfix{
+	width: 100%;
+}
+.left-persion{
+	width: 20%;
+}
+.right-persion{
+	width: 70%;
+	display: flex;
+	flex-direction: row;
+}
+.picture{
+	height: 210px;
+	width: 150px;
+	border-radius:5px;
+	border: solid 1px #777777;
+	object-fit: cover;
+}
+.picture-div{
+	display: flex;
+	justify-content: center;
+	padding: 10px;
+}
+.persion-view-right{
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+	padding-left: 0px;
+	width: 50%;
+	justify-content: left;
+}
+.persion-content{
+	display: flex;
+	flex-direction: row;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.left-c{
+	width: 20%;
+	padding: 2px;
+}
+.right-text{
+	width: 90%;
+	justify-content: left;
+	padding: 2px;
+	padding-left: 10px;
+}
+/*学生列表*/
+.user-list-table{
+	padding-left: 30px;
+	width: 90%;
+}
+/*学生列表-end*/

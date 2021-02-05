@@ -1,0 +1,84 @@
+{
+    "name": "基本调查",
+    "questions": [
+        {
+            "type": "radio",
+            "question": "您是否同意参与此次调查？",
+            "selections": [
+                "是",
+                "否"
+            ],
+            "inputable": false
+        },
+        {
+            "type": "text",
+            "question": "基本信息",
+            "topics": [
+                "手机号码",
+                "学校（请填写全称）"
+            ]
+        },
+        {
+            "type": "radio",
+            "question": "您的年级？",
+            "selections": [
+                "大一",
+                "大二",
+                "大三",
+                "大四",
+                "大五"
+            ],
+            "inputable": false
+        },
+        {
+            "type": "radio",
+            "question": "您的性别？",
+            "selections": [
+                "男",
+                "女"
+            ],
+            "inputable": false
+        },
+        {
+            "type": "date",
+            "question": "请输入您的出生日期"
+        },
+        {
+            "type": "radio",
+            "question": "您曾经被诊断为以下疾病？",
+            "selections": [
+                "无",
+                "抑郁障碍",
+                "双相障碍",
+                "心境障碍",
+                "焦虑障碍",
+                "睡眠障碍",
+                "精神分裂症"
+            ],
+            "inputable": true
+        },
+        {
+            "type": "radio",
+            "question": "近期您是否经历某些应激事件对自己心理状态造成负面影响？",
+            "selections": [
+                "考试受挫",
+                "失恋",
+                "丧亲",
+                "重大疾病"
+            ],
+            "inputable": true
+        },
+        {
+            "type": "check",
+            "question": "您及您的家人、朋友是否曾确诊为新冠肺炎？",
+            "selections": [
+                "无",
+                "您本人",
+                "家人",
+                "朋友",
+                "其他"
+            ],
+            "inputable": false
+        }
+    ]
+}

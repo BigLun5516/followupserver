@@ -1,0 +1,61 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>上传学生信息</title>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/layui_new/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/admin.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/my.css"/>
+</head>
+<body>
+<div class="wrap-container welcome-container">
+    <div class="row">
+        <div class="welcome-left-container persion-top">
+            <div class="user-list-table">
+
+                <button type="button" class="layui-btn" id="upload"><i class="layui-icon"></i>上传学生信息文件</button>
+                <button type="button" class="layui-btn" onclick="javascrtpt:window.location.href='http://cmas2020.cn:8013/static/%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E5%BD%95%E5%85%A5%E7%A4%BA%E4%BE%8B%E6%96%87%E6%A1%A3.csv'"><i class="layui-icon">&#xe601;</i>下载示例文件</button>
+            </div>
+		</div>
+    </div>
+</div>
+<div class="wrap-container welcome-container">
+    <div class="row">
+        <div style="width:300px;margin:auto;left: 0;right: 0; padding:20px 0;position: fixed;bottom: 0px;justify-content: center;flex-direction: column; ">
+            <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=42018502004474" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+                <img src="../../static/admin/images/beian.png" style="float:left;"/>
+                <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">鄂公网安备 42018502004474号</p>
+            </a>
+        </div>
+    </div>
+</div>
+<script src="../../static/admin/layui_new/layui.all.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="../../static/admin/js/jquery-3.2.0.min.js"></script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+</script>
+<script type="text/javascript">
+    layui.use('upload', function(){
+        var $ = layui.jquery
+            ,upload = layui.upload;
+
+        //指定允许上传的文件类型
+        upload.render({
+            elem: '#upload'
+            ,url: '/web/admin/upload' //改成您自己的上传接口
+            ,accept: 'file' //普通文件
+            ,done: function(res){
+                layer.msg('上传成功');
+                console.log(res);
+            }
+        });
+
+
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="renderer" content="webkit">
+  		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>领导查看页面</title>
+		<link rel="stylesheet" type="text/css" href="../../static/admin/layui/css/layui.css"/>
+		<link rel="stylesheet" type="text/css" href="../../static/admin/css/admin.css"/>
+		<link rel="stylesheet" type="text/css" href="../../static/admin/css/my.css"/>
+	</head>
+	<body>
+		<div class="wrap-container welcome-container">
+			<div class="row">
+				<div class="welcome-left-container col-lg-9 left-map-css">
+					<div class="data-show">
+						<ul class="clearfix">
+							<li class="col-sm-12 col-md-4 col-xs-12">
+								<a href="javascript:;" class="clearfix">
+									<div class="icon-bg bg-org f-l">
+										<span class="iconfont">&#xe606;</span>
+									</div>
+									<div class="right-text-con">
+										<p class="name">注册数</p>
+										<p><span class="color-org">89</span>数据<span class="iconfont">&#xe628;</span></p>
+									</div>
+								</a>
+							</li>
+							<li class="col-sm-12 col-md-4 col-xs-12">
+								<a href="javascript:;" class="clearfix">
+									<div class="icon-bg bg-blue f-l">
+										<span class="iconfont">&#xe602;</span>
+									</div>
+									<div class="right-text-con">
+										<p class="name">预警数</p>
+										<p><span class="color-blue">189</span>数据<span class="iconfont">&#xe628;</span></p>
+									</div>
+								</a>
+							</li>
+							<li class="col-sm-12 col-md-4 col-xs-12">
+								<a href="javascript:;" class="clearfix">
+									<div class="icon-bg bg-green f-l">
+										<span class="iconfont">&#xe605;</span>
+									</div>
+									<div class="right-text-con">
+										<p class="name">测评数</p>
+										<p><span class="color-green">221</span>数据<span class="iconfont">&#xe60f;</span></p>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<!--图表-->
+					<div class="chart-panel panel panel-default">
+						<div class="panel-body" id="mapChart" style="height: 700px;">
+						</div>
+					</div>
+					<div class="chart-panel panel panel-default">
+						<div class="panel-body" id="peopleCharts" style="height: 700px;">
+						</div>
+					</div>
+
+				</div>
+				<div class="welcome-edge col-lg-3 right-chart-css">
+					<!--最新留言-->
+					<div class="panel panel-default comment-panel " >
+						<div class="panel-body">
+							<div class="panel-body" id="educationChart" style="height: 400px;width: 100%;">
+							</div>
+						</div>
+					</div>
+					<!--联系-->
+					<div class="panel panel-default contact-panel">
+						<div class="panel-body">
+							<div class="panel-body" id="ageChart" style="height: 400px;width: 100%;">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--备案-->
+			<div style="width:300px;margin: 0 auto; padding:20px 0;">
+				<a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=42018502004474" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+					<img src="../../static/admin/images/beian.png" style="float:left;"/>
+					<p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">鄂公网安备 42018502004474号</p>
+				</a>
+			</div>
+		</div>
+
+		<script src="../../static/admin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../static/admin/lib/echarts-new/dist/echarts.js"></script>
+		<script src="../../static/admin/lib/echarts-new/map/js/china.js"></script>
+		<script type="text/javascript">
+			layui.use(['layer','jquery'], function(){
+
+				var layer 	= layui.layer;
+				var $=layui.jquery;
+				//图表
+				var myChart;
+
+				//================================地图================================//
+				myChart = echarts.init(document.getElementById('mapChart'));
+
+				//版本1
+				// var mapOption = {
+				// 			title : {
+				// 				text: 'iphone销量',
+				// 				subtext: '纯属虚构',
+				// 				left: 'center'
+				// 			},
+				// 			tooltip : {
+				// 				trigger: 'item'
+				// 			},
+				// 			legend: {
+				// 				orient: 'vertical',
+				// 				left: 'left',
+				// 				data:['iphone3','iphone4','iphone5']
+				// 			},
+				// 			visualMap: {
+				// 				min: 0,
+				// 				max: 2500,
+				// 				left: 'left',
+				// 				top: 'bottom',
+				// 				text:['高','低'],           // 文本，默认为数值文本
+				// 				calculable : true
+				// 			},
+				// 			toolbox: {
+				// 				show: true,
+				// 				orient : 'vertical',
+				// 				left: 'right',
+				// 				top: 'center',
+				// 				feature : {
+				// 					mark : {show: true},
+				// 					dataView : {show: true, readOnly: false},
+				// 					restore : {show: true},
+				// 					saveAsImage : {show: true}
+				// 				}
+				// 			},
+				// 			series : [
+				// 				{
+				// 					name: 'iphone3',
+				// 					type: 'map',
+				// 					mapType: 'china',
+				// 					roam: false,
+				// 					label: {
+				// 						normal: {
+				// 							show: false
+				// 						},
+				// 						emphasis: {
+				// 							show: true
+				// 						}
+				// 					},
+				// 					data:[
+				// 						{name: '北京',value: Math.round(Math.random()*1000)},
+				// 						{name: '天津',value: Math.round(Math.random()*1000)},
+				// 						{name: '上海',value: Math.round(Math.random()*1000)},
+				// 						{name: '重庆',value: Math.round(Math.random()*1000)},
+				// 						{name: '河北',value: Math.round(Math.random()*1000)},
+				// 						{name: '河南',value: Math.round(Math.random()*1000)},
+				// 						{name: '云南',value: Math.round(Math.random()*1000)},
+				// 						{name: '辽宁',value: Math.round(Math.random()*1000)},
+				// 						{name: '黑龙江',value: Math.round(Math.random()*1000)},
+				// 						{name: '湖南',value: Math.round(Math.random()*1000)},
+				// 						{name: '安徽',value: Math.round(Math.random()*1000)},
+				// 						{name: '山东',value: Math.round(Math.random()*1000)},
+				// 						{name: '新疆',value: Math.round(Math.random()*1000)},
+				// 						{name: '江苏',value: Math.round(Math.random()*1000)},
+				// 						{name: '浙江',value: Math.round(Math.random()*1000)},
+				// 						{name: '江西',value: Math.round(Math.random()*1000)},
+				// 						{name: '湖北',value: Math.round(Math.random()*1000)},
+				// 						{name: '广西',value: Math.round(Math.random()*1000)},
+				// 						{name: '甘肃',value: Math.round(Math.random()*1000)},
+				// 						{name: '山西',value: Math.round(Math.random()*1000)},
+				// 						{name: '内蒙古',value: Math.round(Math.random()*1000)},
+				// 						{name: '陕西',value: Math.round(Math.random()*1000)},
+				// 						{name: '吉林',value: Math.round(Math.random()*1000)},
+				// 						{name: '福建',value: Math.round(Math.random()*1000)},
+				// 						{name: '贵州',value: Math.round(Math.random()*1000)},
+				// 						{name: '广东',value: Math.round(Math.random()*1000)},
+				// 						{name: '青海',value: Math.round(Math.random()*1000)},
+				// 						{name: '西藏',value: Math.round(Math.random()*1000)},
+				// 						{name: '四川',value: Math.round(Math.random()*1000)},
+				// 						{name: '宁夏',value: Math.round(Math.random()*1000)},
+				// 						{name: '海南',value: Math.round(Math.random()*1000)},
+				// 						{name: '台湾',value: Math.round(Math.random()*1000)},
+				// 						{name: '香港',value: Math.round(Math.random()*1000)},
+				// 						{name: '澳门',value: Math.round(Math.random()*1000)}
+				// 					]
+				// 				},
+				// 				{
+				// 					name: 'iphone4',
+				// 					type: 'map',
+				// 					mapType: 'china',
+				// 					label: {
+				// 						normal: {
+				// 							show: false
+				// 						},
+				// 						emphasis: {
+				// 							show: true
+				// 						}
+				// 					},
+				// 					data:[
+				// 						{name: '北京',value: Math.round(Math.random()*1000)},
+				// 						{name: '天津',value: Math.round(Math.random()*1000)},
+				// 						{name: '上海',value: Math.round(Math.random()*1000)},
+				// 						{name: '重庆',value: Math.round(Math.random()*1000)},
+				// 						{name: '河北',value: Math.round(Math.random()*1000)},
+				// 						{name: '安徽',value: Math.round(Math.random()*1000)},
+				// 						{name: '新疆',value: Math.round(Math.random()*1000)},
+				// 						{name: '浙江',value: Math.round(Math.random()*1000)},
+				// 						{name: '江西',value: Math.round(Math.random()*1000)},
+				// 						{name: '山西',value: Math.round(Math.random()*1000)},
+				// 						{name: '内蒙古',value: Math.round(Math.random()*1000)},
+				// 						{name: '吉林',value: Math.round(Math.random()*1000)},
+				// 						{name: '福建',value: Math.round(Math.random()*1000)},
+				// 						{name: '广东',value: Math.round(Math.random()*1000)},
+				// 						{name: '西藏',value: Math.round(Math.random()*1000)},
+				// 						{name: '四川',value: Math.round(Math.random()*1000)},
+				// 						{name: '宁夏',value: Math.round(Math.random()*1000)},
+				// 						{name: '香港',value: Math.round(Math.random()*1000)},
+				// 						{name: '澳门',value: Math.round(Math.random()*1000)}
+				// 					]
+				// 				},
+				// 				{
+				// 					name: 'iphone5',
+				// 					type: 'map',
+				// 					mapType: 'china',
+				// 					label: {
+				// 						normal: {
+				// 							show: false
+				// 						},
+				// 						emphasis: {
+				// 							show: true
+				// 						}
+				// 					},
+				// 					data:[
+				// 						{name: '北京',value: Math.round(Math.random()*1000)},
+				// 						{name: '天津',value: Math.round(Math.random()*1000)},
+				// 						{name: '上海',value: Math.round(Math.random()*1000)},
+				// 						{name: '广东',value: Math.round(Math.random()*1000)},
+				// 						{name: '台湾',value: Math.round(Math.random()*1000)},
+				// 						{name: '香港',value: Math.round(Math.random()*1000)},
+				// 						{name: '澳门',value: Math.round(Math.random()*1000)}
+				// 					]
+				// 				}
+				// 			]
+				// 		};
+				// myChart.setOption(mapOption);
+
+				// 版本2
+				// 秋雁南飞：
+				// 此版本通过设置geoindex && seriesIndex: [1] 属性来实现geo和map共存，来达到hover散点和区域显示tooltip的效果
+				// 默认情况下，map series 会自己生成内部专用的 geo 组件。但是也可以用这个 geoIndex 指定一个 geo 组件。这样的话，map 和 其他 series（例如散点图）就可以共享一个 geo 组件了。并且，geo 组件的颜色也可以被这个 map series 控制，从而用 visualMap 来更改。
+				// 当设定了 geoIndex 后，series-map.map 属性，以及 series-map.itemStyle 等样式配置不再起作用，而是采用 geo 中的相应属性。
+				// http://echarts.baidu.com/option.html#series-map.geoIndex
+				// 并且加了pin气泡图标以示数值大小
+				// // 全局变量区:参考江西绿色金融（谢谢：本来想用闭包实现接口数据调用，没时间了）
+
+				// 本图作者：参考秋雁南飞的《投票统计》一图，网址：http://gallery.echartsjs.com/editor.html?c=xrJU-aE-LG
+				var name_title = "华中科技大学新生入学心理测评结果地理分布"
+				var subname = ''
+				var nameColor = " rgb(55, 75, 113)"
+				var name_fontFamily = '等线'
+				var subname_fontSize = 15
+				var name_fontSize = 18
+				var mapName = 'china'
+				var data = [
+					{name:"北京",value:177},
+					{name:"天津",value:42},
+					{name:"河北",value:102},
+					{name:"山西",value:81},
+					{name:"内蒙古",value:47},
+					{name:"辽宁",value:67},
+					{name:"吉林",value:82},
+					{name:"黑龙江",value:66},
+					{name:"上海",value:24},
+					{name:"江苏",value:92},
+					{name:"浙江",value:114},
+					{name:"安徽",value:109},
+					{name:"福建",value:116},
+					{name:"江西",value:91},
+					{name:"山东",value:119},
+					{name:"河南",value:137},
+					{name:"湖北",value:116},
+					{name:"湖南",value:114},
+					{name:"重庆",value:91},
+					{name:"四川",value:125},
+					{name:"贵州",value:62},
+					{name:"云南",value:83},
+					{name:"西藏",value:9},
+					{name:"陕西",value:80},
+					{name:"甘肃",value:56},
+					{name:"青海",value:10},
+					{name:"宁夏",value:18},
+					{name:"新疆",value:67},
+					{name:"广东",value:123},
+					{name:"广西",value:59},
+					{name:"海南",value:14},
+				];
+
+				var geoCoordMap = {};
+				var toolTipData = [
+					{name:"北京",value:[{name:"重度抑郁",value:9},{name:"轻度抑郁",value:8}]},
+					{name:"天津",value:[{name:"重度抑郁",value:2},{name:"轻度抑郁",value:2}]},
+					{name:"河北",value:[{name:"重度抑郁",value:6},{name:"轻度抑郁",value:4}]},
+					{name:"山西",value:[{name:"重度抑郁",value:4},{name:"轻度抑郁",value:4}]},
+					{name:"内蒙古",value:[{name:"重度抑郁",value:3},{name:"轻度抑郁",value:2}]},
+					{name:"辽宁",value:[{name:"重度抑郁",value:9},{name:"轻度抑郁",value:2}]},
+					{name:"吉林",value:[{name:"重度抑郁",value:4},{name:"轻度抑郁",value:4}]},
+					{name:"黑龙江",value:[{name:"重度抑郁",value:3},{name:"轻度抑郁",value:3}]},
+					{name:"上海",value:[{name:"重度抑郁",value:1},{name:"轻度抑郁",value:1}]},
+					{name:"江苏",value:[{name:"重度抑郁",value:4},{name:"轻度抑郁",value:4}]},
+					{name:"浙江",value:[{name:"重度抑郁",value:5},{name:"轻度抑郁",value:7}]},
+					{name:"安徽",value:[{name:"重度抑郁",value:5},{name:"轻度抑郁",value:2}]},
+					{name:"福建",value:[{name:"重度抑郁",value:5},{name:"轻度抑郁",value:5}]},
+					{name:"江西",value:[{name:"重度抑郁",value:4},{name:"轻度抑郁",value:4}]},
+					{name:"山东",value:[{name:"重度抑郁",value:7},{name:"轻度抑郁",value:2}]},
+					{name:"河南",value:[{name:"重度抑郁",value:9},{name:"轻度抑郁",value:8}]},
+					{name:"湖北",value:[{name:"重度抑郁",value:0},{name:"轻度抑郁",value:5}]},
+					{name:"湖南",value:[{name:"重度抑郁",value:6},{name:"轻度抑郁",value:5}]},
+					{name:"重庆",value:[{name:"重度抑郁",value:4},{name:"轻度抑郁",value:4}]},
+					{name:"四川",value:[{name:"重度抑郁",value:5},{name:"轻度抑郁",value:0}]},
+					{name:"贵州",value:[{name:"重度抑郁",value:2},{name:"轻度抑郁",value:0}]},
+					{name:"云南",value:[{name:"重度抑郁",value:2},{name:"轻度抑郁",value:1}]},
+					{name:"西藏",value:[{name:"重度抑郁",value:5},{name:"轻度抑郁",value:4}]},
+					{name:"陕西",value:[{name:"重度抑郁",value:8},{name:"轻度抑郁",value:2}]},
+					{name:"甘肃",value:[{name:"重度抑郁",value:8},{name:"轻度抑郁",value:8}]},
+					{name:"青海",value:[{name:"重度抑郁",value:5},{name:"轻度抑郁",value:5}]},
+					{name:"宁夏",value:[{name:"重度抑郁",value:1},{name:"轻度抑郁",value:8}]},
+					{name:"新疆",value:[{name:"重度抑郁",value:3},{name:"轻度抑郁",value:1}]},
+					{name:"广东",value:[{name:"重度抑郁",value:6},{name:"轻度抑郁",value:0}]},
+					{name:"广西",value:[{name:"重度抑郁",value:9},{name:"轻度抑郁",value:3}]},
+					{name:"海南",value:[{name:"重度抑郁",value:8},{name:"轻度抑郁",value:6}]},
+				];
+
+				/*获取地图数据*/
+				myChart.showLoading();
+				var mapFeatures = echarts.getMap(mapName).geoJson.features;
+				myChart.hideLoading();
+				mapFeatures.forEach(function(v) {
+					// 地区名称
+					var name = v.properties.name;
+					// 地区经纬度
+					geoCoordMap[name] = v.properties.cp;
+
+				});
+
+
+// 				console.log(data)
+// 				console.log(toolTipData)
+				var max = 480,
+						min = 9; // todo
+				var maxSize4Pin = 100,
+						minSize4Pin = 20;
+
+				var convertData = function(data) {
+					var res = [];
+					for (var i = 0; i < data.length; i++) {
+						var geoCoord = geoCoordMap[data[i].name];
+						if (geoCoord) {
+							res.push({
+								name: data[i].name,
+								value: geoCoord.concat(data[i].value),
+							});
+						}
+					}
+					return res;
+				};
+				var option = {
+					title: {
+						text: name_title,
+						subtext: subname,
+						x: 'center',
+						textStyle: {
+							color: nameColor,
+							fontFamily: name_fontFamily,
+							fontSize: name_fontSize
+						},
+						subtextStyle:{
+							fontSize:subname_fontSize,
+							fontFamily:name_fontFamily
+						}
+					},
+					tooltip: {
+						trigger: 'item',
+						formatter: function(params) {
+							if (typeof(params.value)[2] == "undefined") {
+								var toolTiphtml = ''
+								for(var i = 0;i<toolTipData.length;i++){
+									if(params.name==toolTipData[i].name){
+										toolTiphtml += toolTipData[i].name+':<br>'
+										for(var j = 0;j<toolTipData[i].value.length;j++){
+											toolTiphtml+=toolTipData[i].value[j].name+':'+toolTipData[i].value[j].value+"<br>"
+										}
+									}
+								}
+								console.log(toolTiphtml)
+								// console.log(convertData(data))
+								return toolTiphtml;
+							} else {
+								var toolTiphtml = ''
+								for(var i = 0;i<toolTipData.length;i++){
+									if(params.name==toolTipData[i].name){
+										toolTiphtml += toolTipData[i].name+':<br>'
+										for(var j = 0;j<toolTipData[i].value.length;j++){
+											toolTiphtml+=toolTipData[i].value[j].name+':'+toolTipData[i].value[j].value+"<br>"
+										}
+									}
+								}
+								console.log(toolTiphtml)
+								// console.log(convertData(data))
+								return toolTiphtml;
+							}
+						}
+					},
+					// legend: {
+					//     orient: 'vertical',
+					//     y: 'bottom',
+					//     x: 'right',
+					//     data: ['credit_pm2.5'],
+					//     textStyle: {
+					//         color: '#fff'
+					//     }
+					// },
+					visualMap: {
+						show: true,
+						min: 0,
+						max: 200,
+						left: 'left',
+						top: 'bottom',
+						text: ['高', '低'], // 文本，默认为数值文本
+						calculable: true,
+						seriesIndex: [1],
+						inRange: {
+							// color: ['#3B5077', '#031525'] // 蓝黑
+							// color: ['#ffc0cb', '#800080'] // 红紫
+							// color: ['#3C3B3F', '#605C3C'] // 黑绿
+							// color: ['#0f0c29', '#302b63', '#24243e'] // 黑紫黑
+							// color: ['#23074d', '#cc5333'] // 紫红
+							color: ['#A5CC82', '#00467F' ] // 蓝绿
+							// color: ['#1488CC', '#2B32B2'] // 浅蓝
+							// color: ['#00467F', '#A5CC82'] // 蓝绿
+							// color: ['#00467F', '#A5CC82'] // 蓝绿
+							// color: ['#00467F', '#A5CC82'] // 蓝绿
+							// color: ['#00467F', '#A5CC82'] // 蓝绿
+
+						}
+					},
+					/*工具按钮组*/
+					// toolbox: {
+					//     show: true,
+					//     orient: 'vertical',
+					//     left: 'right',
+					//     top: 'center',
+					//     feature: {
+					//         dataView: {
+					//             readOnly: false
+					//         },
+					//         restore: {},
+					//         saveAsImage: {}
+					//     }
+					// },
+					geo: {
+						show: true,
+						map: mapName,
+						label: {
+							normal: {
+								show: false
+							},
+							emphasis: {
+								show: false,
+							}
+						},
+						roam: true,
+						itemStyle: {
+							normal: {
+								areaColor: '#031525',
+								borderColor: '#3B5077',
+							},
+							emphasis: {
+								areaColor: '#2B91B7',
+							}
+						}
+					},
+					series: [{
+						name: '散点',
+						type: 'scatter',
+						coordinateSystem: 'geo',
+						data: convertData(data),
+						symbolSize: function(val) {
+							return val[2] / 10;
+						},
+						label: {
+							normal: {
+								formatter: '{b}',
+								position: 'right',
+								show: true
+							},
+							emphasis: {
+								show: true
+							}
+						},
+						itemStyle: {
+							normal: {
+								color: '#05C3F9'
+							}
+						}
+					},
+						{
+							type: 'map',
+							map: mapName,
+							geoIndex: 0,
+							aspectScale: 0.75, //长宽比
+							showLegendSymbol: false, // 存在legend时显示
+							label: {
+								normal: {
+									show: true
+								},
+								emphasis: {
+									show: false,
+									textStyle: {
+										color: '#fff'
+									}
+								}
+							},
+							roam: true,
+							itemStyle: {
+								normal: {
+									areaColor: '#031525',
+									borderColor: '#3B5077',
+								},
+								emphasis: {
+									areaColor: '#2B91B7'
+								}
+							},
+							animation: false,
+							data: data
+						},
+						{
+							name: '点',
+							type: 'scatter',
+							coordinateSystem: 'geo',
+							symbol: 'pin', //气泡
+							symbolSize: function(val) {
+								var a = (maxSize4Pin - minSize4Pin) / (max - min);
+								var b = minSize4Pin - a * min;
+								b = maxSize4Pin - a * max;
+								return a * val[2] + b;
+							},
+							label: {
+								normal: {
+									show: true,
+									textStyle: {
+										color: '#fff',
+										fontSize: 9,
+									}
+								}
+							},
+							itemStyle: {
+								normal: {
+									color: '#F62157', //标志颜色
+								}
+							},
+							zlevel: 6,
+							data: convertData(data),
+						},
+						{
+							name: 'Top 5',
+							type: 'effectScatter',
+							coordinateSystem: 'geo',
+							data: convertData(data.sort(function(a, b) {
+								return b.value - a.value;
+							}).slice(0, 5)),
+							symbolSize: function(val) {
+								return val[2] / 10;
+							},
+							showEffectOn: 'render',
+							rippleEffect: {
+								brushType: 'stroke'
+							},
+							hoverAnimation: true,
+							label: {
+								normal: {
+									formatter: '{b}',
+									position: 'right',
+									show: true
+								}
+							},
+							itemStyle: {
+								normal: {
+									color: 'yellow',
+									shadowBlur: 10,
+									shadowColor: 'yellow'
+								}
+							},
+							zlevel: 1
+						},
+
+					]
+				};
+				myChart.setOption(option);
+
+				updateMapData($,myChart,option,data,toolTipData,convertData);
+				//================================地图================================//
+				//================================横向柱状图================================//
+				var educationCharts = echarts.init(document.getElementById('educationChart'));
+				var educationColors = ["#48b8ef", "#f48953", "#f9de69", "#666262", "#f96969", "#77e07d"];
+				var educationOption = {
+					title: {
+						text: '学历分布百分比',
+						x: 'center',
+						textStyle: {
+							color: nameColor,
+							fontFamily: name_fontFamily,
+							fontSize: name_fontSize
+						}
+					},
+					tooltip : {
+						trigger: 'axis',
+						axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+							type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+						}
+					},
+					legend: {
+						top:'5%',
+						data: ['无抑郁倾向', '轻度抑郁','中度抑郁','重度抑郁']
+					},
+					grid: {
+						left: '1%',
+						right: '5%',
+						bottom: '3%',
+						containLabel: true
+					},
+					xAxis:  {
+						type: 'value',
+						max: 100,
+					},
+					yAxis: {
+						type: 'category',
+						data: ['本科生','研究生','博士生']
+					},
+					series: [
+						{
+							name: '无抑郁倾向',
+							type: 'bar',
+							stack: '总量',
+							barWidth: 30,
+							itemStyle:{
+								normal: {
+									color: educationColors[0],
+									barBorderRadius: [20, 20, 20, 20],
+								}
+							},
+							label: {
+								normal: {
+									show: true,
+									position: 'insideRight'
+								}
+							},
+							z:  20,
+							data: [63, 58, 45]
+						},
+						{
+							name: '轻度抑郁',
+							type: 'bar',
+							stack: '总量',
+							itemStyle:{
+								normal: {
+									color: educationColors[1],
+									shadowBlur: [0, 0, 0, 10],
+									shadowColor: educationColors[1],
+									barBorderRadius: [20, 20, 20, 20],
+									shadowOffsetX: -20,
+								}
+							},
+							label: {
+								normal: {
+									show: true,
+									position: 'insideRight'
+								}
+							},
+							z: 15,
+							data: [19,15,27]
+						},
+						{
+							name: '中度抑郁',
+							type: 'bar',
+							stack: '总量',
+							itemStyle:{
+								normal: {
+									barBorderRadius: [20, 20, 20, 20],
+									color: educationColors[2],
+									shadowBlur: [0, 0, 0, 10],
+									shadowColor: educationColors[2],
+									shadowOffsetX: -20,
+								}
+							},
+							label: {
+								normal: {
+									show: true,
+									position: 'insideRight'
+								}
+							},
+							z:10,
+							data: [11, 18, 15]
+						},
+						{
+							name: '重度抑郁',
+							type: 'bar',
+							stack: '总量',
+							itemStyle:{
+								normal: {
+									barBorderRadius: [20, 20, 20, 20],
+									color: educationColors[3],
+									shadowBlur: [0, 0, 0, 10],
+									shadowColor: educationColors[3],
+									shadowOffsetX: -20,
+								}
+							},
+							label: {
+								normal: {
+									show: true,
+									position: 'insideRight'
+								}
+							},
+							z:5,
+							data: [7, 9, 13]
+						},
+					]
+				};
+				educationCharts.setOption(educationOption)
+				updateEduData($,educationCharts,educationOption)
+				//================================横向柱状图================================//
+				//================================年龄柱状图================================//
+				var ageCharts = echarts.init(document.getElementById('ageChart'));
+				var ageOption = {
+					title: {
+						text: '年龄分布',
+						x: 'center',
+						textStyle: {
+							color: nameColor,
+							fontFamily: name_fontFamily,
+							fontSize: name_fontSize
+						}
+					},
+					backgroundColor:'white',
+					tooltip: {
+						trigger: 'axis',
+						axisPointer: { // 坐标轴指示器，坐标轴触发有效
+							type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+						}
+					},
+					grid: {
+						left: '2%',
+						right: '4%',
+						bottom: '14%',
+						top:'16%',
+						containLabel: true
+					},
+					legend: {
+						data: ['无', '轻度', '中度','重度'],
+						x:'center',
+						top:'5%',
+						textStyle: {
+							color: "blue"
+						},
+						itemWidth: 12,
+						itemHeight: 10,
+						// itemGap: 35
+					},
+					xAxis: {
+						type: 'category',
+						data: ['15-20岁','21-30岁','31-40岁','41-50岁',],
+						axisLine: {
+							lineStyle: {
+								color: 'black'
+
+							}
+						},
+						axisLabel: {
+							// interval: 0,
+							// rotate: 40,
+							textStyle: {
+								fontFamily: 'Microsoft YaHei'
+							}
+						},
+					},
+
+					yAxis: {
+						type: 'value',
+						axisLine: {
+							show: false,
+							lineStyle: {
+								color: 'black'
+							}
+						},
+						splitLine: {
+							show: true,
+							lineStyle: {
+								color: '#33ccff'
+							}
+						},
+						axisLabel: {}
+					},
+					"dataZoom": [{
+						"show": true,
+						"height": 12,
+						"xAxisIndex": [
+							0
+						],
+						bottom:'8%',
+						"start": 10,
+						"end": 90,
+						handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
+						handleSize: '110%',
+						handleStyle:{
+							color:"black",
+
+						},
+						textStyle:{
+							color:"black"},
+						borderColor:"black"
+					}, {
+						"type": "inside",
+						"show": true,
+						"height": 15,
+						"start": 1,
+						"end": 35
+					}],
+					series: [{
+						name: '无',
+						type: 'bar',
+						barWidth: '15%',
+						itemStyle: {
+							normal: {
+								color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+									offset: 0,
+									color: '#fccb05'
+								}, {
+									offset: 1,
+									color: '#f5804d'
+								}]),
+								barBorderRadius: 12,
+							},
+						},
+						data: [69, 55, 72, 78]
+					},
+						{
+							name: '轻度',
+							type: 'bar',
+							barWidth: '15%',
+							itemStyle: {
+								normal: {
+									color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+										offset: 0,
+										color: '#8bd46e'
+									}, {
+										offset: 1,
+										color: '#09bcb7'
+									}]),
+									barBorderRadius: 11,
+								}
+
+							},
+							data: [18, 25, 17, 16]
+						},
+						{
+							name: '中度',
+							type: 'bar',
+							barWidth: '15%',
+							itemStyle: {
+								normal: {
+									color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+										offset: 0,
+										color: '#248ff7'
+									}, {
+										offset: 1,
+										color: '#6851f1'
+									}]),
+									barBorderRadius: 11,
+								}
+							},
+							data: [8, 12, 7, 4]
+						},
+						{
+							name: '重度',
+							type: 'bar',
+							barWidth: '15%',
+							itemStyle: {
+								normal: {
+									color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+										offset: 0,
+										color: '#cc6633'
+									}, {
+										offset: 1,
+										color: '#cc0033'
+									}]),
+									barBorderRadius: 11,
+								}
+							},
+							data: [5, 8, 4, 2]
+						}]
+				};
+
+				var app = {
+					currentIndex: -1,
+				};
+				setInterval(function () {
+					var dataLen = ageOption.series[0].data.length;
+
+					// 取消之前高亮的图形
+					ageCharts.dispatchAction({
+						type: 'downplay',
+						seriesIndex: 0,
+						dataIndex: app.currentIndex
+					});
+					app.currentIndex = (app.currentIndex + 1) % dataLen;
+					//console.log(app.currentIndex);
+					// 高亮当前图形
+					ageCharts.dispatchAction({
+						type: 'highlight',
+						seriesIndex: 0,
+						dataIndex: app.currentIndex,
+					});
+					// 显示 tooltip
+					ageCharts.dispatchAction({
+						type: 'showTip',
+						seriesIndex: 0,
+						dataIndex: app.currentIndex
+					});
+
+
+				}, 1000);
+				ageCharts.setOption(ageOption);
+				updateAgeData($,ageCharts,ageOption);
+				//================================年龄柱状图================================//
+
+
+				//================================人数分布================================//
+				var peopleCharts = echarts.init(document.getElementById('peopleCharts'));
+				var builderJson = {
+					"charts": {
+						"正常": 3237,
+						"轻度": 64,
+						"中度": 61,
+						"重度": 8,
+					},
+
+					"ie": 9743
+				};
+
+				var downloadJson = {
+					"男": 40,
+					"女": 60
+				}
+
+				var peopleOption = {
+					tooltip: {
+
+					},
+					title: [{
+						text: '人数分布',
+						x: '25%',
+						textAlign: 'center'
+					}, {
+						text: '性别比例',
+
+						x: '75%',
+						textAlign: 'center'
+					}],
+					grid: [{
+						top: 50,
+						width: '50%',
+						bottom: '45%',
+						left: 10,
+						containLabel: true
+					}, {
+						top: '55%',
+						width: '50%',
+						bottom: 0,
+						left: 10,
+						containLabel: true
+					}],
+					xAxis: [{
+						type: 'value',
+					}],
+					yAxis: [{
+						type: 'category',
+						data: Object.keys(builderJson.charts),
+						axisLabel: {
+							interval: 0,
+							rotate: 30
+						},
+						splitLine: {
+							show: false
+						}
+					}],
+					series: [{
+						type: 'bar',
+						stack: 'chart',
+						z: 3,
+						label: {
+							normal: {
+								position: 'right',
+								show: true
+							}
+						},
+						data: Object.keys(builderJson.charts).map(function (key) {
+							return builderJson.charts[key];
+						})
+					}, {
+						type: 'bar',
+						stack: 'chart',
+						silent: true,
+						itemStyle: {
+							normal: {
+								color: '#eee'
+							}
+						},
+						data: builderJson.chart
+					}, {
+						type: 'pie',
+						radius: [0, '30%'],
+						center: ['75%', '25%'],
+						data: Object.keys(downloadJson).map(function (key) {
+							return {
+								name: key,
+								value: downloadJson[key]
+							}
+						})
+
+					}]
+				}
+				peopleCharts.setOption(peopleOption);
+				updateSexData($,peopleCharts,peopleOption);
+				//================================人数分布================================//
+
+				$(window).resize(function(){
+					educationCharts.resize();
+					ageCharts.resize();
+					myChart.resize();
+					peopleCharts.resize();
+				})
+			});
+
+			var heardUrl = 'http://www.aiwac.net:8013'
+			var mapUrl='/web/admin/findProvinceCountsByDepartment'//地图
+			var eduUrl='/web/admin/findStypeCountsByDepartment'//学历
+			var dateUrl='/web/admin/findAgeCountsByDepartment'//年龄
+			var sexUrl='/web/admin/findGenderCountsByDepartment'//性别分布
+
+			//地图
+			function updateMapData($,myChart,option,dataCountry,toolTipData,convertData) {
+
+				$.ajax({
+					url: mapUrl,
+					contentType: 'application/json;charset=UTF-8',
+					type: 'post',
+					dataType : "json",
+					success:function (data) {
+						console.log('更新地图');
+						console.log(data);
+
+						for(var i=0;i<dataCountry.length;i++){
+							dataCountry[i].value=0
+						}
+						for(var i=0;i<toolTipData.length;i++){
+							toolTipData[i].value=[{name:"无抑郁倾向",value:0},{name:"轻度抑郁",value:0},{name:"中度抑郁",value:0},{name:"重度抑郁",value:0}]
+						}
+						var max=0
+						for(var i=0;i<data.length;i++){
+							var item = data[i]
+							max+=item.num
+							var index = getCountryIndexByName(dataCountry,item.province)
+							var toolIndex = getCountryIndexByName(toolTipData,item.province)
+							if(item.level=="无抑郁倾向"){
+								dataCountry[index].value+=item.num
+								toolTipData[toolIndex].value[0].value+=item.num
+							}else if(item.level=="轻度抑郁"){
+								dataCountry[index].value+=item.num
+								toolTipData[toolIndex].value[1].value+=item.num
+							}else if(item.level=="中度抑郁"){
+								dataCountry[index].value+=item.num
+								toolTipData[toolIndex].value[2].value+=item.num
+							}else if(item.level=="重度抑郁"){
+								dataCountry[index].value+=item.num
+								toolTipData[toolIndex].value[3].value+=item.num
+							}
+						}
+						option.visualMap.max=max
+						option.series[0].data=convertData(dataCountry)
+						option.series[1].data=dataCountry
+						option.series[2].data=dataCountry
+						option.series[3].data=convertData(data.sort(function(a, b) {
+								return b.value - a.value;
+							}).slice(0, 5))
+
+						myChart.setOption(option)
+						myChart.resize();
+					},
+					error:function(data){
+						console.log('error');
+						console.log(data);
+					}
+				});
+			}
+			function getCountryIndexByName(dataCountry,name) {
+				for(var i=0;i<dataCountry.length;i++){
+					if(dataCountry[i].name==name)
+						return i
+				}
+			}
+
+
+			//学历
+			function updateEduData($,educationCharts,educationOption) {
+				$.ajax({
+					url: eduUrl,
+					contentType: 'application/json;charset=UTF-8',
+					type: 'post',
+					dataType : "json",
+					success:function (data) {
+						console.log('更新学历')
+						console.log(data)
+						for(var i=0;i<4;i++){
+							for(var j=0;j<3;j++)
+								educationOption.series[i].data[j]=0;
+						}
+						var max =0;
+						for(var k=0;k<data.length;k++){
+							var item = data[k]
+							if(item.level=="无抑郁倾向"){
+								educationOption.series[0].data[item.stype]=educationOption.series[0].data[item.stype]+item.num
+							}else if(item.level=="轻度抑郁"){
+								educationOption.series[1].data[item.stype]=educationOption.series[1].data[item.stype]+item.num
+							}else if(item.level=="中度抑郁"){
+								educationOption.series[2].data[item.stype]=educationOption.series[2].data[item.stype]+item.num
+							}else if(item.level=="重度抑郁"){
+								educationOption.series[3].data[item.stype]=educationOption.series[3].data[item.stype]+item.num
+							}
+						}
+						for(var i=0;i<3;i++){
+							var tempMax=0;
+							for(var j=0;j<4;j++){
+								tempMax=tempMax+educationOption.series[j].data[i]
+							}
+							if(tempMax>max)
+								max=tempMax
+						}
+						educationOption.xAxis.max=max;
+						educationCharts.setOption(educationOption)
+						educationCharts.resize();
+					},
+					error:function(data){
+						console.log('error');
+						console.log(data);
+					}
+				});
+			}
+
+			//年龄
+			function updateAgeData($,ageCharts,ageOption) {
+				$.ajax({
+					url: dateUrl,
+					contentType: 'application/json;charset=UTF-8',
+					type: 'post',
+					dataType : "json",
+					success:function (data) {
+						console.log('更新年龄')
+						console.log(data);
+						for(var i=0;i<4;i++){
+							for(var j=0;j<4;j++){
+								ageOption.series[i].data[j]=0;
+							}
+						}
+						for(var k=0;k<data.length;k++){
+							var item = data[k]
+							if(item.level=="无抑郁倾向"){
+								countAge(ageOption,0,item.age,item.num)
+							}else if(item.level=="轻度抑郁"){
+								countAge(ageOption,1,item.age,item.num)
+							}else if(item.level=="中度抑郁"){
+								countAge(ageOption,2,item.age,item.num)
+							}else if(item.level=="重度抑郁"){
+								countAge(ageOption,3,item.age,item.num)
+							}
+						}
+						ageCharts.setOption(ageOption)
+						ageCharts.resize();
+
+					},
+					error:function(data){
+						console.log('error');
+						console.log(data);
+					}
+				});
+			}
+			function countAge(ageOPtion,index,age,num){
+				if(age<=20){
+					ageOPtion.series[index].data[0] += num;
+				}else if(age>20 && age<=30){
+					ageOPtion.series[index].data[1] += num;
+				}else if(age>30 && age<=40){
+					ageOPtion.series[index].data[2] += num;
+				}else if(age>40 && age<=50){
+					ageOPtion.series[index].data[3] += num;
+				}
+			}
+
+			//性别分布
+			function updateSexData($,peopleCharts,peopleOption) {
+				$.ajax({
+					url: sexUrl,
+					contentType: 'application/json;charset=UTF-8',
+					type: 'post',
+					dataType : "json",
+					success:function (data) {
+						console.log('更新性别分布')
+						console.log(data);
+						var male=0;
+						var female=0;
+						var peopleCount=[0,0,0,0]
+						for(var i=0;i<data.length;i++){
+							var item = data[i]
+							if(item.gender=="男") male+=item.num
+							if(item.gender=="女") female+=item.num
+							if(item.level=="无抑郁倾向"){
+								peopleCount[0]+=item.num
+							}else if(item.level=="轻度抑郁"){
+								peopleCount[1]+=item.num
+							}else if(item.level=="中度抑郁"){
+								peopleCount[2]+=item.num
+							}else if(item.level=="重度抑郁"){
+								peopleCount[3]+=item.num
+							}
+						}
+						var builderJson = {
+							"charts": {
+								"正常": peopleCount[0],
+								"轻度": peopleCount[1],
+								"中度": peopleCount[2],
+								"重度": peopleCount[3],
+							},
+							"ie": 9743
+						};
+
+						var downloadJson = {
+							"男": male,
+							"女": female
+						}
+						peopleOption.yAxis[0].data=Object.keys(builderJson.charts)
+						peopleOption.series[0].data=Object.keys(builderJson.charts).map(function (key) {
+							return builderJson.charts[key];
+						})
+						peopleOption.series[1].data=builderJson.chart
+						peopleOption.series[2].data=Object.keys(downloadJson).map(function (key) {
+							return {
+								name: key,
+								value: downloadJson[key]
+							}
+						})
+
+						peopleCharts.setOption(peopleOption)
+						peopleCharts.resize();
+
+					},
+					error:function(data){
+						console.log('error');
+						console.log(data);
+					}
+				});
+			}
+
+		</script>
+	</body>
+</html>

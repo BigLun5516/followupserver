@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title id="title">学生个人信息</title>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/admin.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/admin/css/my.css"/>
+</head>
+<body>
+<div class="wrap-container welcome-container">
+    <div class="row">
+
+        <div class="welcome-left-container col-lg-9 persion-top">
+            <div class="data-show">
+                <ul class="clearfix width-clearfix">
+                    <li class="col-sm-12 col-md-4 col-xs-12 persion-css">
+						<div class="left-persion">
+							<div class="picture-div">
+								<div>
+									<img src="../../static/admin/images/headpic.png" class="picture" id="userimg">
+								</div>
+							</div>
+						</div>
+						<div class="right-persion">
+							<div class="layui-form">
+								<table class="layui-table">
+									<colgroup>
+										<col width="100">
+										<col width="300">
+										<col width="100">
+										<col width="300">
+									</colgroup>
+									<tbody>
+									<tr>
+										<td>学号</td>
+										<td id="stid">M2019</td>
+										<td>学校</td>
+										<td  id="department">华科</td>
+									</tr>
+									<tr>
+										<td>姓名</td>
+										<td id="stname"></td>
+										<td>学院</td>
+										<td id="college">计算机科学与技术学院</td>
+									</tr>
+									<tr>
+										<td>性别</td>
+										<td id="gender">男</td>
+										<td>学历</td>
+										<td id="stype">研究生</td>
+									</tr>
+									<tr>
+										<td>年龄</td>
+										<td id="age">22</td>
+										<td>入学年份</td>
+										<td id="year">2019</td>
+									</tr>
+									<tr>
+										<td>籍贯</td>
+										<td id="province">江苏省南京市</td>
+										<td>评测得分</td>
+										<td id="score">12</td>
+									</tr>
+									<tr>
+										<td>抑郁程度</td>
+										<td id="level" colspan="3">无抑郁倾向</td>
+									</tr>
+
+
+
+<!--									<tr>-->
+<!--										<td>学号</td>-->
+<!--										<td id="stid">M2019</td>-->
+<!--										<td>学院</td>-->
+<!--										<td id="college">计算机科学与技术学院</td>-->
+<!--									</tr>-->
+<!--									<tr>-->
+<!--										<td>性别</td>-->
+<!--										<td id="gender">男</td>-->
+<!--										<td>学历</td>-->
+<!--										<td id="stype">研究生</td>-->
+<!--									</tr>-->
+<!--									<tr>-->
+<!--										<td>年龄</td>-->
+<!--										<td id="age">22</td>-->
+<!--										<td>入学年份</td>-->
+<!--										<td id="year">2019</td>-->
+<!--									</tr>-->
+<!--									<tr>-->
+<!--										<td>籍贯</td>-->
+<!--										<td id="province">江苏省南京市</td>-->
+<!--										<td>评测得分</td>-->
+<!--										<td id="score">12</td>-->
+<!--									</tr>-->
+<!--									<tr>-->
+<!--										<td>学校</td>-->
+<!--										<td  id="department">华科</td>-->
+<!--										<td>抑郁程度</td>-->
+<!--										<td id="level">无抑郁倾向</td>-->
+<!--									</tr>-->
+									</tbody>
+								</table>
+							</div>
+
+
+
+<!--							<div class="persion-view-right">-->
+<!--								<div class="persion-content">-->
+<!--									<div class="left-c">-->
+<!--										<p class="name">学号</p>-->
+<!--									</div>-->
+<!--									<div class="right-text">-->
+<!--										<p class="name" id="stid">M2019</p>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								<div class="persion-content">-->
+<!--									<div class="left-c">-->
+<!--										<p class="name">性别</p>-->
+<!--									</div>-->
+<!--									<div class="right-text">-->
+<!--										<p class="name" id="gender">男</p>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								<div class="persion-content">-->
+<!--									<div class="left-c">-->
+<!--										<p class="name">年龄</p>-->
+<!--									</div>-->
+<!--									<div class="right-text">-->
+<!--										<p class="name" id="age">22</p>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								<div class="persion-content">-->
+<!--									<div class="left-c">-->
+<!--										<p class="name">籍贯</p>-->
+<!--									</div>-->
+<!--									<div class="right-text">-->
+<!--										<p class="name" id="province">江苏省南京市</p>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								<div class="persion-content">-->
+<!--									<div class="left-c">-->
+<!--										<p class="name">学校</p>-->
+<!--									</div>-->
+<!--									<div class="right-text">-->
+<!--										<p class="name" id="department">华科</p>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<div class="persion-view-right">-->
+<!--								<div class="persion-content">-->
+<!--									<div class="left-c">-->
+<!--										<p class="name">学院</p>-->
+<!--									</div>-->
+<!--									<div class="right-text">-->
+<!--										<p class="name" id="college">计算机科学与技术学院</p>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								<div class="persion-content">-->
+<!--									<div class="left-c">-->
+<!--										<p class="name">学历</p>-->
+<!--									</div>-->
+<!--									<div class="right-text">-->
+<!--										<p class="name" id="stype">研究生</p>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								<div class="persion-content">-->
+<!--									<div class="left-c">-->
+<!--										<p class="name">入学年份</p>-->
+<!--									</div>-->
+<!--									<div class="right-text">-->
+<!--										<p class="name" id="year">2019</p>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								<div class="persion-content">-->
+<!--									<div class="left-c">-->
+<!--										<p class="name">评测得分</p>-->
+<!--									</div>-->
+<!--									<div class="right-text">-->
+<!--										<p class="name" id="score">12</p>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								<div class="persion-content">-->
+<!--									<div class="left-c">-->
+<!--										<p class="name">抑郁程度</p>-->
+<!--									</div>-->
+<!--									<div class="right-text">-->
+<!--										<p class="name" id="level">无抑郁倾向</p>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+						</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="welcome-left-container col-lg-9 left-haft-css">
+
+            <!--图表-->
+            <div class="chart-panel panel panel-default">
+                <div class="panel-body" id="scoreChart" style="height: 700px;">
+                </div>
+            </div>
+            <!--图表-->
+            <div class="chart-panel panel panel-default">
+                <div class="panel-body" id="radarCharts" style="height: 700px;">
+                </div>
+            </div>
+
+        </div>
+        <div class="welcome-edge col-lg-3 right-haft-css">
+
+
+
+            <div class="panel panel-default comment-panel " >
+                <div class="panel-body">
+                    <div class="panel-body" id="treeCharts" style="height: 700px;">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+	<!--备案-->
+	<div style="width:300px;margin: 0 auto; padding:20px 0;">
+		<a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=42018502004474" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+			<img src="../../static/admin/images/beian.png" style="float:left;"/>
+			<p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">鄂公网安备 42018502004474号</p>
+		</a>
+	</div>
+</div>
+<script src="../../static/admin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/admin/lib/echarts-new/dist/echarts.js"></script>
+<script src="../../static/admin/lib/echarts-new/map/js/china.js"></script>
+<script type="text/javascript">
+    layui.use(['layer','jquery'], function(){
+        var layer 	= layui.layer;
+		var getUrlParam = function(paraName) {
+			var url = window.location.toString();
+			var arrObj = url.split("?");
+
+			if (arrObj.length > 1) {
+				var arrPara = arrObj[1].split("&");
+				var arr;
+
+				for (var i = 0; i < arrPara.length; i++) {
+					arr = arrPara[i].split("=");
+
+					if (arr != null && arr[0] == paraName) {
+						return arr[1];
+					}
+				}
+				return "";
+			}
+			else {
+				return "";
+			}
+		}
+		console.log(getUrlParam('stid'))
+		//获取个人信息
+		var $ = layui.jquery;
+		// var score=[1, 2, 3, 4, 1, 2, 2, 1];//保存个人信息，在图里的顺序是从下到上
+		var score=[0, 0, 0, 0, 0, 0, 0, 0];//保存个人信息，在图里的顺序是从下到上
+
+        //图表
+
+        var nameColor = " rgb(55, 75, 113)"
+        var name_fontFamily = '等线'
+        var name_fontSize = 18
+
+
+        //================================每项指标得分================================//
+        var scoreCharts = echarts.init(document.getElementById('scoreChart'));
+        var myColor = ['#eb2100', '#eb3600', '#d0570e', '#d0a00e', '#34da62', '#00e9db', '#00c0e9', '#0096f3', '#33CCFF', '#33FFCC'];
+        var scoreOption = {
+            title: {
+                text: '每项指标得分',
+                x: 'center'
+            },
+            backgroundColor: 'white',
+            grid: {
+                left: '11%',
+                top: '3%',
+                right: '0%',
+                bottom: '8%',
+                containLabel: true
+            },
+            xAxis: [{
+                show: false,
+            }],
+            yAxis: [{
+                axisTick: 'none',
+                axisLine: 'none',
+                offset: '27',
+                axisLabel: {
+                    textStyle: {
+                        color: 'black',
+                        fontSize: '16',
+                    }
+                },
+                data: ['自杀倾向', '自残倾向', '抑郁/不开心', '兴趣缺失', '时而狂躁', '异常表现', '睡眠障碍', '注意力不集中']
+            }, {
+                axisTick: 'none',
+                axisLine: 'none',
+                axisLabel: {
+                    textStyle: {
+                        color: '#000000',
+                        fontSize: '20',
+                    }
+                },
+                data: score
+            }, {
+                name: '分拨延误TOP 10',
+                nameGap: '50',
+                nameTextStyle: {
+                    color: '#ffffff',
+                    fontSize: '16',
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: 'rgba(0,0,0,0)'
+                    }
+                },
+                data: [],
+            }],
+            series: [{
+                name: '条',
+                type: 'bar',
+                yAxisIndex: 0,
+                data: score,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'right',
+                        textStyle: {
+                            color: '#ffffff',
+                            fontSize: '16',
+                        }
+                    }
+                },
+                barWidth: 12,
+                itemStyle: {
+                    normal: {
+                        color: function(params) {
+                            var num = myColor.length;
+                            return myColor[params.dataIndex % num]
+                        },
+                    }
+                },
+                z: 2
+            }, {
+                name: '白框',
+                type: 'bar',
+                yAxisIndex: 1,
+                barGap: '-100%',
+                // data:[4, 4, 4, 4, 4, 4, 4, 4],
+                data:[3, 3, 3, 3, 3, 3, 3, 3],
+                barWidth: 20,
+                itemStyle: {
+                    normal: {
+                        color: '#0e2147',
+                        barBorderRadius: 5,
+                    }
+                },
+                z: 1
+            }, {
+                name: '外框',
+                type: 'bar',
+                yAxisIndex: 2,
+                barGap: '-100%',
+                // data: [4, 4, 4, 4, 4, 4, 4, 4],
+				data:[3, 3, 3, 3, 3, 3, 3, 3],
+                barWidth: 24,
+                itemStyle: {
+                    normal: {
+                        color: function(params) {
+                            var num = myColor.length;
+                            return myColor[params.dataIndex % num]
+                        },
+                        barBorderRadius: 5,
+                    }
+                },
+                z: 0
+            },
+
+            ]
+        };
+        scoreCharts.setOption(scoreOption);
+        //================================每项指标得分================================//
+
+
+        //================================雷达图================================//
+		var radarData=[];
+        var radarCharts = echarts.init(document.getElementById('radarCharts'));
+        var radarOption = {
+            backgroundColor: "#ffffff",
+            color: ["#37A2DA", "#FF9F7F"],
+            tooltip: {},
+            xAxis: {
+                show: false
+            },
+            yAxis: {
+                show: false
+            },
+            legend: {
+                data: ['抑郁症状评估', '开销'],
+
+            },
+            radar: {
+                // shape: 'circle',
+                indicator: [{
+                        color:'black',
+                        name: '躯体化症状',
+                        max: 100
+                    },
+                    {
+                        color:'black',
+                        name: '认知症状',
+                        max: 100
+                    },
+                    {
+                        color:'black',
+                        name: '情绪状态',
+                        max: 100
+                    },
+                    {
+                        color:'black',
+                        name: '自杀/自残倾向',
+                        max: 100
+                    },
+                    {
+						
+                        color:'black',
+                        name: '价值缺失',
+                        max: 100
+                    }
+                ],
+				name:{
+					textStyle:{
+						fontSize:16,
+						rich:{}
+					},
+				}
+				
+            },
+            series: [{
+                type: 'radar',
+                data: [{
+                    // value: [430, 340, 500, 300, 490],
+                    value: radarData,
+                    // name: '预算'
+                }
+                ]
+            }, {
+                type: 'line',
+                name: '抑郁症状评估',
+                data: [],
+                itemStyle: {
+                    normal: {
+                        color: '#37A2DA'
+                    }
+                }
+            }]
+        };
+        radarCharts.setOption(radarOption);
+        //================================雷达图================================//
+
+        //================================树状图================================//
+        var treeCharts =echarts.init(document.getElementById('treeCharts'));
+        var treeOption = {
+			backgroundColor: new echarts.graphic.RadialGradient(1, 1, 1, [{
+				offset: 0,
+				color: 'white'
+			}, {
+				offset: 1,
+				color: 'white'
+			}]),
+			title: {
+				text: "抑郁症状树图",
+				subtext: "",
+				top: "top",
+				left: "center"
+			},
+			tooltip: {},
+			legend: [{
+				formatter: function(name) {
+					return echarts.format.truncateText(name,150, '14px Microsoft Yahei', '…');
+				},
+				tooltip: {
+					show: true
+				},
+				selectedMode: 'false',
+				bottom: 50,
+				data: ['核心症状', '主要症状', '其他症状']
+			}],
+			animationDuration: 3000,
+			animationEasingUpdate: 'quinticInOut',
+			series: [{
+				name: '抑郁症状',
+				type: 'graph',
+				layout: 'force',
+
+				force: {
+					repulsion: 800
+				},
+				data: [
+					{
+						"name": "抑郁症状",
+						// "x": 0,
+						// y: 0,
+						"symbolSize": 80,
+						"draggable": "true",
+						"value": 8
+
+					}, {
+						"name": "核心症状",
+						"value": 5,
+						"symbolSize": 50,
+						"category": "核心症状",
+						"draggable": "true"
+
+					},{
+						"name": "主要症状",
+						"value": 5,
+						"symbolSize": 50,
+						"category": "主要症状",
+						"draggable": "true"
+
+					}, {
+						"name": "其他症状",
+						"value": 5,
+						"symbolSize": 50,
+						"category": "其他症状",
+						"draggable": "true"
+
+					},
+					// {
+					// 	"name": "抑郁/不开心",
+					// 	"symbolSize": 30,
+					// 	"category": "核心症状",
+					// 	"draggable": "true",
+					// 	"value": 1
+					// }, {
+					// 	"name": "兴趣缺失",
+					// 	"symbolSize": 30,
+					// 	"category": "核心症状",
+					// 	"draggable": "true",
+					// 	"value": 1
+					// }, {
+					// 	"name": "注意力不集中",
+					// 	"symbolSize": 30,
+					// 	"category": "主要症状",
+					// 	"draggable": "true",
+					// 	"value": 1
+					// }, {
+					// 	"name": "异常表现",
+					// 	"symbolSize": 30,
+					// 	"category": "主要症状",
+					// 	"draggable": "true",
+					// 	"value": 1
+					// }, {
+					// 	"name": "自残倾向",
+					// 	"symbolSize": 30,
+					// 	"category": "主要症状",
+					// 	"draggable": "true",
+					// 	"value": 1
+					// }, {
+					// 	"name": "自杀倾向",
+					// 	"symbolSize": 30,
+					// 	"category": "主要症状",
+					// 	"draggable": "true",
+					// 	"value": 1
+					// }, {
+					// 	"name": "睡眠障碍",
+					// 	"symbolSize": 30,
+					// 	"category": "主要症状",
+					// 	"draggable": "true",
+					// 	"value": 1
+					// },  {
+					// 	"name": "时而狂躁",
+					// 	"symbolSize": 30,
+					// 	"category": "其他症状",
+					// 	"draggable": "true",
+					// 	"value": 1
+					// }
+					],
+				links: [{
+					"source": "抑郁症状",
+					"target": "主要症状"
+				}, {
+					"source": "抑郁症状",
+					"target": "核心症状"
+				}, {
+					"source": "抑郁症状",
+					"target": "其他症状"
+				},
+				// 	{
+				// 	"source": "核心症状",
+				// 	"target": "抑郁/不开心"
+				// }, {
+				// 	"source": "核心症状",
+				// 	"target": "兴趣缺失"
+				// }, {
+				// 	"source": "主要症状",
+				// 	"target": "注意力不集中"
+				// }, {
+				// 	"source": "主要症状",
+				// 	"target": "异常表现"
+				// }, {
+				// 	"source": "主要症状",
+				// 	"target": "自残倾向"
+				// }, {
+				// 	"source": "主要症状",
+				// 	"target": "自杀倾向"
+				// }, {
+				// 	"source": "主要症状",
+				// 	"target": "睡眠障碍"
+				// }, {
+				// 	"source": "其他症状",
+				// 	"target": "时而狂躁"
+				// }
+				],
+				categories: [{
+					'name': '主要症状'
+				}, {
+					'name': '核心症状'
+				}, {
+					'name': '其他症状'
+				}],
+				focusNodeAdjacency: true,
+				roam: true,
+				label: {
+					normal: {
+
+						show: true,
+						position: 'top',
+
+					}
+				},
+				lineStyle: {
+					normal: {
+						color: 'source',
+						curveness: 0,
+						type: "solid"
+					}
+				}
+			}]
+		};
+        treeCharts.setOption(treeOption);
+        //================================树状图图================================//
+		//获取图像
+		var getFace = function(path){
+			$.ajax({
+				url: '/web/admin/getFace?imgPath=./'+path,
+				contentType: 'application/json;charset=UTF-8',
+				type: 'get',
+				success:function (data) {
+					$("#userimg").attr("src",data)
+				}
+			});
+		}
+
+		//更新数据
+		$.ajax({
+			url: '/web/admin/findByStid',
+			data: JSON.stringify({
+				stid:getUrlParam('stid')
+			}),
+			contentType: 'application/json;charset=UTF-8',
+			type: 'post',
+			dataType : "json",
+			success:function (data) {
+				console.log(data);
+				getFace(data.imgPath)
+				//个人信息展示
+				$('#title').html('学生个人信息--'+data.stid)
+				$('#stid').html(data.stid)
+				$('#stname').html(data.stname)
+				$('#gender').html(data.gender)
+				$('#age').html(data.age)
+				$('#province').html(data.province)
+				$('#department').html(data.department)
+				$('#college').html(data.college)
+				if(data.stype==0){
+					$('#stype').html('本科')
+				}else if(data.stype==1){
+					$('#stype').html('硕士')
+				}else if(data.stype==2){
+					$('#stype').html('博士')
+				}
+				$('#year').html(data.year)
+				$('#score').html(data.score)
+				$('#level').html(data.level)
+				// if(data.level=="无抑郁倾向"){
+				// 	$('#level').html('状态不错，吃好喝好，继续保持!')
+				// }else if(data.level=="轻度抑郁"){
+				// 	$('#level').html('多出去走走，晒晒太阳，听听音乐，约上几个朋友聊聊天~')
+				// }else if(data.level=="中度抑郁"){
+				// 	$('#level').html('尽量不要一个人待着，注意作息规律，身处逆境时需要善待自己哦~')
+				// }else if(data.level=="重度抑郁"){
+				// 	$('#level').html('希望你尽快向医生朋友们寻求一下帮助，他们可以让你更加开心快乐~')
+				// }
+
+				//图表数据获取
+				var scoreString = data.symptoms;
+				if(scoreString!=null&&scoreString!=""){
+					var scores=[]
+					for(var i=0;i<scoreString.length;i++)
+						scores.push(parseInt(scoreString[i]))
+					//每项指标
+					score[0]=scores[11]
+					score[1]=(scores[9]+scores[10])/2
+					score[2]=scores[0]
+					score[3]=(scores[2]+scores[3])/2
+					score[4]=scores[17]
+					score[5]=(scores[7]+scores[16])/2
+					score[6]=(scores[13]+scores[14])/2
+					score[7]=scores[4]
+					scoreCharts.setOption(scoreOption);
+					//抑郁症状评估
+					var radarDataDeal=function(d){
+						return d==0?5:d;
+					}
+					radarData[0]=radarDataDeal(((scores[12]+scores[13]+scores[14])/9)*100);
+					radarData[1]=radarDataDeal(((scores[2]+scores[3]+scores[4]+scores[5]+scores[6])/15)*100);
+					radarData[2]=radarDataDeal(((scores[0]+scores[1]+scores[7])/9)*100);
+					radarData[3]=radarDataDeal(((scores[9]+scores[10]+scores[11])/9)*100);
+					radarData[4]=radarDataDeal((scores[8]/3)*100);
+					radarCharts.setOption(radarOption);
+					//树状图
+					var isDepressedAnd=function(d){
+						var flag=true;
+						for(var i=0;i<d.length;i++){
+							if(d[i]<2){
+								flag=false;
+							}
+						}
+						return flag;
+					}
+					var isDepressdOr=function (d) {
+						var flag=false;
+						for(var i=0;i<d.length;i++){
+							if(d[i]>=2){
+								flag=true;
+							}
+						}
+						return flag;
+					}
+					var dataNewStatus=[
+						{
+							"name": "抑郁症状",
+							// "x": 0,
+							// y: 0,
+							"symbolSize": 80,
+							"draggable": "true",
+							"value": 8
+
+						},
+						{
+							"name": "核心症状",
+							"value": 5,
+							"symbolSize": 50,
+							"category": "核心症状",
+							"draggable": "true"
+
+						},
+						{
+							"name": "主要症状",
+							"value": 5,
+							"symbolSize": 50,
+							"category": "主要症状",
+							"draggable": "true"
+
+						},
+						{
+							"name": "其他症状",
+							"value": 5,
+							"symbolSize": 50,
+							"category": "其他症状",
+							"draggable": "true"
+						}
+					];
+					var linkNew=[
+						{
+							"source": "抑郁症状",
+							"target": "主要症状"
+						},
+						{
+							"source": "抑郁症状",
+							"target": "核心症状"
+						},
+						{
+							"source": "抑郁症状",
+							"target": "其他症状"
+						}
+					];
+					//-------------------核心症状----------------------start//
+					if(isDepressedAnd([scores[0],scores[1]])){
+						dataNewStatus.push({
+							"name": "抑郁/不开心",
+							"symbolSize": 30,
+							"category": "核心症状",
+							"draggable": "true",
+							"value": 1
+						});
+						linkNew.push({
+							"source": "核心症状",
+							"target": "抑郁/不开心"
+						})
+					}
+					if(isDepressdOr([scores[2],scores[3]])){
+						dataNewStatus.push({
+							"name": "兴趣缺失",
+							"symbolSize": 30,
+							"category": "核心症状",
+							"draggable": "true",
+							"value": 1
+						});
+						linkNew.push({
+							"source": "核心症状",
+							"target": "兴趣缺失"
+						})
+					}
+					if(isDepressedAnd([scores[4]])){
+						dataNewStatus.push({
+							"name": "注意力不集中",
+							"symbolSize": 30,
+							"category": "核心症状",
+							"draggable": "true",
+							"value": 1
+						});
+						linkNew.push({
+							"source": "核心症状",
+							"target": "注意力不集中"
+						})
+					}
+					//-------------------核心症状----------------------end//
+					//-------------------主要症状----------------------start//
+					if(isDepressdOr([scores[5],scores[6]])){
+						dataNewStatus.push({
+							"name": "选择困难",
+							"symbolSize": 30,
+							"category": "主要症状",
+							"draggable": "true",
+							"value": 1
+						});
+						linkNew.push({
+							"source": "主要症状",
+							"target": "选择困难"
+						})
+					}
+					if(isDepressedAnd([scores[7]])){
+						dataNewStatus.push({
+							"name": "异常表现",
+							"symbolSize": 30,
+							"category": "主要症状",
+							"draggable": "true",
+							"value": 1
+						});
+						linkNew.push({
+							"source": "主要症状",
+							"target": "异常表现"
+						})
+					}
+					if(isDepressedAnd([scores[8]])){
+						dataNewStatus.push({
+							"name": "无价值感",
+							"symbolSize": 30,
+							"category": "主要症状",
+							"draggable": "true",
+							"value": 1
+						});
+						linkNew.push({
+							"source": "主要症状",
+							"target": "无价值感"
+						})
+					}
+					if(isDepressedAnd([scores[9]])){
+						dataNewStatus.push({
+							"name": "自残倾向",
+							"symbolSize": 30,
+							"category": "主要症状",
+							"draggable": "true",
+							"value": 1
+						});
+						linkNew.push({
+							"source": "主要症状",
+							"target": "自残倾向"
+						})
+					}
+					if(isDepressedAnd([scores[10]])){
+						dataNewStatus.push({
+							"name": "自杀倾向",
+							"symbolSize": 30,
+							"category": "主要症状",
+							"draggable": "true",
+							"value": 1
+						});
+						linkNew.push({
+							"source": "主要症状",
+							"target": "自杀倾向"
+						})
+					}
+					if(isDepressedAnd([scores[11]])){
+						dataNewStatus.push({
+							"name": "自杀计划",
+							"symbolSize": 30,
+							"category": "主要症状",
+							"draggable": "true",
+							"value": 1
+						});
+						linkNew.push({
+							"source": "主要症状",
+							"target": "自杀计划"
+						})
+					}
+					if(isDepressdOr([scores[12],scores[13],scores[14]])){
+						dataNewStatus.push({
+							"name": "睡眠障碍",
+							"symbolSize": 30,
+							"category": "主要症状",
+							"draggable": "true",
+							"value": 1
+						});
+						linkNew.push({
+							"source": "主要症状",
+							"target": "睡眠障碍"
+						})
+					}
+					if(isDepressedAnd([scores[15]])){
+						dataNewStatus.push({
+							"name": "食欲异常",
+							"symbolSize": 30,
+							"category": "主要症状",
+							"draggable": "true",
+							"value": 1
+						});
+						linkNew.push({
+							"source": "主要症状",
+							"target": "食欲异常"
+						})
+					}
+					if(isDepressedAnd([scores[16]])){
+						dataNewStatus.push({
+							"name": "动作缓慢、容易烦躁",
+							"symbolSize": 30,
+							"category": "主要症状",
+							"draggable": "true",
+							"value": 1
+						});
+						linkNew.push({
+							"source": "主要症状",
+							"target": "动作缓慢、容易烦躁"
+						})
+					}
+					//-------------------主要症状----------------------end//
+					//-------------------其他症状----------------------start//
+					if(isDepressedAnd([scores[17]])){
+						dataNewStatus.push({
+							"name": "时而狂躁",
+							"symbolSize": 30,
+							"category": "其他症状",
+							"draggable": "true",
+							"value": 1
+						});
+						linkNew.push({
+							"source": "其他症状",
+							"target": "时而狂躁"
+						})
+					}
+					if(isDepressedAnd([scores[18]])){
+						dataNewStatus.push({
+							"name": "社会关系、不安全感",
+							"symbolSize": 30,
+							"category": "其他症状",
+							"draggable": "true",
+							"value": 1
+						});
+						linkNew.push({
+							"source": "其他症状",
+							"target": "社会关系、不安全感"
+						})
+					}
+					if(isDepressedAnd([scores[19]])){
+						dataNewStatus.push({
+							"name": "焦虑、抑郁",
+							"symbolSize": 30,
+							"category": "其他症状",
+							"draggable": "true",
+							"value": 1
+						});
+						linkNew.push({
+							"source": "其他症状",
+							"target": "焦虑、抑郁"
+						})
+					}
+					//-------------------其他症状----------------------end//
+					treeOption.series[0].data=dataNewStatus;
+					treeOption.series[0].links=linkNew;
+					treeCharts.setOption(treeOption);
+					treeCharts.resize();
+				}else{
+					console.log('评测结果为空')
+				}
+
+			}
+		});
+
+
+		$(window).resize(function(){
+            scoreCharts.resize();
+            radarCharts.resize();
+            treeCharts.resize();
+        })
+    });
+</script>
+</body>
+</html>
