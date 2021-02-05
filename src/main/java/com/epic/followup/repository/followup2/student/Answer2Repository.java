@@ -67,4 +67,11 @@ public interface Answer2Repository extends JpaRepository<AnswerModel, Long> {
     @Query(nativeQuery = true, value = "SELECT * FROM aidoctor_answer " +
             "WHERE userid = ?1 AND succ = 0 AND answer_time BETWEEN ?2 AND ?3")
     List<AnswerModel> findUnsuccAnswersByDateAndOpenID(Long userid, Date start, Date end);
+
+    // 统计某个学校的Answer数
+    @Query(value = "select count(*) \n" +
+            "from aidoctor_studentinfo, aidoctor_answer\n" +
+            "where aidoctor_studentinfo.university_id = ? and aidoctor_studentinfo.userid = aidoctor_answer.userid"
+            , nativeQuery = true)
+    Integer countAnswerByUniversityId(Integer universityId);
 }
