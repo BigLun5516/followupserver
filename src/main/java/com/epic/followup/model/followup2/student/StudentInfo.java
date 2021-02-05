@@ -34,6 +34,10 @@ public class StudentInfo {
     @Column(name = "department", length = 256, nullable = false)
     private String department;
 
+    // 学校id
+    @Column(name = "university_id", nullable = false)
+    private Integer universityId;
+
     // 关联用户表
     @Column(name = "userid", nullable = true)
     private Long userId = -1L;
@@ -65,6 +69,10 @@ public class StudentInfo {
     // 性别
     @Column(name = "gender", length = 2, nullable = false)
     private String gender;
+
+    // 学院id
+    @Column(name = "college_id", nullable = false)
+    private Integer collegeId;
 
     public String getStname() {
         return stname;
@@ -168,6 +176,22 @@ public class StudentInfo {
 
     public void setProvince(String province) {
         this.province = province;
+    }
+
+    public Integer getCollegeId() {
+        return collegeId;
+    }
+
+    public void setCollegeId(Integer collegeId) {
+        this.collegeId = collegeId;
+    }
+
+    public Integer getUniversityId() {
+        return universityId;
+    }
+
+    public void setUniversityId(Integer universityId) {
+        this.universityId = universityId;
     }
 }
 

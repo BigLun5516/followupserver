@@ -1,0 +1,61 @@
+package com.epic.followup.controller.managementSys;
+
+import com.alibaba.fastjson.JSONObject;
+import com.epic.followup.service.managementSys.OperationService;
+import com.epic.followup.service.managementSys.PublicityService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@CrossOrigin
+@RequestMapping("/managementSystem/operation")
+public class OperationController {
+
+    @Autowired
+    private OperationService operationService;
+
+    // 运营数据初始化
+    @RequestMapping(value = "/initial", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject getInitialInfo(){
+        return operationService.getInitialInfo();
+    }
+
+    // 高校推广分布界面
+    @Autowired
+    private PublicityService publicityService;
+    @RequestMapping(value = "/publicity", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject publicityData(){
+        return publicityService.publicityUniversity();
+    }
+
+    // 心理咨询中心运营数据接口
+    @RequestMapping(value = "/psychologicalConsult", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject getPsychologicalConsultData(@RequestBody JSONObject operationParams){
+        String universityName = operationParams.getString("universityName");
+        return operationService.getPsychologicalConsultData(universityName);
+    }
+
+    // 高校运营数据界面接口
+    @PostMapping("/university")
+    @ResponseBody
+    public JSONObject operationUniversity(@RequestBody JSONObject params){
+
+        return operationService.getUniversityData(params);
+    }
+
+    // 院系运营数据接口
+    @PostMapping("/college")
+    @ResponseBody
+    public JSONObject operationCollege(@RequestBody JSONObject params){
+
+        String universityName = params.getString("universityName");
+        String collegeName = params.getString("collegeName");
+
+        return operationService.getCollegeData(universityName, collegeName);
+    }
+}
