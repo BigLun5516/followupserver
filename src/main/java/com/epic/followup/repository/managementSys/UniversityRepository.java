@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface UniversityRepository extends JpaRepository<UniversityModel, Integer> {
+public interface UniversityRepository extends JpaRepository<UniversityModel, Integer>, JpaSpecificationExecutor<UniversityModel> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM management_university mu " +
             "ORDER BY university_star DESC ")

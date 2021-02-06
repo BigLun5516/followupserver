@@ -4,6 +4,7 @@ package com.epic.followup.model.managementSys;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * 学院表
@@ -39,5 +40,24 @@ public class CollegeModel {
     @Column(name = "teacher_num")
     private Integer teacherNum;
 
+    // 学院状态
+    @Column(name = "college_status")
+    private Integer collegeStatus;
 
+    // 联系方式
+    @Column(name = "college_phone", length = 32)
+    private String collegePhone;
+
+    // 学院学生人数
+    @Column(name = "student_num")
+    private Integer studentNum;
+
+    // 来访人次
+    @Column(name = "arrive_num")
+    private Integer arriveNum;
+
+    // 创建时间
+    @Temporal(TemporalType.DATE)
+    @Column(name = "create_time")
+    private Date createTime;
 }

@@ -14,6 +14,15 @@ public interface UniversityService {
     // 查询所有高校（高校表里的信息，不涉及其他表）
     JSONObject findAllUniversity(@RequestBody JSONObject Params);
 
-    // 高校运营数据界面 所需的所有数据
-    JSONObject getUniversityData(JSONObject params);
+    // 根据条件查询
+    JSONObject findUniversity(JSONObject params);
+
+    // 删除
+    JSONObject deleteUniversity(JSONObject params);
+
+    // 新增
+    JSONObject insertUniversity(JSONObject params);
+
+    // 编辑
+    JSONObject editUniversity(JSONObject params);
 }

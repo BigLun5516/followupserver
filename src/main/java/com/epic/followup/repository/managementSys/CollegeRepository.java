@@ -1,12 +1,14 @@
 package com.epic.followup.repository.managementSys;
 
 import com.epic.followup.model.managementSys.CollegeModel;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface CollegeRepository extends JpaRepository<CollegeModel, Integer> {
+public interface CollegeRepository extends JpaRepository<CollegeModel, Integer>, JpaSpecificationExecutor<CollegeModel> {
 
         // 查询某个学校各个学院的评测数（answer表）
     @Query(value = "select   c.college_name, count(a.id)\n" +
@@ -25,4 +27,27 @@ public interface CollegeRepository extends JpaRepository<CollegeModel, Integer> 
             "where c.university_id = u.university_id and c.college_name = ?1 and u.university_name = ?2"
             , nativeQuery = true)
     CollegeModel findCollegeByCollegeNameAndUniversityName(String collegeName, String universityName);
+
+    /**
+     * 查询院系 多条件查询
+     * @param universityName
+     * @param collegeName
+     * @param collegeStatus
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @Query(value = "SELECT c.college_id, u.university_name, c.college_name, c.college_manager, c.college_phone, c.student_num, c.arrive_num, c.college_status, c.create_time " +
+            "FROM management_university u, management_college c\n" +
+            "where u.university_id = c.university_id and (u.university_name = ?1 or ?1 = \"\") \n" +
+            "and (c.college_name like " + "%?2%" +  " or ?2 = \"\") and (c.college_status = ?3 or ?3 = -1) \n" +
+            "and (c.create_time >= ?4 or ?4 = \"\") and (c.create_time <= ?5 or ?5 = \"\") "
+            , countQuery = "SELECT count(*)" +
+            "FROM management_university u, management_college c\n" +
+            "where u.university_id = c.university_id and (u.university_name = ?1 or ?1 = \"\") \n" +
+            "and (c.college_name like " + "%?2%" +  " or ?2 = \"\") and (c.college_status = ?3 or ?3 = -1) \n" +
+            "and (c.create_time >= ?4 or ?4 = \"\") and (c.create_time <= ?5 or ?5 = \"\")"
+            , nativeQuery = true)
+    List<Object> findCollegeModel(String universityName, String collegeName, Integer collegeStatus
+            , String startTime, String endTime, Pageable pageable);
 }

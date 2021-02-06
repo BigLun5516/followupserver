@@ -65,4 +65,24 @@ public class UniversityModel {
     // 星期评分
     @Column(name = "university_star")
     private Integer star;
+
+//    // 高校校区
+//    @Column(name = "campus", length = 64)
+//    private String campus;
+
+    // 地址
+    @Column(name = "address")
+    private String address;
+
+    // 状态
+    @Column(name = "university_status")
+    private Integer universityStatus;
+
+    // 公告
+    @Column(name = "notice")
+    private String notice;
+
+    // 负责人手机号
+    @Column(name = "manager_phone", length = 32)
+    private String managerPhone;
 }
