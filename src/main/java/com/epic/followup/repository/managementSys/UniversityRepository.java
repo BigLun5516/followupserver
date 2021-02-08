@@ -26,20 +26,27 @@ public interface UniversityRepository extends JpaRepository<UniversityModel, Int
     @Query(nativeQuery = true, value = " SELECT * FROM management_university "+
             " WHERE DATEDIFF(join_date,NOW()) = 0 " )
     List<UniversityModel> getToAdd();
+
     //昨日新增
     @Query(nativeQuery = true, value = " SELECT * FROM management_university "+
             " WHERE DATEDIFF(join_date,NOW()) = -1 " )
     List<UniversityModel> getYesAdd();
+
     //本周新增
     @Query(nativeQuery = true, value = " SELECT * FROM management_university "+
             " where DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(join_date) " )
     List<UniversityModel> getWeekAdd();
+
     //本月新增
     @Query(nativeQuery = true, value = "SELECT * FROM management_university "+
             " where DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= date(join_date) " )
     List<UniversityModel> getMonthAdd();
+
     //推广覆盖分布图，中国地图数据源
     @Query(nativeQuery = true, value = "select province,count(*) from management_university " +
             "group by province ")
     List<Object> getCityGraphData();
+
+    // 根据心理咨询中心查高校
+    List<UniversityModel> findByCenterId(Integer centerid);
 }

@@ -45,4 +45,12 @@ public class PsychologicalCenterModel {
     @Column(name = "total_num")
     private Integer totalNum;
 
+    // 接待人次
+    @Column(name = "accept_num")
+    private Integer acceptNum;
+
+    // 中心状态
+    @Column(name = "status")
+    private Integer status;
+
 }

@@ -9,10 +9,13 @@ import com.epic.followup.repository.managementSys.CollegeRepository;
 import com.epic.followup.repository.managementSys.UniversityRepository;
 import com.epic.followup.service.managementSys.CollegeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -46,6 +49,9 @@ public class CollegeServiceImpl implements CollegeService {
         }
         if (collegeName == null){
             collegeName = "";
+        } else {
+            // 模糊查询处理
+            collegeName = "%" + collegeName + "%";
         }
         if (collegeStatus == null){
             collegeStatus = -1;
@@ -102,7 +108,23 @@ public class CollegeServiceImpl implements CollegeService {
      */
     @Override
     public JSONObject deleteCollege(JSONObject params) {
-        return null;
+
+        // 请求参数
+        Integer id = params.getInteger("id");
+
+        JSONObject res = new JSONObject();
+
+        try {
+            collegeRepository.deleteById(id);
+        }catch (EmptyResultDataAccessException e){
+            res.put("errorCode", 500);
+            res.put("errorMsg", "删除失败");
+            return res;
+        }
+
+        res.put("errorCode", 200);
+        res.put("errorMsg", "删除成功");
+        return res;
     }
 
     /**
@@ -112,7 +134,49 @@ public class CollegeServiceImpl implements CollegeService {
      */
     @Override
     public JSONObject insertCollege(JSONObject params) {
-        return null;
+
+        // 获取参数
+        String universityName = params.getString("universityName");
+        String collegeName = params.getString("collegeName");
+        String collegeDirector = params.getString("collegeDirector");
+        String collegePhone = params.getString("collegePhone");
+        Integer collegeStuNum = params.getInteger("collegeStuNum");
+        Integer arriveNum = params.getInteger("arriveNum");
+        Integer collegeStatus = params.getInteger("collegeStatus");
+        String createTimeStr = params.getString("createTime");
+
+        JSONObject res = new JSONObject();
+
+        CollegeModel collegeModel = new CollegeModel();
+        UniversityModel universityModel = universityRepository.findByUniversityName(universityName);
+        if (universityModel == null){
+            res.put("errorCode", 501);
+            res.put("errorMsg", "没有此高校");
+            return res;
+        }
+        collegeModel.setUniversityId(universityModel.getUniversityId());
+        collegeModel.setCollegeName(collegeName);
+        collegeModel.setCollegeManager(collegeDirector);
+        collegeModel.setCollegePhone(collegePhone);
+        collegeModel.setStudentNum(collegeStuNum);
+        collegeModel.setArriveNum(arriveNum);
+        collegeModel.setCollegeStatus(collegeStatus);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            collegeModel.setCreateTime(dateFormat.parse(createTimeStr));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            res.put("errorCode", 502);
+            res.put("errorMsg", "createTime日期格式错误");
+            return res;
+        }
+
+        collegeRepository.save(collegeModel);
+
+        res.put("errorCode", 200);
+        res.put("errorMsg", "新增成功");
+        return res;
     }
 
     /**
@@ -122,6 +186,55 @@ public class CollegeServiceImpl implements CollegeService {
      */
     @Override
     public JSONObject editCollege(JSONObject params) {
-        return null;
+
+        // 获取参数
+        Integer id = params.getInteger("id");
+        String universityName = params.getString("universityName");
+        String collegeName = params.getString("collegeName");
+        String collegeDirector = params.getString("collegeDirector");
+        String collegePhone = params.getString("collegePhone");
+        Integer collegeStuNum = params.getInteger("collegeStuNum");
+        Integer arriveNum = params.getInteger("arriveNum");
+        Integer collegeStatus = params.getInteger("collegeStatus");
+        String createTimeStr = params.getString("createTime");
+
+        JSONObject res = new JSONObject();
+
+        Optional<CollegeModel> optional = collegeRepository.findById(id);
+        if (!optional.isPresent()){
+            res.put("errorCode", 503);
+            res.put("errorMsg", "没有这个院系");
+            return res;
+        }
+        CollegeModel collegeModel = optional.get();
+        UniversityModel universityModel = universityRepository.findByUniversityName(universityName);
+        if (universityModel == null){
+            res.put("errorCode", 501);
+            res.put("errorMsg", "没有此高校");
+            return res;
+        }
+        collegeModel.setUniversityId(universityModel.getUniversityId());
+        collegeModel.setCollegeName(collegeName);
+        collegeModel.setCollegeManager(collegeDirector);
+        collegeModel.setCollegePhone(collegePhone);
+        collegeModel.setStudentNum(collegeStuNum);
+        collegeModel.setArriveNum(arriveNum);
+        collegeModel.setCollegeStatus(collegeStatus);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            collegeModel.setCreateTime(dateFormat.parse(createTimeStr));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            res.put("errorCode", 502);
+            res.put("errorMsg", "createTime日期格式错误");
+            return res;
+        }
+
+        collegeRepository.save(collegeModel);
+
+        res.put("errorCode", 200);
+        res.put("errorMsg", "编辑成功");
+        return res;
     }
 }
