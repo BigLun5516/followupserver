@@ -25,4 +25,10 @@ public interface UniversityService {
 
     // 编辑
     JSONObject editUniversity(JSONObject params);
+
+    /*
+    * 量表
+    */
+    // 获取所有学校名称
+    JSONObject getAllUniversityName();
 }

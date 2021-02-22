@@ -288,4 +288,19 @@ public class UniversityServiceImpl implements UniversityService {
         res.put("errorMsg", "编辑成功");
         return res;
     }
+
+    // 获取所有高校名称
+    @Override
+    public JSONObject getAllUniversityName() {
+        List<String> allUniversityName = universityRepository.getAllUniversityName();
+        JSONObject res = new JSONObject();
+        if(allUniversityName.isEmpty()){
+            res.put("errorCode", 500);
+            res.put("errorMsg", "学校列表为空");
+        }
+        res.put("schoolNameList", allUniversityName);
+        res.put("errorCode", 200);
+        res.put("errorMsg", "查询学校名称成功");
+        return res;
+    }
 }
