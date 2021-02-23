@@ -1,6 +1,7 @@
 package com.epic.followup.repository.followup2.student;
 
 import com.epic.followup.model.followup2.student.StudentInfo;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -36,4 +37,19 @@ public interface StudentInfoRepository extends JpaRepository<StudentInfo, Long> 
     // 从List userId中获取学院的List
     @Query(nativeQuery = true, value = "SELECT a.userid FROM aidoctor_studentinfo a WHERE a.college = ?1 AND a.userid IN ?2")
     List<Long> getListUserIdCollege(String department, List<Long> userId);
+
+    // 学生管理中根据条件查询
+    @Query(value = "select *\n" +
+            "from aidoctor_studentinfo s\n" +
+            "where (s.stname like %?1% or ?1 = '') and (s.department = ?2 or ?2 = '') " +
+            "and (s.stype = ?3 or ?3 = -1) and (s.create_time >= ?4 or ?4 = '') " +
+            "and (s.create_time <= ?5 or ?5 = '')\n"
+            , countQuery = "select count(*)\n" +
+            "from aidoctor_studentinfo s\n" +
+            "where (s.stname like %?1% or ?1 = '') and (s.department = ?2 or ?2 = '') " +
+            "and (s.stype = ?3 or ?3 = -1) and (s.create_time >= ?4 or ?4 = '') " +
+            "and (s.create_time <= ?5 or ?5 = '')\n"
+            , nativeQuery = true)
+    List<StudentInfo> findStudentInfo(String studentName, String universityName, Integer studenType
+            , String StartTime, String endTime, Pageable pageable);
 }
