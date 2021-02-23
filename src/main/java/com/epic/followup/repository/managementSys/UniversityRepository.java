@@ -49,4 +49,11 @@ public interface UniversityRepository extends JpaRepository<UniversityModel, Int
 
     // 根据心理咨询中心查高校
     List<UniversityModel> findByCenterId(Integer centerid);
+
+    /**
+     * 量表
+     */
+    // 获取所有的学校名称
+    @Query(value = "SELECT DISTINCT university_name from management_university", nativeQuery = true)
+    List<String> getAllUniversityName();
 }

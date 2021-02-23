@@ -59,5 +59,14 @@ public class UniversityController {
         return universityService.editUniversity(params);
     }
 
+    /*
+    * 量表
+    */
+    // 获取高校名称
+    @PostMapping("/getAllName")
+    @ResponseBody
+    public JSONObject getAllUniversityName(){
+        return universityService.getAllUniversityName();
+    }
 
 }
