@@ -252,8 +252,4 @@ public class StudentServiceImpl implements StudentService {
         return res;
     }
 
-    @Override
-    public JSONObject importStudent(JSONObject params) {
-        return null;
-    }
 }

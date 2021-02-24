@@ -18,6 +18,4 @@ public interface StudentService {
     // 编辑
     JSONObject editStudent(JSONObject params);
 
-    // 导入
-    JSONObject importStudent(JSONObject params);
 }

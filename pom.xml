@@ -196,6 +196,13 @@
             <artifactId>spring-boot-test</artifactId>
         </dependency>
 
+        <!-- 处理excel -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>2.2.7</version>
+        </dependency>
+
     </dependencies>
 
     <build>
