@@ -11,4 +11,18 @@ public interface UserService {
 
     // 登录
     JSONObject loginByTel(@RequestBody JSONObject loginParams, HttpServletRequest req);
+
+
+
+    // 查询全部用户
+    JSONObject findAllUsers();
+
+    // 删除
+    JSONObject deleteUser(Long id);
+
+    // 新增
+    JSONObject insertUser(JSONObject params);
+
+    // 编辑
+    JSONObject editUser(JSONObject params);
 }

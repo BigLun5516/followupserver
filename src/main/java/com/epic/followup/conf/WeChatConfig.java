@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-@PropertySource( value = "wechat.properties")
+@PropertySource( value = "classpath:wechat.properties")
 @ConfigurationProperties(prefix="followup")
 public class WeChatConfig {
 

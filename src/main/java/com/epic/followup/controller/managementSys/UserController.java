@@ -20,20 +20,40 @@ public class UserController {
     @RequestMapping(value = "/loginByTel", method = RequestMethod.POST)
     @ResponseBody
     public JSONObject loginByTel(@RequestBody JSONObject loginParams, HttpServletRequest req) {
-
         JSONObject result = new JSONObject();
+        return userService.loginByTel(loginParams,req);
+    }
 
-        // 判断是否已经登录
-        HttpSession session = req.getSession();
-        if (session.getAttribute("tel") != null) {
-            // session没过期，直接返回
-            result.put("errorCode", 200);
-            result.put("errorMsg", "已经登录");
-            result.put("sessionId", session.getId());
-            return result;
-        }
-        else {
-            return userService.loginByTel(loginParams, req);
-        }
+    // 查询
+    @PostMapping("/findAll")
+    @ResponseBody
+    public JSONObject findAllUsers(){
+
+        return userService.findAllUsers();
+    }
+
+    // 删除
+    @PostMapping("/delete")
+    @ResponseBody
+    public JSONObject deleteUser(@RequestBody JSONObject params){
+
+        Long id=params.getLong("id");
+        return userService.deleteUser(id);
+    }
+
+    // 新增
+    @PostMapping("/insert")
+    @ResponseBody
+    public JSONObject insertUser(@RequestBody JSONObject params){
+
+        return userService.insertUser(params);
+    }
+
+    // 编辑
+    @PostMapping("/edit")
+    @ResponseBody
+    public JSONObject editUser(@RequestBody JSONObject params){
+
+        return userService.editUser(params);
     }
 }
