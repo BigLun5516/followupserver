@@ -2,7 +2,6 @@ package com.epic.followup.controller.managementSys;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSONObject;
-import com.epic.followup.model.followup2.student.StudentInfo;
 import com.epic.followup.model.managementSys.StudentExcelData;
 import com.epic.followup.repository.followup2.student.StudentInfoRepository;
 import com.epic.followup.repository.managementSys.CollegeRepository;
