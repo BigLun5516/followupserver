@@ -60,7 +60,12 @@ public class StudentServiceImpl implements StudentService {
         if (studentType == null){
             studentType = -1;
         }
-            // filterDates 不用处理
+        if (filterDates.get(0) == ""){
+            filterDates.set(0, "1900-1-1");
+        }
+        if (filterDates.get(1) == ""){
+            filterDates.set(1, "3000-1-1");
+        }
 
         JSONObject res = new JSONObject();
 

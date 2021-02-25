@@ -126,10 +126,10 @@ public class UniversityServiceImpl implements UniversityService {
                 if (universityStatus != null){
                     predicateList.add(criteriaBuilder.equal(root.get("universityStatus"), universityStatus));
                 }
-                if (filterDates != null && filterDates.get(0) != null){
+                if (filterDates.get(0) != ""){
                     predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get("joinDate"), dateFormat.parse(filterDates.get(0))));
                 }
-                if (filterDates != null && filterDates.get(1) != null){
+                if (filterDates.get(1) != ""){
                     predicateList.add(criteriaBuilder.lessThanOrEqualTo(root.get("joinDate"), dateFormat.parse(filterDates.get(1))));
                 }
 

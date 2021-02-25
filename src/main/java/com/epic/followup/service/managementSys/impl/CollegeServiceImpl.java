@@ -56,7 +56,12 @@ public class CollegeServiceImpl implements CollegeService {
         if (collegeStatus == null){
             collegeStatus = -1;
         }
-            // filterDates 用["", ""]表示空，所以不用处理
+        if (filterDates.get(0) == ""){
+            filterDates.set(0, "1900-1-1");
+        }
+        if (filterDates.get(1) == ""){
+            filterDates.set(1, "3000-1-1");
+        }
 
         List<Object> collegeModelList = collegeRepository.findCollegeModel(
                 universityName, collegeName, collegeStatus, filterDates.get(0), filterDates.get(1), PageRequest.of(pageNum - 1, pageSize));
