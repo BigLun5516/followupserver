@@ -50,6 +50,9 @@ public class StudentServiceImpl implements StudentService {
         // 处理为空的请求参数
         if (studentName == null){
             studentName = "";
+        } else {
+            // 模糊查询处理
+            studentName = "%" + studentName + "%";
         }
         if (universityName == null){
             universityName = "";

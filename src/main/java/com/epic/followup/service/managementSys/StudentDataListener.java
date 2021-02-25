@@ -2,7 +2,6 @@ package com.epic.followup.service.managementSys;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
-import com.epic.followup.exception.MyException;
 import com.epic.followup.model.followup2.student.StudentInfo;
 import com.epic.followup.model.managementSys.CollegeModel;
 import com.epic.followup.model.managementSys.StudentExcelData;
