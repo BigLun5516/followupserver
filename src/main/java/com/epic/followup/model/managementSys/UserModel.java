@@ -32,6 +32,10 @@ public class UserModel {
     @Column(name = "userName", length = 32, nullable = true)
     private String userName;
 
+    // 学校id
+    @Column(name = "university_id")
+    private Integer universityId;
+
     // 用户类型
     @Column(name = "userType", nullable = false)
     private String userType;
