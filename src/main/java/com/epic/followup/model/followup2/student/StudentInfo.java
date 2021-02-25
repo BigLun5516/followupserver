@@ -56,11 +56,11 @@ public class StudentInfo {
 
     // 年龄
     @Column(name = "age", nullable = false)
-    private int age;
+    private Integer age;
 
     // 类别 0本科 1硕士 2博士
     @Column(name = "stype", nullable = false)
-    private int stype;
+    private Integer stype;
 
     // 年级 2015
     @Column(name = "year", length = 10, nullable = false)
@@ -82,7 +82,7 @@ public class StudentInfo {
         this.stname = stname;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
@@ -90,7 +90,7 @@ public class StudentInfo {
         return year;
     }
 
-    public int getStype() {
+    public Integer getStype() {
         return stype;
     }
 
@@ -98,11 +98,11 @@ public class StudentInfo {
         this.year = year;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
-    public void setStype(int stype) {
+    public void setStype(Integer stype) {
         this.stype = stype;
     }
 

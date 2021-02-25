@@ -38,6 +38,10 @@ public class UserModel {
 
     // 用户类型
     @Column(name = "userType", nullable = false)
-    private String userType;
+    private Long userType;
+
+    // 高校id
+    @Column(name = "universityId", nullable = false)
+    private Integer universityId;
 
 }

@@ -47,7 +47,12 @@ public class PsychologicalCenterServiceImpl implements PsychologicalCenterServic
         if (centralStatus == null){
             centralStatus = -1;
         }
-            // 日期为空时为""，不用处理
+        if (filterDates.get(0) == ""){
+            filterDates.set(0, "1900-1-1");
+        }
+        if (filterDates.get(1) == ""){
+            filterDates.set(1, "3000-1-1");
+        }
 
         JSONObject res = new JSONObject();
 

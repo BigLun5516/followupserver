@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-@PropertySource( value = "rpc.properties")
+@PropertySource( value = "classpath:rpc.properties")
 @ConfigurationProperties(prefix="rpc")
 public class RpcConfig {
 
