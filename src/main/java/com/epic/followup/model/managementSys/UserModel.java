@@ -40,8 +40,5 @@ public class UserModel {
     @Column(name = "userType", nullable = false)
     private Long userType;
 
-    // 高校id
-    @Column(name = "universityId", nullable = false)
-    private Integer universityId;
 
 }
