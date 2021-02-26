@@ -70,7 +70,9 @@ public class StudentServiceImpl implements StudentService {
         JSONObject res = new JSONObject();
 
         // 返回参数：学生总数量
-        res.put("totalNum", studentRepository.count());
+        res.put("totalNum", studentRepository.countStudentInfo(
+                studentName, universityName, studentType, filterDates.get(0), filterDates.get(1)
+        ));
 
         // 返回参数：高校管理表
         List<StudentInfo> studentInfoList = studentRepository.findStudentInfo(

@@ -69,7 +69,9 @@ public class CollegeServiceImpl implements CollegeService {
         JSONObject res = new JSONObject();
 
         // 学院总数量
-        res.put("totalNum", collegeRepository.count());
+        res.put("totalNum", collegeRepository.countCollegeModel(
+                universityName, collegeName, collegeStatus, filterDates.get(0), filterDates.get(1)
+        ));
 
         // 院系管理表
         List<Map<String, Object>> collegeManagementTable = new ArrayList<>();

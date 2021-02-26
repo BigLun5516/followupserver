@@ -57,7 +57,9 @@ public class PsychologicalCenterServiceImpl implements PsychologicalCenterServic
         JSONObject res = new JSONObject();
 
         // 返回参数：中心总数量
-        res.put("totalNum", centerRepository.count());
+        res.put("totalNum", centerRepository.countPsychologicalCenterModel(
+                universityName, centralName, centralStatus, filterDates.get(0), filterDates.get(1)
+        ));
 
         // 返回参数：中心管理表
         List<Object> centerModelList = centerRepository.findPsychologicalCenterModel(

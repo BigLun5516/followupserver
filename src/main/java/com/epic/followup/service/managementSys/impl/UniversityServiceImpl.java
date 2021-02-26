@@ -141,7 +141,8 @@ public class UniversityServiceImpl implements UniversityService {
         Page<UniversityModel> universityModelPages = universityRepository.findAll(spec, PageRequest.of(pageNum - 1, pageSize));
 
         // 高校总数量
-        res.put("totalNum", universityRepository.count());
+        List<UniversityModel> universityModelList = universityRepository.findAll(spec);
+        res.put("totalNum", universityModelList.size());
 
         // 高校管理表
         List<Map<String, Object>> universityManagementTable = new ArrayList<>();

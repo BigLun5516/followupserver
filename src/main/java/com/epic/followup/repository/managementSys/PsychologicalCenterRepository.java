@@ -29,4 +29,13 @@ public interface PsychologicalCenterRepository extends JpaRepository<Psychologic
             "and (c.create_time >= ?4 or ?4 = \"\") and (c.create_time <= ?5 or ?5 = \"\")"
             , nativeQuery = true)
     List<Object> findPsychologicalCenterModel(String universityName, String centerName, Integer centerStatus, String startTime, String endTime, Pageable pageable);
+
+    // 获取满足条件的中心数量
+    @Query(value = "SELECT count(*) " +
+            "from management_psychological_center c left join management_university u on c.center_id = u.center_id \n" +
+            "where (u.university_name = ?1 or ?1 = \"\") " +
+            "and (c.center_name like ?2 or ?2 = \"\") and (c.status = ?3 or ?3 = -1) " +
+            "and (c.create_time >= ?4 or ?4 = \"\") and (c.create_time <= ?5 or ?5 = \"\")"
+            , nativeQuery = true)
+    Integer countPsychologicalCenterModel(String universityName, String centerName, Integer centerStatus, String startTime, String endTime);
 }

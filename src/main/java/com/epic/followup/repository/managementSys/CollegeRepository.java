@@ -50,4 +50,14 @@ public interface CollegeRepository extends JpaRepository<CollegeModel, Integer>,
             , nativeQuery = true)
     List<Object> findCollegeModel(String universityName, String collegeName, Integer collegeStatus
             , String startTime, String endTime, Pageable pageable);
+
+    // 获取满足条件的院系数量
+    @Query(value = "SELECT count(*)" +
+            "FROM management_university u, management_college c\n" +
+            "where u.university_id = c.university_id and (u.university_name = ?1 or ?1 = \"\") \n" +
+            "and (c.college_name like ?2 or ?2 = \"\") and (c.college_status = ?3 or ?3 = -1) \n" +
+            "and (c.create_time >= ?4 or ?4 = \"\") and (c.create_time <= ?5 or ?5 = \"\")"
+            , nativeQuery = true)
+    Integer countCollegeModel(String universityName, String collegeName, Integer collegeStatus
+            , String startTime, String endTime);
 }
