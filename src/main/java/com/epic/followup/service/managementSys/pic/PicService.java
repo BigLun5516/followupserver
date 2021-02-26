@@ -6,5 +6,17 @@ import org.springframework.stereotype.Service;
 @Service
 public interface PicService {
 
-    JSONObject searchPic(JSONObject params);
+    // 查找图文
+    JSONObject findPic(JSONObject params);
+
+    // 新增图文
+    JSONObject insertPic(JSONObject params);
+
+    // 删除图文
+    JSONObject deletePic(JSONObject params);
+
+    // 编辑图文
+    JSONObject editPic(JSONObject params);
+
+
 }

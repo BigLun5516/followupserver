@@ -15,9 +15,30 @@ public class PicController {
     private PicService picService;
 
     // 搜索图文
-    @PostMapping("/searchPic")
+    @PostMapping("/find")
     @ResponseBody
-    public JSONObject searchPic(@RequestBody JSONObject params){
-        return picService.searchPic(params);
+    public JSONObject findPic(@RequestBody JSONObject params){
+        return picService.findPic(params);
+    }
+
+    // 新增图文
+    @PostMapping("/insert")
+    @ResponseBody
+    public JSONObject insertPic(@RequestBody JSONObject params){
+        return picService.insertPic(params);
+    }
+
+    // 删除图文
+    @PostMapping("/delete")
+    @ResponseBody
+    public JSONObject deletePic(@RequestBody JSONObject params){
+        return picService.deletePic(params);
+    }
+
+    // 编辑图文
+    @PostMapping("/edit")
+    @ResponseBody
+    public JSONObject editPic(@RequestBody JSONObject params){
+        return picService.editPic(params);
     }
 }
