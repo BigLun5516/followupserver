@@ -151,7 +151,7 @@ public class UniversityServiceImpl implements UniversityService {
             item.put("id", universityModel.getUniversityId());
             item.put("universityName", universityModel.getUniversityName());
             item.put("universityAddress", universityModel.getAddress());
-//            item.put("universityStatus", universityModel.getStatus());
+            item.put("universityStatus", universityModel.getUniversityStatus());
             item.put("notice", universityModel.getNotice());
             String universityManager = universityModel.getUniversityManager();
             item.put("universityDirector", universityManager);
