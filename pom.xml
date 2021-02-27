@@ -6,7 +6,7 @@
 
     <groupId>epic</groupId>
     <artifactId>FollowUpServer</artifactId>
-    <version>4.1-SNAPSHOT-test</version>
+    <version>5.1-SNAPSHOT-test</version>
 <!--    <version>5.1.1-SNAPSHOT</version>-->
 
     <properties>
