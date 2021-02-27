@@ -42,6 +42,7 @@ import static com.epic.followup.util.HTTPsUtils.get;
  */
 
 @Controller
+@CrossOrigin
 @RequestMapping("/followup2/wechat")
 public class WechatAppController {
 
@@ -489,6 +490,7 @@ public class WechatAppController {
     @PostMapping(value = "/history")
     @ResponseBody
     public JSONObject getHistoryTime(HttpServletRequest request){
+        System.out.println("history接受到了");
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
         List<String> timeList = scaleResult2Service.getHistoryDate(bus.getUserId());
         JSONObject res = new JSONObject();
@@ -519,10 +521,11 @@ public class WechatAppController {
     }
 
 
-    @RequestMapping(value = "/question", method = RequestMethod.GET)
+    @PostMapping("/question")
     @ResponseBody
-    public String question(HttpServletRequest request, @RequestParam(name = "q") String q){
-
+    public String question(HttpServletRequest request, @RequestBody JSONObject obj){
+        System.out.println("question接受到了");
+        String q=obj.getString("q");
         return this.knowledgeMapService.knowledgeMapAnswer(request.getHeader("sessionId"), q);
     }
 
