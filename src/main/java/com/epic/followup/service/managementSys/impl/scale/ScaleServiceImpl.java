@@ -30,7 +30,7 @@ public class ScaleServiceImpl implements ScaleService {
         if(scaleName == null) {
             scaleName = "";
         }
-        if((schoolName == null)||(scaleName == "")) {
+        if((schoolName == null)||(schoolName == "")) {
             schoolName = "%%";
         }
         if((classify == null)||(classify == "")) {
