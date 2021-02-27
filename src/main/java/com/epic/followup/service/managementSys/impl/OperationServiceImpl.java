@@ -355,12 +355,18 @@ public class OperationServiceImpl implements OperationService {
 
         // 学院-评测人数（前十）
         List<Map<String, Object>> evaRank = new ArrayList<>();
-        List<Object> evaNum_collegeName = this.collegeRepository.countEvaNumByUniversityId_GroupByCollegeId(universityModel.getUniversityId());
-        for (Object o : evaNum_collegeName) {
-            Object[] oo = (Object[]) o;
-            Map<String , Object> item = new HashMap<>();
-            item.put("name", oo[0]);
-            item.put("evaNum", oo[1]);
+        List<Object> collegeUserCount = this.collegeRepository.countEvaNumByUniversityId_GroupByCollegeId(universityModel.getUniversityId());
+        int length;
+        if(collegeUserCount.size()<10){
+            length = collegeUserCount.size();
+        }else {
+            length = 10;
+        }
+        for(int i=0; i<length; i++){
+            Map<String, Object> item = new HashMap<>();
+            Object[] obj = (Object[])collegeUserCount.get(i);
+            item.put("name", obj[0]);
+            item.put("evaNum", obj[1]);
             evaRank.add(item);
         }
         res.put("eavRank", evaRank);
@@ -448,6 +454,15 @@ public class OperationServiceImpl implements OperationService {
     public JSONObject getCollegeData(String universityName, String collegeName) {
 
         JSONObject res = new JSONObject();
+
+        UniversityModel universityModel = universityRepository.findByUniversityName(universityName);
+
+        if (universityModel == null){
+            res.put("errorCode", "501");
+            res.put("errorMsg", "未查询到这个学校");
+            return res;
+        }
+
         CollegeModel collegeModel = collegeRepository.findCollegeByCollegeNameAndUniversityName(collegeName, universityName);
 
         if (collegeModel == null){
@@ -455,6 +470,8 @@ public class OperationServiceImpl implements OperationService {
             res.put("errorMsg", "未查询到这个院");
             return res;
         }
+
+
 
         // 学院基本信息
         Map<String,Object> basicData = new HashMap<>();
@@ -536,7 +553,7 @@ public class OperationServiceImpl implements OperationService {
 
         // 高校中各个学院的评测人次排名
         List<Map<String, Object>> evaRank = new ArrayList<>();
-        List<Object> collegeUserCount = studentInfoRepository.getCollegeUserCount(universityName);
+        List<Object> collegeUserCount = collegeRepository.countEvaNumByUniversityId_GroupByCollegeId(universityModel.getUniversityId());
 
         int length;
         if(collegeUserCount.size()<10){
@@ -553,6 +570,7 @@ public class OperationServiceImpl implements OperationService {
             evaRank.add(item);
         }
         res.put("evaRank", evaRank);
+
 
 
         res.put("errorCode", 200);
