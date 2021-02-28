@@ -36,10 +36,4 @@ public class UserController {
             return userService.loginByTel(loginParams, req);
         }
     }
-
-    @RequestMapping(value = "/personalInfo", method = RequestMethod.POST)
-    @ResponseBody
-    public JSONObject personal (@RequestBody JSONObject personalParams, HttpServletRequest req){
-        return userService.personalInfo(personalParams, req);
-    }
 }
