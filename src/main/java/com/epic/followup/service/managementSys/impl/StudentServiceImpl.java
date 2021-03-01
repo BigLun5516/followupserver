@@ -91,7 +91,8 @@ public class StudentServiceImpl implements StudentService {
             item.put("stype", studentInfo.getStype());
             item.put("province", studentInfo.getProvince());
             item.put("year", studentInfo.getYear());
-            item.put("create_time", studentInfo.getCreateTime());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            item.put("create_time", dateFormat.format(studentInfo.getCreateTime()));
             userManagementTable.add(item);
         }
         res.put("userManagementTable", userManagementTable);
