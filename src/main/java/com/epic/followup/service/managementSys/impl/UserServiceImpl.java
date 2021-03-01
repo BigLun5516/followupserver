@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.math.BigInteger;
 import java.util.*;
 
 @Service
@@ -226,8 +227,9 @@ public class UserServiceImpl implements UserService {
     public JSONObject personalInfoEdit(HttpServletRequest req, JSONObject params){
         HttpSession session = req.getSession();
         JSONObject res=new JSONObject();
-
-        Optional<UserModel> u = userRepository.findById((Long) session.getAttribute("id"));
+        long i= ((BigInteger)session.getAttribute("id")).longValue();
+        Long id=new Long(i);
+        Optional<UserModel> u = userRepository.findById(id);
         UserModel user=u.get();
         user.setUserName(params.getString("userName"));
         user.setImageUrl(params.getString("imgUrl"));
