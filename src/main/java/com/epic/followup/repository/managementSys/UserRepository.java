@@ -27,4 +27,12 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
     @Query(nativeQuery = true, value = " UPDATE management_user a SET a.user_type = -1 WHERE a.user_type = ?1")
     void upDateUserType(Long id);
 
+
+    @Query(nativeQuery = true, value = "SELECT * from (SELECT a.id,a.image_url,a.`password`,a.tel,a.user_name," +
+            "a.university_id,a.user_type,b.university_name,c.`name` as role_name from management_user a " +
+            "LEFT JOIN management_university b ON a.university_id=b.university_id LEFT JOIN management_role c " +
+            "on a.user_type=c.id) s where s.id=?1")
+    Object getUserInfoByTel(String Tel);
+
+
 }

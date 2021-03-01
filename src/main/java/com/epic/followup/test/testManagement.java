@@ -2,6 +2,7 @@ package com.epic.followup.test;
 
 import com.alibaba.fastjson.JSONObject;
 import com.epic.followup.model.managementSys.RoleModel;
+import com.epic.followup.model.managementSys.UserModel;
 import com.epic.followup.repository.managementSys.RoleRepository;
 import com.epic.followup.repository.managementSys.UserRepository;
 import com.epic.followup.service.managementSys.RoleService;
@@ -23,6 +24,10 @@ public class testManagement {
     private RoleRepository RoleRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+
+    @Autowired
     private RoleService roleService;
 
     @Autowired
@@ -34,10 +39,12 @@ public class testManagement {
 
     @Test
     public void test() {
-        JSONObject q=new JSONObject();
-        q.put("tel","111111");
-        q.put("password","1234");
-////        q.put("remark","jjj111");
+        Object ou = userRepository.getUserInfoByTel("1");
+        Object[] user = (Object[]) ou;
+        for(Object u :user){
+            System.out.println(u);
+        }
+        ////        q.put("remark","jjj111");
        // JSONObject res=userService.loginByTel(q);
 
         //System.out.println(res);

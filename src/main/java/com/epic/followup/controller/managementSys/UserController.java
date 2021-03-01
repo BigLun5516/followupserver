@@ -5,6 +5,7 @@ import com.epic.followup.service.managementSys.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -58,11 +59,25 @@ public class UserController {
     }
 
     //个人资料
-    @RequestMapping(value = "/personalInfo", method = RequestMethod.POST)
+    @PostMapping("/personalInfo")
     @ResponseBody
-    public JSONObject personalInfo(@RequestBody JSONObject personParams, HttpServletRequest req) {
-        JSONObject result = new JSONObject();
-        return userService.personalInfo(personParams,req);
+    public JSONObject personalInfo(HttpServletRequest req) {
+        return userService.personalInfo(req);
+    }
+
+    //上传个人头像
+    @RequestMapping(value = "/uploadDiaryImg", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject uploadDiaryImg(@RequestParam MultipartFile file){
+
+        return userService.uploadDiaryImg(file);
+    }
+
+    //个人资料更新
+    @PostMapping("/personalInfoEdit")
+    @ResponseBody
+    public JSONObject personalInfoEdit(HttpServletRequest req,@RequestBody JSONObject params) {
+        return userService.personalInfoEdit(req,params);
     }
 
 }
