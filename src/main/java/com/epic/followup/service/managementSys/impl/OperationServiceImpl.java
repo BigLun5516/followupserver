@@ -187,6 +187,12 @@ public class OperationServiceImpl implements OperationService {
             return res;
         }
 
+        if(universityModel.getCenterId() == null){
+            res.put("errorCode", 502);
+            res.put("errorMsg", "此高校没有心理咨询中心");
+            return res;
+        }
+
         int i;
 
         // 心理咨询中心基本数据
@@ -201,9 +207,9 @@ public class OperationServiceImpl implements OperationService {
 
 
         // 高校中各个学院的评测人次排名
+        // 学院-评测人数（前十）
         List<Map<String, Object>> evaRank = new ArrayList<>();
-        List<Object> collegeUserCount = studentInfoRepository.getCollegeUserCount(universityName);
-
+        List<Object> collegeUserCount = this.collegeRepository.countEvaNumByUniversityId_GroupByCollegeId(universityModel.getUniversityId());
         int length;
         if(collegeUserCount.size()<10){
             length = collegeUserCount.size();
@@ -217,6 +223,7 @@ public class OperationServiceImpl implements OperationService {
             item.put("evaNum", obj[1]);
             evaRank.add(item);
         }
+        res.put("eavRank", evaRank);
 
         // 高校用户评测结果时间分布图
         List<Map<String, Object>> timeGraph = new ArrayList<>();
