@@ -29,7 +29,7 @@ public class PsychologicalCenterServiceImpl implements PsychologicalCenterServic
 
         // 获取请求参数
         String universityName = params.getString("universityName");
-        String centralName = params.getString("cnetralName");
+        String centralName = params.getString("centralName");
         Integer centralStatus = params.getInteger("centralStatus");
         List<String> filterDates = params.getObject("filterDates", List.class);
         Integer pageNum = params.getInteger("pageNum");

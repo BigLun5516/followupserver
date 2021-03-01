@@ -26,4 +26,5 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
     @Modifying
     @Query(nativeQuery = true, value = " UPDATE management_user a SET a.user_type = -1 WHERE a.user_type = ?1")
     void upDateUserType(Long id);
+
 }

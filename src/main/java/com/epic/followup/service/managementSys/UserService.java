@@ -12,7 +12,8 @@ public interface UserService {
     // 登录
     JSONObject loginByTel(@RequestBody JSONObject loginParams, HttpServletRequest req);
 
-
+    //个人资料
+    JSONObject personalInfo(@RequestBody JSONObject personalParams, HttpServletRequest req);
 
     // 查询全部用户
     JSONObject findAllUsers();

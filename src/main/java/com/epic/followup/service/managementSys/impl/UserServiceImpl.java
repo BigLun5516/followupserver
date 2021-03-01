@@ -159,4 +159,20 @@ public class UserServiceImpl implements UserService {
         res.put("errorMsg", "编辑成功");
         return res;
     }
+
+    @Override//个人资料
+    public JSONObject personalInfo(JSONObject personalParams, HttpServletRequest req) {
+        JSONObject res = new JSONObject();
+
+        Long id=personalParams.getLong("id");
+        Optional<UserModel> ou = userRepository.findById(id);
+        UserModel user = ou.get();
+        res.put("img",user.getImageUrl());
+        res.put("name",user.getUserName());
+        res.put("userqx",user.getUserType());
+        res.put("phone",user.getTel());
+        res.put("password",user.getPassword());
+
+        return res;
+    }
 }

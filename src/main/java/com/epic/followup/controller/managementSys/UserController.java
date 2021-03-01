@@ -56,4 +56,13 @@ public class UserController {
 
         return userService.editUser(params);
     }
+
+    //个人资料
+    @RequestMapping(value = "/personalInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject personalInfo(@RequestBody JSONObject personParams, HttpServletRequest req) {
+        JSONObject result = new JSONObject();
+        return userService.personalInfo(personParams,req);
+    }
+
 }
