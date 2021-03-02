@@ -60,6 +60,7 @@ public class StudentDataListener extends AnalysisEventListener<StudentExcelData>
         studentInfo.setYear(studentExcelData.getYear());
         studentInfo.setProvince(studentExcelData.getProvince());
         studentInfo.setAge(studentExcelData.getAge());
+        studentInfo.setStname(studentExcelData.getStudentName());
         studentInfo.setCreateTime(new Date());
         studentInfo.setGender(studentExcelData.getGender());
 
