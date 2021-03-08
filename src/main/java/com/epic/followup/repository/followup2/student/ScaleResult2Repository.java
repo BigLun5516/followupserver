@@ -2,8 +2,11 @@ package com.epic.followup.repository.followup2.student;
 
 import com.epic.followup.model.followup2.student.NCovResultModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,20 +25,24 @@ public interface ScaleResult2Repository extends JpaRepository<NCovResultModel, L
 
 
     /**
-     * 查询最近100天测评成功的历史时间
+     * 查询最近100天测评成功的历史时间和level
      * @param userId
      * @return
      */
-    @Query(nativeQuery = true, value = "SELECT DATE_FORMAT(answer_time,'%Y-%m-%d') tt FROM aidoctor_ncov_result " +
-            "WHERE userid = ?1  AND scale_id <= 4   " +
-            "GROUP BY tt ORDER BY tt DESC LIMIT 100")
-    List<String> getLastScaleByUserId(Long userId);
+    @Query(nativeQuery = true, value = "SELECT DATE_FORMAT(answer_time,'%Y-%m-%d %H:%i') time, level FROM aidoctor_ncov_result WHERE userid = ?1" +
+            "  AND scale_id = 1  ORDER BY answer_time DESC LIMIT 100")
+    List getLastScaleByUserId(Long userId);
 
+
+/*
+    @Query(nativeQuery = true, value = "SELECT * FROM aidoctor_ncov_result a " +
+            "WHERE userid = ?1 AND scale_id = ?2 AND DATE(answer_time) = ?3")
+    List<NCovResultModel> getResultByDate(Long userId, int scaleId, String date);*/
 
 
     @Query(nativeQuery = true, value = "SELECT * FROM aidoctor_ncov_result a " +
-            "WHERE userid = ?1 AND scale_id = ?2 AND DATE(answer_time) = ?3")
-    List<NCovResultModel> getResultByDate(Long userId, int scaleId, String date);
+            "WHERE userid = ?1 AND scale_id = ?2 AND answer_time between ?3 and ?4")
+    List<NCovResultModel> getResultByDate(Long userId, int scaleId, String beforeDate, String afterDate);
 
     /*
      * 查询不同年份20/19/18对应的不同scale_id下不同得分人数
@@ -132,5 +139,11 @@ public interface ScaleResult2Repository extends JpaRepository<NCovResultModel, L
             , nativeQuery = true)
     Integer countScaleByTimeAndUniversityId(String startTime, String endTime, int scaleId, int score, Integer universityId);
 
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "DELETE FROM aidoctor_ncov_result  WHERE  id IN " +
+            "(SELECT id FROM (SELECT id FROM aidoctor_ncov_result  WHERE userid = ?1  ORDER BY answer_time DESC LIMIT ?2) t )")
+    void deleteResult(Long userId, Long count);
 
 }

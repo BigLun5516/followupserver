@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -436,6 +437,7 @@ public class WechatAppController {
         NCovResultModel nc = new NCovResultModel();
         nc.setAnswerArray(userInfo.getAnswers());
         nc.setUserId(bus.getUserId());
+
         nc.setAnswerTime(new Date());
         nc.setLevel(ScaleResult2Service.getLevel(userInfo.getQuestionNaire(), ScaleResult2Service.getScore(userInfo.getQuestionNaire(), userInfo.getAnswers())));
         nc.setScore(ScaleResult2Service.getScore(userInfo.getQuestionNaire(), userInfo.getAnswers()));
@@ -445,6 +447,23 @@ public class WechatAppController {
 
         dm.setLevel(nc.getLevel());
         dm.setScore(nc.getScore());
+        dm.setErrorCode(200);
+        dm.setErrorMsg("succ");
+        return JSON.toJSONString(dm);
+    }
+
+    /**
+     * 删除未做完的测评结果
+     * @param request
+     * @param obj
+     * @return
+     */
+    @RequestMapping(value = "/deleteScaleResult", method = RequestMethod.POST)
+    @ResponseBody
+    public String submitData(HttpServletRequest request, @RequestBody JSONObject obj){
+        BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
+        scaleResult2Service.deleteResult(bus.getUserId(), obj.getLong("count"));
+        AnswerResponse dm = new AnswerResponse();
         dm.setErrorCode(200);
         dm.setErrorMsg("succ");
         return JSON.toJSONString(dm);
@@ -492,7 +511,7 @@ public class WechatAppController {
     public JSONObject getHistoryTime(HttpServletRequest request){
         System.out.println("history接受到了");
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
-        List<String> timeList = scaleResult2Service.getHistoryDate(bus.getUserId());
+        List<Map<String, String>> timeList = scaleResult2Service.getHistoryDate(bus.getUserId());
         JSONObject res = new JSONObject();
         if (timeList == null || timeList.isEmpty()) {
             res.put("errorCode",502);
@@ -514,7 +533,19 @@ public class WechatAppController {
     @ResponseBody
     public String getResultByDate(HttpServletRequest request, @RequestBody JSONObject obj){
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
-        GetScaleResultResponse gsr = scaleResult2Service.getResultByDate(bus.getUserId(), obj.getString("date"));
+        String date = obj.getString("date");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date now = null;
+        try {
+            now = sdf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        // 取前后两分钟范围内的记录
+        Date afterDate = new Date(now .getTime() + 120000);
+        Date beforeDate = new Date(now.getTime() - 120000);
+
+        GetScaleResultResponse gsr = scaleResult2Service.getResultByDate(bus.getUserId(), sdf.format(beforeDate)+":00", sdf.format(afterDate)+":00");
         gsr.setErrorCode(200);
         gsr.setErrorMsg("succ");
         return JSON.toJSONString(gsr);

@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
+import java.util.TimeZone;
+
 /**
  * @author : zx
  * @version V1.0
@@ -22,6 +25,13 @@ public class FollowUpApplication {
     @Bean(name = "restTemplate")
     public RestTemplate initRestTempleta(){
         return new RestTemplate();
+    }
+
+
+    @PostConstruct
+    void started() {
+        //时区设置：中国上海
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));
     }
 
     public static void main(String[] args){

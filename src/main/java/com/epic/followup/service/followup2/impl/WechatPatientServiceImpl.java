@@ -179,6 +179,7 @@ public class WechatPatientServiceImpl implements WechatPatientService {
             Map m = new HashMap();
             moodLists.add(new MoodList(cells[0].toString(), cells[1].toString()));
         }
+        Collections.reverse(moodLists);
         getAllMoodsResponse res = new getAllMoodsResponse();
         res.setMoods(moodLists);
         res.setErrorCode(200);
@@ -243,6 +244,7 @@ public class WechatPatientServiceImpl implements WechatPatientService {
             res.put("errorCode",502);
             res.put("errorMsg","未查找到信息");
         }else{
+            Collections.reverse(bodyInfoList);
             res.put("errorCode",200);
             res.put("errorMsg","查找成功");
             res.put("data",bodyInfoList);

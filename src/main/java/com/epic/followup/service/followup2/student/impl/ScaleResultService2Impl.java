@@ -10,7 +10,7 @@ import com.epic.followup.temporary.ncov.ScaleResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * @author : zx
@@ -53,17 +53,33 @@ public class ScaleResultService2Impl implements ScaleResult2Service {
     }
 
     @Override
-    public List<String> getHistoryDate(Long userId) {
-        return scaleResult2Repository.getLastScaleByUserId(userId);
+    public List<Map<String, String>> getHistoryDate(Long userId) {
+        List list = scaleResult2Repository.getLastScaleByUserId(userId);
+        List<Map<String, String>> time = new ArrayList<>();
+
+        for (int i = 0; i < list.size(); i++) {
+            Map<String, String> map = new HashMap<>();
+            Object[] o = (Object[])list.get(i);
+            map.put("date",(String) o[0]);
+            map.put("level", (String) o[1]);
+            time.add(map);
+        }
+        return time;
+
     }
 
     @Override
-    public GetScaleResultResponse getResultByDate(long userId, String date) {
+    public void deleteResult(long userId, long count) {
+        scaleResult2Repository.deleteResult(userId, count);
+    }
+
+    @Override
+    public GetScaleResultResponse getResultByDate(long userId, String beforeDate, String afterDate) {
         GetScaleResultResponse gsr = new GetScaleResultResponse();
         ScaleResult[] srs = new ScaleResult[nCovConfig.SCALENUM];
 
         for (int i = 1; i <= nCovConfig.SCALENUM; i++){
-            List<NCovResultModel> l = scaleResult2Repository.getResultByDate(userId, i, date);
+            List<NCovResultModel> l = scaleResult2Repository.getResultByDate(userId, i, beforeDate, afterDate);
             if (l.size() != 0){
                 ScaleResult s = transResult(l.get(0));
                 s.setTitle(nCovConfig.SCALENAMES2[s.getScaleId()]);

@@ -28,7 +28,7 @@ public class NCovResultModel {
     private int scaleId;
 
     // 评测结果
-    @Column(name = "level", length = 500, nullable = false)
+    @Column(name = "level", length = 500, nullable = true)
     private String Level;
 
     // 得分
