@@ -80,4 +80,11 @@ public class UserController {
         return userService.personalInfoEdit(req,params);
     }
 
+    //获取Mini量表接口
+    @PostMapping("/miniResult")
+    @ResponseBody
+    public JSONObject miniResult() {
+        return userService.getMiniResult();
+    }
+
 }

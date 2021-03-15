@@ -43,5 +43,10 @@ public interface CollegeStudentResultService{
      */
     List<StudentResultModel> findListByDepartmentAndCollege(String department, String college);
 
+    /**
+     * 查询所有学生数据
+     */
+    List<StudentResultModel> findList();
+
 
 }

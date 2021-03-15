@@ -33,4 +33,8 @@ public interface UserService {
 
     //个人信息编辑
     JSONObject personalInfoEdit(HttpServletRequest req, JSONObject params);
+
+    //Mini结果展示
+    JSONObject getMiniResult();
+
 }

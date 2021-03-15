@@ -86,4 +86,9 @@ public class CollegeStudentResultServiceImpl implements CollegeStudentResultServ
     public List<StudentResultModel> findListByDepartmentAndCollege(String department, String college) {
         return studentResultRepository.findListByDepartmentAndCollege(department, college);
     }
+
+    @Override
+    public List<StudentResultModel> findList() {
+        return studentResultRepository.findAll();
+    }
 }

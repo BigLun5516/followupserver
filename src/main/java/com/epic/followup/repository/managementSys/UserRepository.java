@@ -34,5 +34,10 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
             "on a.user_type=c.id) s where s.id=?1")
     Object getUserInfoByTel(String Tel);
 
+    @Query(nativeQuery = true, value = "SELECT b.stname,b.stid,b.age,b.department,b.college,b.stype,b.year," +
+            "a.mini_time,a.mini_result FROM `mini_scale` a LEFT JOIN aidoctor_studentinfo b ON a.userid=" +
+            "b.userid ;")
+    List<Object> getMiniResult();
+
 
 }

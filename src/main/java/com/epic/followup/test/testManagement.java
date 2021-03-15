@@ -52,10 +52,11 @@ public class testManagement {
 //        q.put("content","这是任务3");
 //        q.put("grade","2020");
 //        q.put("scale_id","3");
-        q.put("task_id",1);
-        q.put("label",2);
-        JSONObject res = taskService.findTask2((long) 1);
-        System.out.println(res.get("data"));
+        q.put("task_id",4);
+        q.put("status",1);
+        q.put("user_id",1);
+        JSONObject res = taskService.findTask1((long) 1);
+        System.out.println(res);
 //        for(Object u :user){
 //            System.out.println(u);
 //        }

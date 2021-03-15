@@ -2,10 +2,12 @@ package com.epic.followup.controller.managementSys;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSONObject;
+import com.epic.followup.model.followup2.doctor.StudentResultModel;
 import com.epic.followup.model.managementSys.StudentExcelData;
 import com.epic.followup.repository.followup2.student.StudentInfoRepository;
 import com.epic.followup.repository.managementSys.CollegeRepository;
 import com.epic.followup.repository.managementSys.UniversityRepository;
+import com.epic.followup.service.followup2.doctor.CollegeStudentResultService;
 import com.epic.followup.service.managementSys.StudentDataListener;
 import com.epic.followup.service.managementSys.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @CrossOrigin
@@ -31,6 +34,9 @@ public class StudentController {
 
     @Autowired
     CollegeRepository collegeRepository;
+
+    @Autowired
+    private CollegeStudentResultService collegeStudentResultService;
 
     // 根据条件查询
     @PostMapping("/find")
@@ -77,5 +83,13 @@ public class StudentController {
         res.put("errorCode", 200);
         res.put("errorMsg", "导入成功");
         return res;
+    }
+
+    //查询studentresult表学生信息
+    @RequestMapping(value = "/stuInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public List<StudentResultModel> findListByDepartmentAndCollege() {
+
+        return this.collegeStudentResultService.findList();
     }
 }

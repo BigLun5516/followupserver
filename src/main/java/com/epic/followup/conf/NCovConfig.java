@@ -16,7 +16,7 @@ public class NCovConfig {
 
     // 小程序端
     public final static String[] SCALENAMES2 = new String[]{"", "抑郁程度",
-            "广泛性焦虑程度", "失眠严重指数", "自杀风险"};
+            "广泛性焦虑程度", "失眠严重指数", "消极情绪"};
 
     //学生量表
     public final static String[] STUSCALENAMES = new String[]{"自杀风险量表", "抑郁症筛查量表",

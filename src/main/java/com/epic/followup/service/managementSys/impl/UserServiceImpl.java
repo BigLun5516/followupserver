@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -237,6 +238,33 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         res.put("errorCode", 200);
         res.put("errorMsg", "编辑成功");
+        return res;
+    }
+
+    //Mini结果展示
+    @Override
+    public JSONObject getMiniResult(){
+        JSONObject res=new JSONObject();
+        List<Object> miniList=userRepository.getMiniResult();
+        List<Map<String, Object>> data = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (Object o : miniList) {
+            Map<String, Object> item = new HashMap<>();
+            Object[] obj = (Object[]) o;
+            item.put("stname", obj[0]);
+            item.put("stid", obj[1]);
+            item.put("age", obj[2]);
+            item.put("department", obj[3]);
+            item.put("college", obj[4]);
+            item.put("stype", obj[5]);
+            item.put("year", obj[6]);
+            item.put("mini_time", dateFormat.format(obj[7]));
+            item.put("mini_result", obj[8]);
+            data.add(item);
+        }
+        res.put("data",data);
+        res.put("errorCode", 200);
+        res.put("errorMsg", "查询成功");
         return res;
     }
 }
