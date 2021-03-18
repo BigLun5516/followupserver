@@ -114,7 +114,7 @@ public class BaseUserServiceImpl implements BaseUserService {
         // 测试代码
         String code = DateTimeUtils.generateCode();
         codeMap.put(tel, code);
-        if (!this.sendCode(tel, "SMS_183763062", code)){
+        if (!this.sendCode(tel, "SMS_183770246", code)){
             res.setErrorMsg("短信发送失败，请联系网站管理员.");
             res.setErrorCode(502);
             return res;
@@ -364,6 +364,7 @@ public class BaseUserServiceImpl implements BaseUserService {
 
     /*
      * 注册tempid : SMS_183763062
+     * 新注册：SMS_183770246
      * 修改密码： SMS_183770245
      */
     public Boolean sendCode(String tel, String templateCode, String code) {

@@ -37,6 +37,14 @@ public class MiniScalePublicModel {
     @Column(name = "openid", length = 32, nullable = false)
     private String openId;
 
+    // 用户姓名
+    @Column(name = "userName", length = 32)
+    private String userName;
+
+    // 总共用时
+    @Column(name = "total_time", length = 256)
+    private String total_time;
+
     public Long getId() {
         return Id;
     }
@@ -75,5 +83,21 @@ public class MiniScalePublicModel {
 
     public void setOpenId(String openId) {
         this.openId = openId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getTotal_time() {
+        return total_time;
+    }
+
+    public void setTotal_time(String total_time) {
+        this.total_time = total_time;
     }
 }

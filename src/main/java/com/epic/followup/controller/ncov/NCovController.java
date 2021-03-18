@@ -108,6 +108,8 @@ public class NCovController {
         mini.setOpenId(userInfo.getString("openid"));
         mini.setMiniTime(new Date());
         mini.setMiniResult(userInfo.getString("result"));
+        mini.setTotal_time(userInfo.getString("totalTime"));
+        mini.setUserName(userInfo.getString("userName"));
         miniScalePublicRepository.save(mini);
 
         res.put("errorCode",200);
