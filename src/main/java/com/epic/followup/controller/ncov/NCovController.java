@@ -20,7 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author : zx
@@ -112,6 +113,29 @@ public class NCovController {
         mini.setUserName(userInfo.getString("userName"));
         miniScalePublicRepository.save(mini);
 
+        res.put("errorCode",200);
+        res.put("errorMsg","success");
+        return res;
+    }
+
+    //查询小程序mini量表结果
+    @RequestMapping(value = "/miniResult", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject miniResult(){
+        JSONObject res = new JSONObject();
+        List<MiniScalePublicModel> dataList = miniScalePublicRepository.findAll();
+        List<Map<String, Object>> data = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for(MiniScalePublicModel d:dataList){
+            Map<String, Object> item = new HashMap<>();
+            item.put("mini_answer",d.getMiniAnswer());
+            item.put("mini_result",d.getMiniResult());
+            item.put("mini_time",dateFormat.format(d.getMiniTime()));
+            item.put("total_time",d.getTotal_time());
+            item.put("user_name",d.getUserName());
+            data.add(item);
+        }
+        res.put("data",data);
         res.put("errorCode",200);
         res.put("errorMsg","success");
         return res;

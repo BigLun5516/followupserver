@@ -1,8 +1,10 @@
 package com.epic.followup.test;
 
 import com.alibaba.fastjson.JSONObject;
+import com.epic.followup.model.app.MiniScalePublicModel;
 import com.epic.followup.model.managementSys.RoleModel;
 import com.epic.followup.model.managementSys.UserModel;
+import com.epic.followup.repository.app.MiniScalePublicRepository;
 import com.epic.followup.repository.managementSys.RoleRepository;
 import com.epic.followup.repository.managementSys.UserRepository;
 import com.epic.followup.service.managementSys.RoleService;
@@ -40,23 +42,29 @@ public class testManagement {
 
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private MiniScalePublicRepository miniScalePublicRepository;
 
 
 
     @Test
     public void test() throws ParseException {
+        List<MiniScalePublicModel> data = miniScalePublicRepository.findAll();
+        for(MiniScalePublicModel u :data){
+            System.out.println(u.getMiniTime());
+        }
 //        Object ou = userRepository.getUserInfoByTel("1");
 //        Object[] user = (Object[]) ou;
-        JSONObject q=new JSONObject();
-//        q.put("title","任务3");
-//        q.put("content","这是任务3");
-//        q.put("grade","2020");
-//        q.put("scale_id","3");
-        q.put("task_id",4);
-        q.put("status",1);
-        q.put("user_id",1);
-        JSONObject res = taskService.findTask1((long) 1);
-        System.out.println(res);
+//        JSONObject q=new JSONObject();
+////        q.put("title","任务3");
+////        q.put("content","这是任务3");
+////        q.put("grade","2020");
+////        q.put("scale_id","3");
+//        q.put("task_id",4);
+//        q.put("status",1);
+//        q.put("user_id",1);
+//        JSONObject res = taskService.findTask1((long) 1);
+//        System.out.println(res);
 //        for(Object u :user){
 //            System.out.println(u);
 //        }
