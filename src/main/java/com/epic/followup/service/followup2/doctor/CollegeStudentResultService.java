@@ -1,5 +1,6 @@
 package com.epic.followup.service.followup2.doctor;
 
+import com.alibaba.fastjson.JSONObject;
 import com.epic.followup.model.followup2.doctor.StudentResultModel;
 import com.epic.followup.service.followup2.doctor.StudentResultService;
 
@@ -46,7 +47,7 @@ public interface CollegeStudentResultService{
     /**
      * 查询所有学生数据
      */
-    List<StudentResultModel> findList();
+    List<StudentResultModel> findList(JSONObject params);
 
 
 }

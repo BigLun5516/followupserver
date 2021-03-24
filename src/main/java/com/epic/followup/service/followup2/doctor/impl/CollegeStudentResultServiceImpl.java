@@ -1,5 +1,6 @@
 package com.epic.followup.service.followup2.doctor.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.epic.followup.model.followup2.doctor.StudentResultModel;
 import com.epic.followup.model.followup2.student.StudentInfo;
 import com.epic.followup.repository.followup2.doctor.StudentResultRepository;
@@ -88,7 +89,9 @@ public class CollegeStudentResultServiceImpl implements CollegeStudentResultServ
     }
 
     @Override
-    public List<StudentResultModel> findList() {
-        return studentResultRepository.findAll();
+    public List<StudentResultModel> findList(JSONObject params) {
+        String universityName=params.getString("universityName");
+        String illness=params.getString("illness");
+        return studentResultRepository.findbyUniversityAndIllness(universityName,illness);
     }
 }

@@ -88,8 +88,8 @@ public class StudentController {
     //查询studentresult表学生信息
     @RequestMapping(value = "/stuInfo", method = RequestMethod.POST)
     @ResponseBody
-    public List<StudentResultModel> findListByDepartmentAndCollege() {
+    public List<StudentResultModel> findListByDepartmentAndCollege(@RequestBody JSONObject params) {
 
-        return this.collegeStudentResultService.findList();
+        return this.collegeStudentResultService.findList(params);
     }
 }
