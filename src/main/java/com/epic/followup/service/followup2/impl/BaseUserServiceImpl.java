@@ -25,6 +25,7 @@ import com.epic.followup.model.followup2.student.StudentInfo;
 import com.epic.followup.repository.followup2.BaseUserRepository;
 import com.epic.followup.repository.followup2.WechatAppUserRepository;
 import com.epic.followup.repository.followup2.student.StudentInfoRepository;
+import com.epic.followup.repository.managementSys.UniversityRepository;
 import com.epic.followup.service.NLPService;
 import com.epic.followup.service.followup2.BaseUserService;
 import com.epic.followup.temporary.DealMessageResponse;
@@ -58,6 +59,7 @@ public class BaseUserServiceImpl implements BaseUserService {
     private BaseUserRepository baseUserRepository;
     private WechatAppUserRepository wechatAppUserRepository;
     private StudentInfoRepository studentInfoRepository;
+    private UniversityRepository universityRepository;
     private WeChatConfig weChatConfig;
     private NLPService nlpService;
     private org.slf4j.Logger log = LoggerFactory.getLogger(this.getClass());
@@ -66,7 +68,7 @@ public class BaseUserServiceImpl implements BaseUserService {
     public BaseUserServiceImpl(BaseUserRepository baseUserRepository, WeChatConfig weChatConfig,
                                WechatAppUserRepository wechatAppUserRepository,
                                StudentInfoRepository studentInfoRepository,
-                               NLPService nlpService){
+                               NLPService nlpService,UniversityRepository universityRepository){
         this.codeMap = ExpiringMap.builder()
                 .maxSize(FollowupStaticConfig.MAX_USERNUM)
                 .expiration(1, TimeUnit.MINUTES) // 1分钟有效
@@ -84,6 +86,7 @@ public class BaseUserServiceImpl implements BaseUserService {
         this.wechatAppUserRepository = wechatAppUserRepository;
         this.studentInfoRepository = studentInfoRepository;
         this.nlpService = nlpService;
+        this.universityRepository=universityRepository;
         this.userMap = ExpiringMap.builder()
                 .maxSize(FollowupStaticConfig.MAX_USERNUM)
                 .expiration(1, TimeUnit.DAYS)
@@ -315,6 +318,7 @@ public class BaseUserServiceImpl implements BaseUserService {
         s.setUserId(user.getUserId());
         s.setType(user.getType());
         s.setTime(new Date().getTime());
+        s.setUniversityId(universityRepository.findByUniversityName(user.getDepartment()).getUniversityId());
         String md = DigestUtils.md5DigestAsHex((s.getTel()+s.getUserId()+s.getType()+s.getTime()).getBytes());
         userMap.put(md, s);
         // 成功返回

@@ -33,14 +33,15 @@ public class TaskModel {
     @Column(name = "scale_id",  nullable = false)
     private Long scaleId;
 
-    // 任务状态
-    @Column(name = "task_status",  nullable = false)
-    private Integer taskStatus;
 
     // 创建时间
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")
     private Date createTime;
+
+    // 任务对应学校
+    @Column(name = "university_id",  nullable = false)
+    private Integer universityId;
 
 
 }

@@ -44,8 +44,12 @@ public class UserServiceImpl implements UserService {
                 res.put("errorCode", 502);
                 res.put("errorMsg", "密码有误");
             } else {
-                session.setAttribute("id", user[0]);
+                session.setAttribute("id",  user[0]);
                 session.setAttribute("tel", tel);
+                session.setAttribute("universityId", user[5]);
+                System.out.println(getType(session.getAttribute("id")));
+                System.out.println(getType(session.getAttribute("tel")));
+                System.out.println(getType(session.getAttribute("universityId")));
                 res.put("sessionId", session.getId());
                 res.put("errorCode", 200);
                 res.put("errorMsg", "登录成功");
@@ -56,6 +60,10 @@ public class UserServiceImpl implements UserService {
             }
         }
         return res;
+    }
+
+    public static String getType(Object o){ //获取变量类型方法
+        return o.getClass().toString(); //使用int类型的getClass()方法
     }
 
     /**

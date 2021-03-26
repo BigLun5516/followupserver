@@ -10,6 +10,15 @@ public class BaseUserSession {
     private int type;
     private Long userId;
     private Long time;
+    private Integer universityId;
+
+    public Integer getUniversityId() {
+        return universityId;
+    }
+
+    public void setUniversityId(Integer universityId) {
+        this.universityId = universityId;
+    }
 
     public Long getTime() {
         return time;

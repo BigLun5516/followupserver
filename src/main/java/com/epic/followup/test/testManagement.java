@@ -4,9 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.epic.followup.model.app.MiniScalePublicModel;
 import com.epic.followup.model.managementSys.RoleModel;
 import com.epic.followup.model.managementSys.UserModel;
+import com.epic.followup.model.managementSys.task.TaskModel;
 import com.epic.followup.repository.app.MiniScalePublicRepository;
 import com.epic.followup.repository.managementSys.RoleRepository;
+import com.epic.followup.repository.managementSys.UniversityRepository;
 import com.epic.followup.repository.managementSys.UserRepository;
+import com.epic.followup.repository.managementSys.task.TaskRepository;
 import com.epic.followup.service.managementSys.RoleService;
 import com.epic.followup.service.managementSys.UniversityService;
 import com.epic.followup.service.managementSys.UserService;
@@ -28,6 +31,9 @@ public class testManagement {
     private RoleRepository RoleRepository;
 
     @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
 
@@ -45,14 +51,19 @@ public class testManagement {
     @Autowired
     private MiniScalePublicRepository miniScalePublicRepository;
 
+    @Autowired
+    private UniversityRepository universityRepository;
 
 
     @Test
     public void test() throws ParseException {
-        List<MiniScalePublicModel> data = miniScalePublicRepository.findAll();
-        for(MiniScalePublicModel u :data){
-            System.out.println(u.getMiniTime());
-        }
+        System.out.println(universityRepository.findByUniversityName("华中科技大学").getUniversityId());
+//        List<TaskModel> data=taskRepository.findListByUid(-1);
+//        System.out.println(data);
+//        List<MiniScalePublicModel> data = miniScalePublicRepository.findAll();
+//        for(MiniScalePublicModel u :data){
+//            System.out.println(u.getMiniTime());
+//        }
 //        Object ou = userRepository.getUserInfoByTel("1");
 //        Object[] user = (Object[]) ou;
 //        JSONObject q=new JSONObject();

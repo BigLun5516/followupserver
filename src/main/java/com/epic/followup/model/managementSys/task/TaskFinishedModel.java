@@ -8,13 +8,13 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name = "management_task_status")
+@Table(name = "management_task_finished")
 @EntityListeners(AuditingEntityListener.class)
-public class TaskStatusModel {
+public class TaskFinishedModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, columnDefinition = "BIGINT COMMENT 'management_task_status主键'")
+    @Column(name = "id", nullable = false, columnDefinition = "BIGINT COMMENT 'management_task_finished主键'")
     private Long Id;
 
     // 用户id
@@ -25,9 +25,6 @@ public class TaskStatusModel {
     @Column(name = "task_id", nullable = false)
     private Long taskId;
 
-    // 完成状态
-    @Column(name = "status",  nullable = false)
-    private Integer status;
 
     // 更新时间
     @Temporal(TemporalType.TIMESTAMP)
