@@ -10,7 +10,7 @@ public interface TaskStatusRepository extends JpaRepository<TaskFinishedModel, L
     //查找学生已完成的
     @Query(nativeQuery = true, value = "SELECT a.task_id,b.title,b.content,b.create_time,c.scale_name FROM " +
             "`management_task_finished` a LEFT JOIN management_task b ON a.task_id=b.task_id LEFT JOIN management_scale " +
-            "c ON  b.scale_id=c.scale_id WHERE a.user_id=?1;")
+            "c ON  b.scale_id=c.scale_id WHERE a.user_id=?1")
     List<Object> getTask1(Long userId);
 
     //查找学生未完成的(根据所有的任务再排除完成表中的任务）

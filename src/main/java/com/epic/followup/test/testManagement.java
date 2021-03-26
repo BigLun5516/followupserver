@@ -10,6 +10,7 @@ import com.epic.followup.repository.managementSys.RoleRepository;
 import com.epic.followup.repository.managementSys.UniversityRepository;
 import com.epic.followup.repository.managementSys.UserRepository;
 import com.epic.followup.repository.managementSys.task.TaskRepository;
+import com.epic.followup.repository.managementSys.task.TaskStatusRepository;
 import com.epic.followup.service.managementSys.RoleService;
 import com.epic.followup.service.managementSys.UniversityService;
 import com.epic.followup.service.managementSys.UserService;
@@ -32,6 +33,9 @@ public class testManagement {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private TaskStatusRepository taskStatusRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -57,9 +61,9 @@ public class testManagement {
 
     @Test
     public void test() throws ParseException {
-        System.out.println(universityRepository.findByUniversityName("华中科技大学").getUniversityId());
-//        List<TaskModel> data=taskRepository.findListByUid(-1);
-//        System.out.println(data);
+
+        List<Object> data=taskStatusRepository.getTask1(9L);
+        System.out.println(data);
 //        List<MiniScalePublicModel> data = miniScalePublicRepository.findAll();
 //        for(MiniScalePublicModel u :data){
 //            System.out.println(u.getMiniTime());
