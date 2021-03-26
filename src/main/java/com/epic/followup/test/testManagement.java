@@ -61,9 +61,9 @@ public class testManagement {
 
     @Test
     public void test() throws ParseException {
-
-        List<Object> data=taskStatusRepository.getTask1(9L);
-        System.out.println(data);
+        System.out.println(universityRepository.findByUniversityName("华中科技大学").getUniversityId());
+//        List<Object> data=taskStatusRepository.getTask1(9L);
+//        System.out.println(data);
 //        List<MiniScalePublicModel> data = miniScalePublicRepository.findAll();
 //        for(MiniScalePublicModel u :data){
 //            System.out.println(u.getMiniTime());

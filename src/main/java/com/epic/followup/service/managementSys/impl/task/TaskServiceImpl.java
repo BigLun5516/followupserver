@@ -59,7 +59,7 @@ public class TaskServiceImpl implements TaskService {
         List<Map<String, Object>> data = new ArrayList<>();
         Optional<StudentInfo> u=studentInfoRepository.findByUserId(bus.getUserId());
         StudentInfo stu=u.get();
-        List<Object> tasklist=taskStatusRepository.getTask2(bus.getUniversityId(),stu.getGender(),bus.getUserId());
+        List<Object> tasklist=taskStatusRepository.getTask2(bus.getUniversityId(),stu.getYear(),bus.getUserId());
         for (Object o : tasklist) {
             Map<String, Object> item = new HashMap<>();
             Object[] obj = (Object[]) o;
