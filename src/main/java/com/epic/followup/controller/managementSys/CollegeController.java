@@ -1,6 +1,7 @@
 package com.epic.followup.controller.managementSys;
 
 import com.alibaba.fastjson.JSONObject;
+import com.epic.followup.model.managementSys.CollegeModel;
 import com.epic.followup.repository.managementSys.CollegeRepository;
 import com.epic.followup.service.managementSys.CollegeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class CollegeController {
 
     @Autowired
     CollegeService collegeService;
+
+    @Autowired
+    private CollegeRepository collegeRepository;
 
     // 根据条件查询
     @PostMapping("/find")
@@ -47,5 +51,19 @@ public class CollegeController {
     public JSONObject editCollege(@RequestBody JSONObject params){
 
         return collegeService.editCollege(params);
+    }
+
+    // 根据学校id查找学院
+    @PostMapping("/findbyUid")
+    @ResponseBody
+    public JSONObject findbyUid(@RequestBody JSONObject params){
+
+        JSONObject res=new JSONObject();
+        Integer uid=params.getInteger("uid");
+        List<CollegeModel> data = collegeRepository.findByUniversityId(uid);
+        res.put("errorCode", 200);
+        res.put("errorMsg", "查找成功");
+        res.put("data", data);
+        return res;
     }
 }

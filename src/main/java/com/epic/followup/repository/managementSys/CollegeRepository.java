@@ -60,4 +60,6 @@ public interface CollegeRepository extends JpaRepository<CollegeModel, Integer>,
             , nativeQuery = true)
     Integer countCollegeModel(String universityName, String collegeName, Integer collegeStatus
             , String startTime, String endTime);
+
+    List<CollegeModel> findByUniversityId(Integer uid);
 }
