@@ -47,9 +47,7 @@ public class UserServiceImpl implements UserService {
                 session.setAttribute("id",  user[0]);
                 session.setAttribute("tel", tel);
                 session.setAttribute("universityId", user[5]);
-                System.out.println(getType(session.getAttribute("id")));
-                System.out.println(getType(session.getAttribute("tel")));
-                System.out.println(getType(session.getAttribute("universityId")));
+                session.setAttribute("collegeId", user[9]);
                 res.put("sessionId", session.getId());
                 res.put("errorCode", 200);
                 res.put("errorMsg", "登录成功");
@@ -185,6 +183,8 @@ public class UserServiceImpl implements UserService {
         HttpSession session = req.getSession();
         JSONObject res = new JSONObject();
         String tel= (String) session.getAttribute("tel");
+        System.out.println("学校id:"+session.getAttribute("universityId"));
+        System.out.println("学院id:"+session.getAttribute("collegeId"));
         Object ou = userRepository.getUserInfoByTel(tel);
         Object[] user = (Object[]) ou;
         Map<String, Object> item = new HashMap<>();

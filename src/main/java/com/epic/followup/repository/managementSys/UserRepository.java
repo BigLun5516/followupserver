@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<UserModel, Long> {
 
     @Query(nativeQuery = true, value = "  SELECT * from (SELECT a.id,a.image_url,a.`password`,a.tel," +
-            "a.user_name,a.university_id,a.user_type,c.`name` as role_name,c.limit1   " +
+            "a.user_name,a.university_id,a.user_type,c.`name` as role_name,c.limit1,a.college_id   " +
             "from management_user a LEFT JOIN management_role c on a.user_type=c.id ) m WHERE m.tel=?1")
     Object getUserByTel(String Tel);
 
