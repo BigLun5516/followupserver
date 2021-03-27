@@ -17,9 +17,9 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
             "from management_user a LEFT JOIN management_role c on a.user_type=c.id ) m WHERE m.tel=?1")
     Object getUserByTel(String Tel);
 
-    @Query(nativeQuery = true, value = " SELECT a.id,a.image_url,a.`password`,a.tel,a.user_name," +
-            "a.university_id,a.user_type,b.university_name,c.`name` as role_name from management_user a " +
-            "LEFT JOIN management_university b ON a.university_id=b.university_id LEFT JOIN management_role c on a.user_type=c.id")
+    @Query(nativeQuery = true, value = " SELECT a.id,a.image_url,a.`password`,a.tel,a.user_name,a.university_id,a.user_type,b.university_name," +
+            "c.`name` as role_name ,a.college_id,d.college_name from management_user a LEFT JOIN management_university b ON a.university_id=b.university_id " +
+            "LEFT JOIN management_role c on a.user_type=c.id LEFT JOIN management_college d on a.college_id=d.college_id")
     List<Object> getAllUser();
 
     @Transactional

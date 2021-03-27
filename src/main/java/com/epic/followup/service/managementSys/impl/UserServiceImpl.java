@@ -88,6 +88,8 @@ public class UserServiceImpl implements UserService {
             item.put("userType", obj[6]);
             item.put("university", obj[7]);
             item.put("role", obj[8]);
+            item.put("collegeId", obj[9]);
+            item.put("college", obj[10]);
             data.add(item);
         }
         res.put("errorCode", 200);
@@ -136,6 +138,7 @@ public class UserServiceImpl implements UserService {
         userModel.setTel(params.getString("tel"));
         userModel.setUserName(params.getString("name"));
         userModel.setUniversityId(params.getInteger("uid"));
+        userModel.setCollegeId(params.getInteger("cid"));
         userModel.setUserType(params.getLong("rid"));
 
         userRepository.save(userModel);
@@ -166,6 +169,7 @@ public class UserServiceImpl implements UserService {
         userModel.setTel(params.getString("tel"));
         userModel.setUserName(params.getString("name"));
         userModel.setUniversityId(params.getInteger("uid"));
+        userModel.setCollegeId(params.getInteger("cid"));
         userModel.setUserType(params.getLong("rid"));
 
         userRepository.save(userModel);
