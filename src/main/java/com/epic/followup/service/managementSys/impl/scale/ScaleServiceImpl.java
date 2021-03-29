@@ -25,6 +25,7 @@ public class ScaleServiceImpl implements ScaleService {
         Integer status = params.getInteger("status");
         Integer pageNum = params.getInteger("pageNum");
         Integer pageSize = params.getInteger("pageSize");
+        Integer userUniversityId = params.getInteger("userUniversityId");
 
 //         查询条件处理
         if(scaleName == null) {
@@ -43,7 +44,7 @@ public class ScaleServiceImpl implements ScaleService {
             status = -1;
         }
 
-        List<Object> scaleByQuery = scaleRepository.findScaleByQuery(scaleName, schoolName, classify, isnz, status);
+        List<Object> scaleByQuery = scaleRepository.findScaleByQuery(scaleName, schoolName, classify, isnz, status, userUniversityId);
 
         JSONObject res = new JSONObject();
 

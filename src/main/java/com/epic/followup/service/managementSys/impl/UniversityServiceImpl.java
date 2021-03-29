@@ -107,6 +107,7 @@ public class UniversityServiceImpl implements UniversityService {
         List<String> filterDates = params.getObject("filterDates", List.class);
         Integer pageNum = params.getInteger("pageNum");
         Integer pageSize = params.getInteger("pageSize");
+        Integer userUniversityId = params.getInteger("userUniversityId");
 
         JSONObject res = new JSONObject();
         Specification<UniversityModel> spec;
@@ -131,6 +132,9 @@ public class UniversityServiceImpl implements UniversityService {
                 }
                 if (filterDates.get(1) != ""){
                     predicateList.add(criteriaBuilder.lessThanOrEqualTo(root.get("joinDate"), dateFormat.parse(filterDates.get(1))));
+                }
+                if (userUniversityId != -1) {
+                    predicateList.add(criteriaBuilder.equal(root.get("universityId"), userUniversityId));
                 }
 
                 Predicate[] arr = new Predicate[predicateList.size()];

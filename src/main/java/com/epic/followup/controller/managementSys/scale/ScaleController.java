@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @CrossOrigin
 @RequestMapping("/managementSystem/scale")
@@ -21,7 +23,10 @@ public class ScaleController {
     // 获取量表列表
     @PostMapping("/scaleList")
     @ResponseBody
-    public JSONObject getScaleList(@RequestBody JSONObject params){
+    public JSONObject getScaleList(@RequestBody JSONObject params, HttpSession session){
+
+        params.put("userUniversityId", session.getAttribute("universityId"));
+
         return scaleService.getScaleList(params);
     }
 

@@ -154,9 +154,10 @@ public interface StudentResultRepository extends JpaRepository<StudentResultMode
             "GROUP BY a.level")
     List findAllCountsByDepartmentAAndCollege(String department, String college);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM `aidoctor_studentresult` a " +
-            "WHERE (a.department= ?1 or ?1 = '') And (a.level= ?2 or ?2 = '');" )
-    List<StudentResultModel> findbyUniversityAndIllness(String university,String illness);
+    @Query(nativeQuery = true, value = "SELECT * FROM `aidoctor_studentresult` a, aidoctor_studentinfo s " +
+            "WHERE a.userid = s.userid and (a.department= ?1 or ?1 = '') And (a.level= ?2 or ?2 = '') " +
+            "and (s.university_id = ?3 or ?3 = -1)")
+    List<StudentResultModel> findbyUniversityAndIllness(String university,String illness, Integer userUniversityId);
 
 
 }

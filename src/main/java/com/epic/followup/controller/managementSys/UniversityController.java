@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @CrossOrigin    //允许跨域
 @RequestMapping("/managementSystem/university")
@@ -30,7 +32,9 @@ public class UniversityController {
     // 根据条件查询
     @PostMapping("/find")
     @ResponseBody
-    public JSONObject findUniversity(@RequestBody JSONObject params){
+    public JSONObject findUniversity(@RequestBody JSONObject params, HttpSession session){
+
+        params.put("userUniversityId", session.getAttribute("universityId"));
 
         return universityService.findUniversity(params);
     }

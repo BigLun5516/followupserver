@@ -35,6 +35,6 @@ public interface UserService {
     JSONObject personalInfoEdit(HttpServletRequest req, JSONObject params);
 
     //Mini结果展示
-    JSONObject getMiniResult();
+    JSONObject getMiniResult(Integer userUniversityId);
 
 }

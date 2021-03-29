@@ -92,6 +92,7 @@ public class CollegeStudentResultServiceImpl implements CollegeStudentResultServ
     public List<StudentResultModel> findList(JSONObject params) {
         String universityName=params.getString("universityName");
         String illness=params.getString("illness");
-        return studentResultRepository.findbyUniversityAndIllness(universityName,illness);
+        Integer userUniversityId = params.getInteger("userUniversityId");
+        return studentResultRepository.findbyUniversityAndIllness(universityName,illness, userUniversityId);
     }
 }

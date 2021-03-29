@@ -46,6 +46,7 @@ public class StudentServiceImpl implements StudentService {
         List<String> filterDates = params.getObject("filterDates", List.class);
         Integer pageNum = params.getInteger("pageNum");
         Integer pageSize = params.getInteger("pageSize");
+        Integer userUniversityId = params.getInteger("userUniversityId");
 
         // 处理为空的请求参数
         if (studentName == null){
@@ -71,12 +72,13 @@ public class StudentServiceImpl implements StudentService {
 
         // 返回参数：学生总数量
         res.put("totalNum", studentRepository.countStudentInfo(
-                studentName, universityName, studentType, filterDates.get(0), filterDates.get(1)
+                studentName, universityName, studentType, filterDates.get(0), filterDates.get(1), userUniversityId
         ));
 
         // 返回参数：高校管理表
         List<StudentInfo> studentInfoList = studentRepository.findStudentInfo(
-                studentName, universityName, studentType, filterDates.get(0), filterDates.get(1), PageRequest.of(pageNum - 1, pageSize)
+                studentName, universityName, studentType, filterDates.get(0), filterDates.get(1),
+                userUniversityId, PageRequest.of(pageNum - 1, pageSize)
         );
         List<Map<String, Object>> userManagementTable = new ArrayList<>();
         for (StudentInfo studentInfo : studentInfoList) {
@@ -98,12 +100,21 @@ public class StudentServiceImpl implements StudentService {
         res.put("userManagementTable", userManagementTable);
 
         // 返回参数；数据库中所有学校名单
-        List<UniversityModel> universityModelList = universityRepository.findAll();
-        List<String> departmentList = new ArrayList<>();
-        for (UniversityModel universityModel : universityModelList) {
-            departmentList.add(universityModel.getUniversityName());
+        if (userUniversityId == -1) {
+            List<UniversityModel> universityModelList = universityRepository.findAll();
+            List<String> departmentList = new ArrayList<>();
+            for (UniversityModel universityModel : universityModelList) {
+                departmentList.add(universityModel.getUniversityName());
+            }
+            res.put("departmentList", departmentList);
+        } else {
+            List<String> departmentList = new ArrayList<>();
+            Optional<UniversityModel> optional = universityRepository.findById(userUniversityId);
+            if (optional.isPresent()) {
+                departmentList.add(optional.get().getUniversityName());
+            }
+            res.put("departmentList", departmentList);
         }
-        res.put("departmentList", departmentList);
 
 
         res.put("errorCode", 200);
