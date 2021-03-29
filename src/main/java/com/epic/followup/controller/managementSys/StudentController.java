@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -41,7 +42,9 @@ public class StudentController {
     // 根据条件查询
     @PostMapping("/find")
     @ResponseBody
-    public JSONObject findStudent(@RequestBody JSONObject params){
+    public JSONObject findStudent(@RequestBody JSONObject params, HttpSession session){
+
+        params.put("userUniversityId", session.getAttribute("universityId"));
 
         return studentService.findStudent(params);
     }
@@ -88,7 +91,9 @@ public class StudentController {
     //查询studentresult表学生信息
     @RequestMapping(value = "/stuInfo", method = RequestMethod.POST)
     @ResponseBody
-    public List<StudentResultModel> findListByDepartmentAndCollege(@RequestBody JSONObject params) {
+    public List<StudentResultModel> findListByDepartmentAndCollege(@RequestBody JSONObject params, HttpSession session) {
+
+        params.put("userUniversityId", session.getAttribute("universityId"));
 
         return this.collegeStudentResultService.findList(params);
     }

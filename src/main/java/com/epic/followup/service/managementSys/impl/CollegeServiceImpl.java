@@ -7,6 +7,7 @@ import com.epic.followup.repository.followup2.student.ScaleResult2Repository;
 import com.epic.followup.repository.followup2.student.StudentInfoRepository;
 import com.epic.followup.repository.managementSys.CollegeRepository;
 import com.epic.followup.repository.managementSys.UniversityRepository;
+import com.epic.followup.repository.managementSys.UserRepository;
 import com.epic.followup.service.managementSys.CollegeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -42,6 +43,9 @@ public class CollegeServiceImpl implements CollegeService {
         List<String> filterDates = params.getObject("filterDates", List.class);
         Integer pageNum = params.getInteger("pageNum");
         Integer pageSize = params.getInteger("pageSize");
+        Integer userUniversityId = params.getInteger("userUniversityId");
+        Integer userCollegeId = params.getInteger("userCollegeId");
+
 
         // 处理请求参数
         if (universityName == null){
@@ -64,13 +68,15 @@ public class CollegeServiceImpl implements CollegeService {
         }
 
         List<Object> collegeModelList = collegeRepository.findCollegeModel(
-                universityName, collegeName, collegeStatus, filterDates.get(0), filterDates.get(1), PageRequest.of(pageNum - 1, pageSize));
+                universityName, collegeName, collegeStatus, filterDates.get(0), filterDates.get(1),
+                userUniversityId, userCollegeId, PageRequest.of(pageNum - 1, pageSize));
 
         JSONObject res = new JSONObject();
 
         // 学院总数量
         res.put("totalNum", collegeRepository.countCollegeModel(
-                universityName, collegeName, collegeStatus, filterDates.get(0), filterDates.get(1)
+                universityName, collegeName, collegeStatus, filterDates.get(0), filterDates.get(1),
+                userUniversityId, userCollegeId
         ));
 
         // 院系管理表
@@ -92,16 +98,24 @@ public class CollegeServiceImpl implements CollegeService {
         res.put("collegeManagementTable", collegeManagementTable);
 
         // 所有高校名单
-        List<UniversityModel> universityModelList = universityRepository.findAll();
-        List<String> universityList = new ArrayList<>();
-        for (UniversityModel universityModel : universityModelList) {
-            String name = universityModel.getUniversityName();
-            if (name != null){
-                universityList.add(name);
+        if (userUniversityId == -1) {
+            List<UniversityModel> universityModelList = universityRepository.findAll();
+            List<String> universityList = new ArrayList<>();
+            for (UniversityModel universityModel : universityModelList) {
+                String name = universityModel.getUniversityName();
+                if (name != null) {
+                    universityList.add(name);
+                }
             }
+            res.put("universityList", universityList);
+        } else {
+            Optional<UniversityModel> optional = universityRepository.findById(userUniversityId);
+            List<String> universityList = new ArrayList<>();
+            if (optional.isPresent()) {
+                universityList.add(optional.get().getUniversityName());
+            }
+            res.put("universityList", universityList);
         }
-        res.put("universityList", universityList);
-
 
         res.put("errorCode", 200);
         res.put("errorMsg", "查询成功");

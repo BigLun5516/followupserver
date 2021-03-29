@@ -2,7 +2,11 @@ package com.epic.followup.service.managementSys.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.epic.followup.conf.PatientConfig;
+import com.epic.followup.model.managementSys.CollegeModel;
+import com.epic.followup.model.managementSys.UniversityModel;
 import com.epic.followup.model.managementSys.UserModel;
+import com.epic.followup.repository.managementSys.CollegeRepository;
+import com.epic.followup.repository.managementSys.UniversityRepository;
 import com.epic.followup.repository.managementSys.UserRepository;
 import com.epic.followup.service.managementSys.UserService;
 import com.epic.followup.temporary.wechat.patient.diary.upLoadDiaryImgResponse;
@@ -23,6 +27,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UniversityRepository universityRepository;
+
+    @Autowired
+    private CollegeRepository collegeRepository;
 
     @Override
     public JSONObject loginByTel(JSONObject loginParams, HttpServletRequest req) {
@@ -257,9 +267,9 @@ public class UserServiceImpl implements UserService {
 
     //Mini结果展示
     @Override
-    public JSONObject getMiniResult(){
+    public JSONObject getMiniResult(Integer userUniversityId){
         JSONObject res=new JSONObject();
-        List<Object> miniList=userRepository.getMiniResult();
+        List<Object> miniList=userRepository.getMiniResult(userUniversityId);
         List<Map<String, Object>> data = new ArrayList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (Object o : miniList) {

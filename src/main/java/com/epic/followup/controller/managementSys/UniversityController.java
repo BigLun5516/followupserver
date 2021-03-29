@@ -32,7 +32,9 @@ public class UniversityController {
     // 根据条件查询
     @PostMapping("/find")
     @ResponseBody
-    public JSONObject findUniversity(@RequestBody JSONObject params){
+    public JSONObject findUniversity(@RequestBody JSONObject params, HttpSession session){
+
+        params.put("userUniversityId", session.getAttribute("universityId"));
 
         return universityService.findUniversity(params);
     }

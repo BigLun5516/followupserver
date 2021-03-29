@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -24,7 +25,10 @@ public class CollegeController {
     // 根据条件查询
     @PostMapping("/find")
     @ResponseBody
-    public JSONObject findCollege(@RequestBody JSONObject params){
+    public JSONObject findCollege(@RequestBody JSONObject params, HttpSession session){
+
+         params.put("userUniversityId", session.getAttribute("universityId"));
+         params.put("userCollegeId", session.getAttribute("collegeId"));
 
         return collegeService.findCollege(params);
     }

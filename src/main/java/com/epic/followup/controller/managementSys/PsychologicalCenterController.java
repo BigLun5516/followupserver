@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @CrossOrigin
 @RequestMapping("/managementSystem/center")
@@ -17,7 +19,9 @@ public class PsychologicalCenterController {
     // 根据条件查询
     @PostMapping("/find")
     @ResponseBody
-    public JSONObject findCenter(@RequestBody JSONObject params){
+    public JSONObject findCenter(@RequestBody JSONObject params, HttpSession session){
+
+        params.put("userUniversityId", session.getAttribute("universityId"));
 
         return centerService.findCenter(params);
     }

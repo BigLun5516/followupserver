@@ -11,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -34,6 +35,7 @@ public class PsychologicalCenterServiceImpl implements PsychologicalCenterServic
         List<String> filterDates = params.getObject("filterDates", List.class);
         Integer pageNum = params.getInteger("pageNum");
         Integer pageSize = params.getInteger("pageSize");
+        Integer userUniversityId = params.getInteger("userUniversityId");
 
         // 处理请求参数
         if (universityName == null){
@@ -58,13 +60,13 @@ public class PsychologicalCenterServiceImpl implements PsychologicalCenterServic
 
         // 返回参数：中心总数量
         res.put("totalNum", centerRepository.countPsychologicalCenterModel(
-                universityName, centralName, centralStatus, filterDates.get(0), filterDates.get(1)
+                universityName, centralName, centralStatus, filterDates.get(0), filterDates.get(1), userUniversityId
         ));
 
         // 返回参数：中心管理表
         List<Object> centerModelList = centerRepository.findPsychologicalCenterModel(
                 universityName, centralName, centralStatus, filterDates.get(0), filterDates.get(1),
-                PageRequest.of(pageNum - 1, pageSize)
+                userUniversityId, PageRequest.of(pageNum - 1, pageSize)
         );
 
         List<Map<String, Object>> centralManagementTable = new ArrayList<>();
@@ -85,15 +87,24 @@ public class PsychologicalCenterServiceImpl implements PsychologicalCenterServic
         res.put("centralManagementTable", centralManagementTable);
 
         // 返回参数：数据库中所有高校名单
-        List<UniversityModel> universityModelList = universityRepository.findAll();
-        List<String> universityList = new ArrayList<>();
-        for (UniversityModel universityModel : universityModelList) {
-            String uniName = universityModel.getUniversityName();
-            if (uniName != null){
-                universityList.add(uniName);
+        if (userUniversityId == -1) {
+            List<UniversityModel> universityModelList = universityRepository.findAll();
+            List<String> universityList = new ArrayList<>();
+            for (UniversityModel universityModel : universityModelList) {
+                String uniName = universityModel.getUniversityName();
+                if (uniName != null) {
+                    universityList.add(uniName);
+                }
             }
+            res.put("universityList", universityList);
+        } else {
+            Optional<UniversityModel> optional = universityRepository.findById(userUniversityId);
+            List<String> universityList = new ArrayList<>();
+            if (optional.isPresent()) {
+                universityList.add(optional.get().getUniversityName());
+            }
+            res.put("universityList", universityList);
         }
-        res.put("universityList", universityList);
 
         res.put("errorCode", 200);
         res.put("errorMsg", "查询成功");

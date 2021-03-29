@@ -83,8 +83,9 @@ public class UserController {
     //获取Mini量表接口
     @PostMapping("/miniResult")
     @ResponseBody
-    public JSONObject miniResult() {
-        return userService.getMiniResult();
+    public JSONObject miniResult(HttpSession session) {
+
+        return userService.getMiniResult((Integer) session.getAttribute("universityId"));
     }
 
 }
