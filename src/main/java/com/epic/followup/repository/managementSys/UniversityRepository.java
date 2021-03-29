@@ -57,5 +57,9 @@ public interface UniversityRepository extends JpaRepository<UniversityModel, Int
     @Query(value = "SELECT DISTINCT university_name from management_university", nativeQuery = true)
     List<String> getAllUniversityName();
 
+    // 根据后台登录用户获取所有的能看到的学校名称
+    @Query(value = "SELECT DISTINCT a.university_id,a.university_name from management_university a WHERE a.university_id=?1 or ?1=-1;", nativeQuery = true)
+    List<Object> getAllUniversityNameByUid(Integer universityId);
+
 
 }

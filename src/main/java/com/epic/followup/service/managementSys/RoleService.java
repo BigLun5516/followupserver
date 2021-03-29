@@ -3,11 +3,13 @@ package com.epic.followup.service.managementSys;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
+
 @Service
 public interface RoleService {
 
     // 查询全部角色
-    JSONObject findAllRoles();
+    JSONObject findAllRoles(HttpSession session);
 
     // 删除
     JSONObject deleteRole(Long id);

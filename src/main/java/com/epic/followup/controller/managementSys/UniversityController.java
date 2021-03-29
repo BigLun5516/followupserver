@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @CrossOrigin    //允许跨域
 @RequestMapping("/managementSystem/university")
@@ -62,11 +64,18 @@ public class UniversityController {
     /*
     * 量表
     */
-    // 获取高校名称
+    // 获取高校名称（勿改，小程序前端也调用了此接口）
     @PostMapping("/getAllName")
     @ResponseBody
     public JSONObject getAllUniversityName(){
         return universityService.getAllUniversityName();
+    }
+
+    // 后台根据登录的用户决定能看到哪些学校
+    @PostMapping("/getAllNameByUid")
+    @ResponseBody
+    public JSONObject getAllUniversityNameByUid(HttpSession session){
+        return universityService.getAllUniversityNameByUid(session);
     }
 
 }

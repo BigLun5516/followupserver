@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -27,12 +27,26 @@ public class RoleServiceImpl implements RoleService {
      * @return JSONObject
      */
     @Override
-    public JSONObject findAllRoles(){
+    public JSONObject findAllRoles(HttpSession session){
+        Integer universityId= (Integer) session.getAttribute("universityId");
         JSONObject res = new JSONObject();
-        List<RoleModel> rolelist=roleRepository.findAll();
+        List<Map<String, Object>> data = new ArrayList<>();
+        List<Object> rolelist=roleRepository.findAllByUid(universityId);
+        for (Object o : rolelist) {
+            Map<String, Object> item = new HashMap<>();
+            Object[] obj = (Object[]) o;
+            item.put("id", obj[0]);
+            item.put("name", obj[1]);
+            item.put("remark", obj[2]);
+            item.put("limit1", obj[3]);
+            item.put("limit2", obj[4]);
+            item.put("universityName", obj[5]);
+            item.put("uid", obj[6]);
+            data.add(item);
+        }
         res.put("errorCode", 200);
         res.put("errorMsg", "查询成功");
-        res.put("data",rolelist);
+        res.put("data",data);
         return res;
     }
 
@@ -76,6 +90,7 @@ public class RoleServiceImpl implements RoleService {
         roleModel.setRemark(params.getString("remark"));
         roleModel.setLimit1(params.getString("limit1"));
         roleModel.setLimit2(params.getString("limit2"));
+        roleModel.setUniversityId(params.getInteger("uid"));
 
         roleRepository.save(roleModel);
         res.put("errorCode", 200);
@@ -105,6 +120,8 @@ public class RoleServiceImpl implements RoleService {
         roleModel.setRemark(params.getString("remark"));
         roleModel.setLimit1(params.getString("limit1"));
         roleModel.setLimit2(params.getString("limit2"));
+        roleModel.setUniversityId(params.getInteger("uid"));
+
 
         roleRepository.save(roleModel);
         res.put("errorCode", 200);

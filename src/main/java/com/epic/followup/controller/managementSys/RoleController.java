@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @CrossOrigin    //允许跨域
 @RequestMapping("/managementSystem/role")
@@ -18,9 +20,9 @@ public class RoleController {
     // 查询
     @PostMapping("/findAll")
     @ResponseBody
-    public JSONObject findAllRoles(){
+    public JSONObject findAllRoles(HttpSession session){
 
-        return roleService.findAllRoles();
+        return roleService.findAllRoles(session);
     }
 
     // 删除

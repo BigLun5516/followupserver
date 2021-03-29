@@ -65,15 +65,16 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 查询全部用户
+     * 根据当前登录用户的学校信息查询能看到的全部用户
      * @param
      * @return JSONObject
      */
     @Override
-    public JSONObject findAllUsers(){
+    public JSONObject findAllUsers(HttpSession session){
+        Integer universityId= (Integer) session.getAttribute("universityId");
         JSONObject res = new JSONObject();
         List<Map<String, Object>> data = new ArrayList<>();
-        List<Object> userlist=userRepository.getAllUser();
+        List<Object> userlist=userRepository.getAllUser(universityId);
         for (Object o : userlist) {
             Map<String, Object> item = new HashMap<>();
             Object[] obj = (Object[]) o;
@@ -190,10 +191,11 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> item = new HashMap<>();
         item.put("img",user[1]);
         item.put("name",user[4]);
-        item.put("userType",user[8]);
+        item.put("userType",user[9]);
         item.put("phone",user[3]);
         item.put("password",user[2]);
         item.put("university",user[7]);
+        item.put("college",user[8]);
         res.put("errorCode", 200);
         res.put("errorMsg", "查询成功");
         res.put("data", item);

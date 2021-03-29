@@ -22,6 +22,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -298,6 +299,26 @@ public class UniversityServiceImpl implements UniversityService {
         if(allUniversityName.isEmpty()){
             res.put("errorCode", 500);
             res.put("errorMsg", "学校列表为空");
+        }
+        res.put("schoolNameList", allUniversityName);
+        res.put("errorCode", 200);
+        res.put("errorMsg", "查询学校名称成功");
+        return res;
+    }
+
+    // 后台根据登录的用户获取所有能看到的高校
+    @Override
+    public JSONObject getAllUniversityNameByUid(HttpSession session) {
+        Integer universityId= (Integer) session.getAttribute("universityId");
+        List<Object> data = universityRepository.getAllUniversityNameByUid(universityId);
+        List<Map<String, Object>> allUniversityName = new ArrayList<>();
+        JSONObject res = new JSONObject();
+        for (Object o : data) {
+            Map<String, Object> item = new HashMap<>();
+            Object[] obj = (Object[]) o;
+            item.put("id", obj[0]);
+            item.put("universityName", obj[1]);
+            allUniversityName.add(item);
         }
         res.put("schoolNameList", allUniversityName);
         res.put("errorCode", 200);

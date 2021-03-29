@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Service
 public interface UniversityService {
@@ -31,4 +32,9 @@ public interface UniversityService {
     */
     // 获取所有学校名称
     JSONObject getAllUniversityName();
+
+    // 后台根据登录的用户获取所有学校名称
+    JSONObject getAllUniversityNameByUid(HttpSession session);
+
+
 }

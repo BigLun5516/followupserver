@@ -32,4 +32,8 @@ public class RoleModel {
     // 权限（只有选中）
     @Column(name = "limit2", length = 255)
     private String limit2;
+
+    //角色对应的高校id
+    @Column(name = "university_id")
+    private Integer universityId;
 }

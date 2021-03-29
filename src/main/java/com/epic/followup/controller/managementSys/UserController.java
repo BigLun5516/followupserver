@@ -28,9 +28,9 @@ public class UserController {
     // 查询
     @PostMapping("/findAll")
     @ResponseBody
-    public JSONObject findAllUsers(){
+    public JSONObject findAllUsers(HttpSession session){
 
-        return userService.findAllUsers();
+        return userService.findAllUsers(session);
     }
 
     // 删除

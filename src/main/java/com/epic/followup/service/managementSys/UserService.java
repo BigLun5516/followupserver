@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Service
 public interface UserService {
@@ -17,7 +18,7 @@ public interface UserService {
     JSONObject personalInfo(HttpServletRequest req);
 
     // 查询全部用户
-    JSONObject findAllUsers();
+    JSONObject findAllUsers(HttpSession session);
 
     // 删除
     JSONObject deleteUser(Long id);
