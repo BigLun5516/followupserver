@@ -15,11 +15,11 @@ public interface ScaleRepository extends JpaRepository<ScaleModel, Long> {
 
     // 根据条件查询
     @Query(value = "select s.scale_id, s.scale_name, s.school_name, s.classify, s.isnz, s.status, s.num, s.organization " +
-            "from management_scale s, management_university u " +
-            "where s.school_name = u.university_name and s.scale_name like %?1% " +
-            "and s.school_name like ?2 and s.classify like ?3 " +
-            "and (s.isnz = ?4 or ?4 = -1) and (s.status = ?5 or ?5 = -1) " +
-            "and (u.university_id = ?6 or ?6 = -1)", nativeQuery = true)
+            "from management_scale s left join management_university u on s.school_name = u.university_name\n" +
+            "where  s.scale_name like %?1% " +
+            "and (s.school_name = ?2 or ?2 = '' or s.school_name ='' ) and s.classify like ?3 " +
+            "and (s.isnz = ?4 or ?4 = -1) and (s.status = ?5 or ?5 = -1)\n" +
+            "and (u.university_id = ?6 or ?6 = -1 or u.university_id is null)", nativeQuery = true)
     List<Object> findScaleByQuery(String scaleName, String schoolName, String classify, int isnz, int status, Integer userUniversityId);
 
     // 根据条Id查询
