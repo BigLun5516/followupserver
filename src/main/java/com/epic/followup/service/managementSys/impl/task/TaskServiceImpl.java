@@ -123,6 +123,7 @@ public class TaskServiceImpl implements TaskService {
             item.put("scaleId",temp[4]);
             item.put("createTime",dateFormat.format(temp[5]));
             item.put("university",temp[6]);
+            item.put("scale",temp[7]);
             taskTable.add(item);
         }
         res.put("errorCode", 200);

@@ -43,4 +43,11 @@ public class ScaleController {
     public JSONObject DeleteScale(@RequestBody JSONObject params) {
         return scaleService.DeleteScale(params);
     }
+
+    // 后台任务管理获取学校对应的所有量表用于新增
+    @PostMapping("/findScaleName")
+    @ResponseBody
+    public JSONObject findScaleName(HttpSession session){
+        return scaleService.findScaleName((Integer)session.getAttribute("universityId"));
+    }
 }

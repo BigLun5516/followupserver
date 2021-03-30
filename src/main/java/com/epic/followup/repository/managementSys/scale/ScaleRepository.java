@@ -28,4 +28,10 @@ public interface ScaleRepository extends JpaRepository<ScaleModel, Long> {
     // 保存量表
     <S extends ScaleModel> S save(S scale);
 
+    //根据学校id获取对应的量表
+    @Query(value = "SELECT a.scale_id,a.classify,a.scale_name from management_scale a LEFT JOIN management_university b ON " +
+            "a.school_name=b.university_name where a.isnz=1 or b.university_id=?1", nativeQuery = true)
+    List<Object> findByUid(Integer userUniversityId);
+
+
 }

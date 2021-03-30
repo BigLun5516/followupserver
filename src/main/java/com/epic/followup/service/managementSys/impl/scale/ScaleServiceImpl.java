@@ -121,4 +121,23 @@ public class ScaleServiceImpl implements ScaleService {
         }
         return res;
     }
+
+    @Override
+    public JSONObject findScaleName(Integer uid){
+        JSONObject res = new JSONObject();
+        List<Object> scaleList=scaleRepository.findByUid(uid);
+        List<Map<String, Object>> data = new ArrayList<>();
+        for (Object o : scaleList) {
+            Map<String, Object> item = new HashMap<>();
+            Object[] obj = (Object[]) o;
+            item.put("scaleId", obj[0]);
+            item.put("name", obj[2]+"("+obj[1]+")");
+            data.add(item);
+        }
+        res.put("errorCode", 200);
+        res.put("errorMsg", "查询成功");
+        res.put("data",data);
+        return res;
+    }
+
 }

@@ -12,4 +12,8 @@ public interface ScaleService {
     JSONObject putScaleDisable(JSONObject params);
 
     JSONObject DeleteScale(JSONObject params);
+
+    JSONObject findScaleName(Integer uid);
+
+
 }
