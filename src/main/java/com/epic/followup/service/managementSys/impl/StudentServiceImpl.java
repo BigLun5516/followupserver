@@ -47,6 +47,7 @@ public class StudentServiceImpl implements StudentService {
         Integer pageNum = params.getInteger("pageNum");
         Integer pageSize = params.getInteger("pageSize");
         Integer userUniversityId = params.getInteger("userUniversityId");
+        Integer userCollegeId = params.getInteger("userCollegeId");
 
         // 处理为空的请求参数
         if (studentName == null){
@@ -72,13 +73,14 @@ public class StudentServiceImpl implements StudentService {
 
         // 返回参数：学生总数量
         res.put("totalNum", studentRepository.countStudentInfo(
-                studentName, universityName, studentType, filterDates.get(0), filterDates.get(1), userUniversityId
+                studentName, universityName, studentType, filterDates.get(0), filterDates.get(1),
+                userUniversityId, userCollegeId
         ));
 
         // 返回参数：高校管理表
         List<StudentInfo> studentInfoList = studentRepository.findStudentInfo(
                 studentName, universityName, studentType, filterDates.get(0), filterDates.get(1),
-                userUniversityId, PageRequest.of(pageNum - 1, pageSize)
+                userUniversityId, userCollegeId, PageRequest.of(pageNum - 1, pageSize)
         );
         List<Map<String, Object>> userManagementTable = new ArrayList<>();
         for (StudentInfo studentInfo : studentInfoList) {

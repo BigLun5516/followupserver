@@ -45,6 +45,7 @@ public class StudentController {
     public JSONObject findStudent(@RequestBody JSONObject params, HttpSession session){
 
         params.put("userUniversityId", session.getAttribute("universityId"));
+        params.put("userCollegeId", session.getAttribute("collegeId"));
 
         return studentService.findStudent(params);
     }
@@ -94,6 +95,7 @@ public class StudentController {
     public List<StudentResultModel> findListByDepartmentAndCollege(@RequestBody JSONObject params, HttpSession session) {
 
         params.put("userUniversityId", session.getAttribute("universityId"));
+        params.put("userCollegeId", session.getAttribute("collegeId"));
 
         return this.collegeStudentResultService.findList(params);
     }
