@@ -43,23 +43,26 @@ public interface StudentInfoRepository extends JpaRepository<StudentInfo, Long> 
             "from aidoctor_studentinfo s\n" +
             "where (s.stname like ?1 or ?1 = '') and (s.department = ?2 or ?2 = '') " +
             "and (s.stype = ?3 or ?3 = -1) and (s.create_time >= ?4 or ?4 = '') " +
-            "and (s.create_time <= ?5 or ?5 = '') and (s.university_id = ?6 or ?6 = -1)"
+            "and (s.create_time <= ?5 or ?5 = '') and (s.university_id = ?6 or ?6 = -1) " +
+            "and (s.college_id = ?7 or ?7 = -1)"
             , countQuery = "select count(*)\n" +
             "from aidoctor_studentinfo s\n" +
             "where (s.stname like ?1 or ?1 = '') and (s.department = ?2 or ?2 = '') " +
             "and (s.stype = ?3 or ?3 = -1) and (s.create_time >= ?4 or ?4 = '') " +
-            "and (s.create_time <= ?5 or ?5 = '') and (s.university_id = ?6 or ?6 = -1)"
+            "and (s.create_time <= ?5 or ?5 = '') and (s.university_id = ?6 or ?6 = -1) " +
+            "and (s.college_id = ?7 or ?7 = -1)"
             , nativeQuery = true)
     List<StudentInfo> findStudentInfo(String studentName, String universityName, Integer studenType
-            , String StartTime, String endTime, Integer userUniversityId, Pageable pageable);
+            , String StartTime, String endTime, Integer userUniversityId, Integer collegeId, Pageable pageable);
 
     // 获取满足条件的学生数量
     @Query(value = "select count(*)\n" +
             "from aidoctor_studentinfo s\n" +
             "where (s.stname like ?1 or ?1 = '') and (s.department = ?2 or ?2 = '') " +
             "and (s.stype = ?3 or ?3 = -1) and (s.create_time >= ?4 or ?4 = '') " +
-            "and (s.create_time <= ?5 or ?5 = '') and (s.university_id = ?6 or ?6 = -1)"
+            "and (s.create_time <= ?5 or ?5 = '') and (s.university_id = ?6 or ?6 = -1) " +
+            "and (s.college_id = ?7 or ?7 = -1)"
             , nativeQuery = true)
     Integer countStudentInfo(String studentName, String universityName, Integer studenType
-            , String StartTime, String endTime, Integer userUniversityId);
+            , String StartTime, String endTime, Integer userUniversityId, Integer collegeId);
 }
