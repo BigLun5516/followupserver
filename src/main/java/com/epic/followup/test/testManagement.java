@@ -58,11 +58,13 @@ public class testManagement {
     @Test
     public void testJSON(){
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("hello", 1);
-        jsonObject.put("hello", "hello2");
+        String json = "{\"data\":\"1\"}";
+        JSONObject jsonObject = JSONObject.parseObject(json);
+
 
         System.out.println(jsonObject);
+        Integer data = jsonObject.getInteger("data");
+        System.out.println(data);
     }
 
 

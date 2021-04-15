@@ -3,12 +3,18 @@ package com.epic.followup.controller.followup2;
 import java.io.InputStream;
 import java.util.Base64;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONObject;
 import com.epic.followup.model.followup2.WechatAppUserModel;
+import com.epic.followup.model.managementSys.UniversityModel;
+import com.epic.followup.repository.managementSys.UniversityRepository;
 import com.epic.followup.service.followup2.BaseUserService;
 import com.epic.followup.service.followup2.WechatAppUserService;
+import com.epic.followup.service.managementSys.UniversityService;
 import com.epic.followup.temporary.DealMessageResponse;
 import com.epic.followup.temporary.followup2.CodeRequest;
 import com.epic.followup.temporary.followup2.LoginRequest;
@@ -17,8 +23,10 @@ import com.epic.followup.temporary.followup2.RegistRequest;
 import com.epic.followup.temporary.followup2.ResetPasswordRequest;
 import com.epic.followup.temporary.followup2.session.BaseUserSession;
 
+import com.google.gson.JsonObject;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +47,9 @@ public class BaseUserController {
     private BaseUserService baseUserService;
     private WechatAppUserService wechatAppUserService;
     private org.slf4j.Logger log = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    private UniversityRepository universityRepository;
 
     @Autowired
     public BaseUserController(BaseUserService baseUserService,
@@ -117,6 +128,34 @@ public class BaseUserController {
             res.setErrorMsg("服务器错误");
             return res;
         }
+    }
+
+    @RequestMapping("/province")
+    @ResponseBody
+    public JSONObject getProvince(HttpServletRequest request, HttpServletResponse response) {
+
+        JSONObject res = new JSONObject();
+        BaseUserSession session = baseUserService.findBySessionId(request.getHeader("sessionId"));
+
+        // 因为有拦截器存在，这个if其实没啥用了
+        if (session == null) {
+            res.put("errorMsg", "未查找到此用户的session");
+            res.put("errorCode", 501);
+            return res;
+        }
+
+        Optional<UniversityModel> optional = universityRepository.findById(session.getUniversityId());
+        if (optional.isPresent()) {
+
+            res.put("province", optional.get().getProvince());
+            res.put("errorCode", 200);
+            res.put("errorMsg", "查询成功");
+        } else {
+            res.put("errorMsg", "未查到此用户所在高校");
+            res.put("errorCode", 502);
+        }
+        return res;
+
     }
 
 
