@@ -493,12 +493,31 @@ public class OperationServiceImpl implements OperationService {
         basicData.put("stuNum", maleNum + femaleNum);
 
         // 学院关注学生人数
-        List<Long> listSlightCollege = studentInfoRepository.getListUserIdCollege(collegeName, getSlightUserId(universityName));
-        List<Long> listGeneralCollege = studentInfoRepository.getListUserIdCollege(collegeName, getGeneralUserId(universityName));
-        List<Long> listSeriousCollege = studentInfoRepository.getListUserIdCollege(collegeName, getSeriousUserId(universityName));
-        int slightNum = listSlightCollege.size();
-        int generalNum = listGeneralCollege.size();
-        int seriousNum = listSeriousCollege.size();
+        int slightNum, generalNum, seriousNum;
+        List<Long> temp = getSlightUserId(universityName);
+        if (temp.isEmpty()) {
+            slightNum = 0;
+        } else {
+            List<Long> listSlightCollege = studentInfoRepository.getListUserIdCollege(collegeName, temp);
+            slightNum = listSlightCollege.size();
+        }
+
+        temp = getGeneralUserId(universityName);
+        if (temp.isEmpty()) {
+            generalNum = 0;
+        } else {
+            List<Long> listGeneralCollege = studentInfoRepository.getListUserIdCollege(collegeName, getGeneralUserId(universityName));
+            generalNum = listGeneralCollege.size();
+        }
+
+        temp = getSeriousUserId(universityName);
+        if (temp.isEmpty()) {
+            seriousNum = 0;
+        } else {
+            List<Long> listSeriousCollege = studentInfoRepository.getListUserIdCollege(collegeName, getSeriousUserId(universityName));
+            seriousNum = listSeriousCollege.size();
+        }
+
         basicData.put("slightNum", slightNum);
         basicData.put("generalNum", generalNum);
         basicData.put("seriousNum", seriousNum);
@@ -616,15 +635,30 @@ public class OperationServiceImpl implements OperationService {
         switch (degree){
             case 0: // 轻度
             {
-                userId = studentInfoRepository.getListUserIdCollege(college, getSlightUserId(department));
+                List<Long> temp = getSlightUserId(department);
+                if (temp.isEmpty()) {
+                    userId = new ArrayList<>();
+                }else{
+                    userId = studentInfoRepository.getListUserIdCollege(college, getSlightUserId(department));
+                }
                 break;
             }
             case 1: {
-                userId = studentInfoRepository.getListUserIdCollege(college, getGeneralUserId(department));
+                List<Long> temp = getGeneralUserId(department);
+                if (temp.isEmpty()) {
+                    userId = new ArrayList<>();
+                }else {
+                    userId = studentInfoRepository.getListUserIdCollege(college, getGeneralUserId(department));
+                }
                 break;
             }
             case 2: {
-                userId = studentInfoRepository.getListUserIdCollege(college, getSeriousUserId(department));
+                List<Long> temp = getSeriousUserId(department);
+                if (temp.isEmpty()) {
+                    userId = new ArrayList<>();
+                }else {
+                    userId = studentInfoRepository.getListUserIdCollege(college, getSeriousUserId(department));
+                }
                 break;
             }
             default:
