@@ -338,6 +338,7 @@ public class StudentServiceImpl implements StudentService {
         if (bodyInfoList == null || bodyInfoList.isEmpty()) {
             res.put("errorCode",502);
             res.put("errorMsg","未查找到信息");
+            res.put("data", null);
         }else{
             Collections.reverse(bodyInfoList);
             res.put("errorCode",200);
