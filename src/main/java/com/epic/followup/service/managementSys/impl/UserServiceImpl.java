@@ -3,9 +3,11 @@ package com.epic.followup.service.managementSys.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.epic.followup.conf.PatientConfig;
 import com.epic.followup.model.managementSys.CollegeModel;
+import com.epic.followup.model.managementSys.DataPermissionModel;
 import com.epic.followup.model.managementSys.UniversityModel;
 import com.epic.followup.model.managementSys.UserModel;
 import com.epic.followup.repository.managementSys.CollegeRepository;
+import com.epic.followup.repository.managementSys.DataPermissionRepository;
 import com.epic.followup.repository.managementSys.UniversityRepository;
 import com.epic.followup.repository.managementSys.UserRepository;
 import com.epic.followup.service.managementSys.UserService;
@@ -34,6 +36,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private CollegeRepository collegeRepository;
 
+    @Autowired
+    private DataPermissionRepository dataPermissionRepository;
+
     @Override
     public JSONObject loginByTel(JSONObject loginParams, HttpServletRequest req) {
 
@@ -43,28 +48,39 @@ public class UserServiceImpl implements UserService {
         JSONObject res = new JSONObject();
 
         HttpSession session = req.getSession();
-        Object ou = userRepository.getUserByTel(tel);
-        if(ou==null){
+
+        List<Object> userlist = userRepository.getUserByTel(tel);
+        if(userlist.isEmpty()){
             res.put("errorCode", 502);
             res.put("errorMsg", "手机号有误");
         }
         else {
-            Object[] user = (Object[]) ou;
+            Object[] user = (Object[]) userlist.get(0);
             if(!user[2].equals(password)){
                 res.put("errorCode", 502);
                 res.put("errorMsg", "密码有误");
             } else {
+                //获取学院id集合
+                List<Integer> collegeIds=new ArrayList<>();
+                for (Object o : userlist) {
+                    Object[] obj = (Object[]) o;
+                    collegeIds.add((Integer) obj[9]);
+                }
                 session.setAttribute("id",  user[0]);
                 session.setAttribute("tel", tel);
-                session.setAttribute("universityId", user[5]);
-                session.setAttribute("collegeId", user[9]);
+                session.setAttribute("universityId", user[8]);
+                session.setAttribute("collegeId", collegeIds);
+//                List<Integer> list=(List<Integer>)session.getAttribute("collegeId");
+//                for(Integer i:list){
+//                    System.out.print(i+",");
+//                }
                 res.put("sessionId", session.getId());
                 res.put("errorCode", 200);
                 res.put("errorMsg", "登录成功");
                 res.put("imageUrl", user[1]);
                 res.put("userName", user[4]);
-                res.put("userType", user[7]);
-                res.put("limit", user[8]);
+                res.put("userType", user[6]);
+                res.put("limit", user[7]);
             }
         }
         return res;
@@ -93,12 +109,12 @@ public class UserServiceImpl implements UserService {
             item.put("password", obj[2]);
             item.put("tel", obj[3]);
             item.put("userName", obj[4]);
-            item.put("universityId", obj[5]);
-            item.put("userType", obj[6]);
-            item.put("university", obj[7]);
-            item.put("role", obj[8]);
-            item.put("collegeId", obj[9]);
-            item.put("college", obj[10]);
+//            item.put("universityId", obj[5]);
+//            item.put("userType", obj[6]);
+            item.put("university", obj[5]);
+            item.put("role", obj[6]);
+//            item.put("collegeId", obj[9]);
+            item.put("college", obj[7]);
             data.add(item);
         }
         res.put("errorCode", 200);
@@ -146,11 +162,17 @@ public class UserServiceImpl implements UserService {
         userModel.setPassword(params.getString("password"));
         userModel.setTel(params.getString("tel"));
         userModel.setUserName(params.getString("name"));
-        userModel.setUniversityId(params.getInteger("uid"));
-        userModel.setCollegeId(params.getInteger("cid"));
         userModel.setUserType(params.getLong("rid"));
-
-        userRepository.save(userModel);
+        UserModel temp=userRepository.save(userModel);
+        String cids=params.getString("cid");
+        String[] colleges=cids.split(",");
+        for(String cid:colleges){
+            DataPermissionModel d=new DataPermissionModel();
+            d.setUniversityId(params.getInteger("uid"));
+            d.setCollegeId(Integer.parseInt(cid));
+            d.setUserId(temp.getUserId());
+            dataPermissionRepository.save(d);
+        }
         res.put("errorCode", 200);
         res.put("errorMsg", "插入成功");
         return res;
@@ -177,10 +199,6 @@ public class UserServiceImpl implements UserService {
         userModel.setPassword(params.getString("password"));
         userModel.setTel(params.getString("tel"));
         userModel.setUserName(params.getString("name"));
-        userModel.setUniversityId(params.getInteger("uid"));
-        userModel.setCollegeId(params.getInteger("cid"));
-        userModel.setUserType(params.getLong("rid"));
-
         userRepository.save(userModel);
         res.put("errorCode", 200);
         res.put("errorMsg", "编辑成功");
@@ -193,19 +211,20 @@ public class UserServiceImpl implements UserService {
 
         HttpSession session = req.getSession();
         JSONObject res = new JSONObject();
-        String tel= (String) session.getAttribute("tel");
-        System.out.println("学校id:"+session.getAttribute("universityId"));
-        System.out.println("学院id:"+session.getAttribute("collegeId"));
-        Object ou = userRepository.getUserInfoByTel(tel);
+        long i= ((BigInteger)session.getAttribute("id")).longValue();
+        Long id=new Long(i);
+//        System.out.println("学校id:"+session.getAttribute("universityId"));
+//        System.out.println("学院id:"+session.getAttribute("collegeId"));
+        Object ou = userRepository.getUserInfoById(id);
         Object[] user = (Object[]) ou;
         Map<String, Object> item = new HashMap<>();
         item.put("img",user[1]);
         item.put("name",user[4]);
-        item.put("userType",user[9]);
+        item.put("userType",user[6]);
         item.put("phone",user[3]);
         item.put("password",user[2]);
-        item.put("university",user[7]);
-        item.put("college",user[8]);
+        item.put("university",user[5]);
+        item.put("college",user[7]);
         res.put("errorCode", 200);
         res.put("errorMsg", "查询成功");
         res.put("data", item);
@@ -249,6 +268,7 @@ public class UserServiceImpl implements UserService {
     }
 
     //个人信息编辑
+    @Override
     public JSONObject personalInfoEdit(HttpServletRequest req, JSONObject params){
         HttpSession session = req.getSession();
         JSONObject res=new JSONObject();
