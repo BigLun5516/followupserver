@@ -111,10 +111,18 @@ public class UserServiceImpl implements UserService {
             item.put("userName", obj[4]);
 //            item.put("universityId", obj[5]);
 //            item.put("userType", obj[6]);
-            item.put("university", obj[5]);
+            if(obj[5]==null){
+                item.put("university", "全部");
+            }else{
+                item.put("university", obj[5]);
+            }
             item.put("role", obj[6]);
 //            item.put("collegeId", obj[9]);
-            item.put("college", obj[7]);
+            if(obj[7]==null){
+                item.put("college", "全部");
+            }else{
+                item.put("college", obj[7]);
+            }
             data.add(item);
         }
         res.put("errorCode", 200);
@@ -133,7 +141,8 @@ public class UserServiceImpl implements UserService {
         JSONObject res = new JSONObject();
 
         try {
-            userRepository.deleteById(id);
+            userRepository.deleteById(id);//用户删除以后，用户权限表中也要删除
+            userRepository.deletePermission(id);
         }catch (EmptyResultDataAccessException e){
             res.put("errorCode", 500);
             res.put("errorMsg", "删除失败");

@@ -42,5 +42,9 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
             "where (b.university_id = ?1 or ?1 = -1) and (b.college_id = ?2 or ?2 = -1)")
     List<Object> getMiniResult(Integer userUniversityId, Integer  userCollegeId);
 
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = " DELETE FROM management_data_permission a WHERE a.user_id = ?1")
+    void deletePermission(Long id);
 
 }

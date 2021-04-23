@@ -18,8 +18,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class testManagement {
 
     @Autowired
@@ -67,5 +67,16 @@ public class testManagement {
         System.out.println(data);
     }
 
+    @Test
+    public void testAddUser(){
+        JSONObject q=new JSONObject();
+        q.put("password",333);
+        q.put("tel",7);
+        q.put("name","test");
+        q.put("rid",21);
+        q.put("uid",1);
+        q.put("cid","2,3");
+        userService.insertUser(q);
+    }
 
 }

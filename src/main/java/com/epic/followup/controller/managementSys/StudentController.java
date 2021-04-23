@@ -99,6 +99,7 @@ public class StudentController {
 
         params.put("userUniversityId", session.getAttribute("universityId"));
 //        params.put("userCollegeId", session.getAttribute("collegeId"));
+//        给赵大树测试进行了一点修改
         List<Integer> list=(List<Integer>)session.getAttribute("collegeId");
         if(list.size()==1&&list.get(0)==-1){
             params.put("userCollegeId", list.get(0));
