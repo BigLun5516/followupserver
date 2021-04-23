@@ -14,6 +14,8 @@ public interface BaseUserRepository extends JpaRepository<BaseUserModel, Long> {
 
     Optional<BaseUserModel> findByTel(String tel);
 
+    Optional<BaseUserModel> findByUserId(Long userid);
+
     /**
      * 总数
      * @return long

@@ -1,13 +1,20 @@
 package com.epic.followup.service.managementSys.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.epic.followup.model.app.PatientBodyInformationModel;
+import com.epic.followup.model.followup2.BaseUserModel;
 import com.epic.followup.model.followup2.student.StudentInfo;
 import com.epic.followup.model.managementSys.CollegeModel;
 import com.epic.followup.model.managementSys.UniversityModel;
+import com.epic.followup.repository.app.PatientBodyInformationRepository;
+import com.epic.followup.repository.app.PatientDiaryRepository;
+import com.epic.followup.repository.followup2.BaseUserRepository;
 import com.epic.followup.repository.followup2.student.StudentInfoRepository;
 import com.epic.followup.repository.managementSys.CollegeRepository;
 import com.epic.followup.repository.managementSys.UniversityRepository;
 import com.epic.followup.service.managementSys.StudentService;
+import com.epic.followup.temporary.wechat.patient.diary.MoodList;
+import com.epic.followup.temporary.wechat.patient.diary.getAllMoodsResponse;
 import net.bytebuddy.build.Plugin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -30,6 +37,15 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     CollegeRepository collegeRepository;
+
+    @Autowired
+    BaseUserRepository baseUserRepository;
+
+    @Autowired
+    PatientDiaryRepository patientDiaryRepository;
+
+    @Autowired
+    PatientBodyInformationRepository patientBodyInformationRepository;
 
     /**
      * 根据条件查询学生
@@ -273,6 +289,61 @@ public class StudentServiceImpl implements StudentService {
 
         res.put("errorCode", 200);
         res.put("errorMsg", "插入成功");
+        return res;
+    }
+
+    /**
+     * 获取心情列表
+     * @param params
+     * @return
+     */
+    @Override
+    public getAllMoodsResponse getAllMoods(JSONObject params) {
+        Long userid = params.getLong("userId");
+
+        getAllMoodsResponse res = new getAllMoodsResponse();
+
+        Optional<BaseUserModel> byUserId = baseUserRepository.findByUserId(userid);
+        if(!byUserId.isPresent()){
+            res.setErrorCode(500);
+            res.setErrorMsg("没有该学生信息");
+        }
+        BaseUserModel baseUserModel = byUserId.get();
+
+        List list = patientDiaryRepository.findBySqlTel(baseUserModel.getTel());
+        List<MoodList> moodLists = new ArrayList<>();
+        for (Object row : list){
+            Object[] cells = (Object[]) row;
+            Map m = new HashMap();
+            moodLists.add(new MoodList(cells[0].toString(), cells[1].toString()));
+        }
+        Collections.reverse(moodLists);
+
+        res.setMoods(moodLists);
+        res.setErrorCode(200);
+        res.setErrorMsg("查找成功");
+        return res;
+    }
+
+    /**
+     * 获取7天的身体状况
+     * @param params
+     * @return
+     */
+    @Override
+    public JSONObject getBodyInfo(JSONObject params) {
+        Long userid = params.getLong("userId");
+        List<PatientBodyInformationModel>  bodyInfoList = patientBodyInformationRepository.findBodyInfoByPid(userid);
+        JSONObject res = new JSONObject();
+        if (bodyInfoList == null || bodyInfoList.isEmpty()) {
+            res.put("errorCode",502);
+            res.put("errorMsg","未查找到信息");
+        }else{
+            Collections.reverse(bodyInfoList);
+            res.put("errorCode",200);
+            res.put("errorMsg","查找成功");
+            res.put("data",bodyInfoList);
+        }
         return res;
     }
 

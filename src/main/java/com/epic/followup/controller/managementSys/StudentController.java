@@ -10,11 +10,14 @@ import com.epic.followup.repository.managementSys.UniversityRepository;
 import com.epic.followup.service.followup2.doctor.CollegeStudentResultService;
 import com.epic.followup.service.managementSys.StudentDataListener;
 import com.epic.followup.service.managementSys.StudentService;
+import com.epic.followup.temporary.followup2.session.BaseUserSession;
+import com.epic.followup.temporary.wechat.patient.diary.getAllMoodsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
@@ -103,4 +106,20 @@ public class StudentController {
 
         return this.collegeStudentResultService.findList(params);
     }
+
+    // 查询学生的心情
+    @RequestMapping(value = "/stuInfo/getMood", method = RequestMethod.POST)
+    @ResponseBody
+    public getAllMoodsResponse getAllMoods(@RequestBody JSONObject params){
+        return studentService.getAllMoods(params);
+    }
+
+    // 获取学生7天的身体状况
+    @PostMapping(value = "/stuInfo/getSevenDaysInfo")
+    @ResponseBody
+    public JSONObject getBodyInfo(@RequestBody JSONObject params){
+        return studentService.getBodyInfo(params);
+
+    }
+
 }
