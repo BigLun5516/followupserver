@@ -95,7 +95,11 @@ public class StudentController {
     public List<StudentResultModel> findListByDepartmentAndCollege(@RequestBody JSONObject params, HttpSession session) {
 
         params.put("userUniversityId", session.getAttribute("universityId"));
-        params.put("userCollegeId", session.getAttribute("collegeId"));
+//        params.put("userCollegeId", session.getAttribute("collegeId"));
+        List<Integer> list=(List<Integer>)session.getAttribute("collegeId");
+        if(list.size()==1&&list.get(0)==-1){
+            params.put("userCollegeId", list.get(0));
+        }
 
         return this.collegeStudentResultService.findList(params);
     }
