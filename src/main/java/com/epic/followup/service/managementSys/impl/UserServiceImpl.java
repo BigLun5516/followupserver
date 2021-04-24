@@ -81,6 +81,7 @@ public class UserServiceImpl implements UserService {
                 res.put("userName", user[4]);
                 res.put("userType", user[6]);
                 res.put("limit", user[7]);
+                res.put("visible", user[10]);
             }
         }
         return res;
@@ -172,6 +173,7 @@ public class UserServiceImpl implements UserService {
         userModel.setTel(params.getString("tel"));
         userModel.setUserName(params.getString("name"));
         userModel.setUserType(params.getLong("rid"));
+        userModel.setVisible(1);//代表能看到学生评测数据
         UserModel temp=userRepository.save(userModel);
         String cids=params.getString("cid");
         String[] colleges=cids.split(",");

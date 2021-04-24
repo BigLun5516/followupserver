@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @CrossOrigin    //允许跨域
@@ -85,7 +86,9 @@ public class UserController {
     @ResponseBody
     public JSONObject miniResult(HttpSession session) {
 
-        return userService.getMiniResult((Integer) session.getAttribute("universityId"), (Integer) session.getAttribute("collegeId"));
+//        为了测试进行了一点修改
+//        return userService.getMiniResult((Integer) session.getAttribute("universityId"), (Integer) session.getAttribute("collegeId"));
+        return userService.getMiniResult((Integer) session.getAttribute("universityId"), -1);
     }
 
 }

@@ -21,6 +21,9 @@ public interface UniversityRepository extends JpaRepository<UniversityModel, Int
     // 根据高校名字查询
     UniversityModel findByUniversityName(String name);
 
+    // 根据高校id查询
+    UniversityModel findByUniversityId(Integer uid);
+
     //高校推广
     //今日新增
     @Query(nativeQuery = true, value = " SELECT * FROM management_university "+

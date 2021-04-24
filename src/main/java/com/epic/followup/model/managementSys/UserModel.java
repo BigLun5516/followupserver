@@ -36,5 +36,9 @@ public class UserModel {
     @Column(name = "userType", nullable = false)
     private Long userType;
 
+    // 是否能查看学生评测数据
+    @Column(name = "visible", nullable = false)
+    private Integer visible;
+
 
 }

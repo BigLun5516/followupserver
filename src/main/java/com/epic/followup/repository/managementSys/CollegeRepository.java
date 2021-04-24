@@ -65,4 +65,6 @@ public interface CollegeRepository extends JpaRepository<CollegeModel, Integer>,
             , String startTime, String endTime, Integer userUniversityId, Integer userCollegeId);
 
     List<CollegeModel> findByUniversityId(Integer uid);
+
+    CollegeModel findByCollegeId(Integer cid);
 }
