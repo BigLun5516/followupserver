@@ -95,4 +95,13 @@ public class OperationController {
         CollegeModel c = collegeRepository.findByCollegeId(list.get(0));
         return operationService.getCollegeData(u.getUniversityName(), c.getCollegeName());
     }
+
+    // 心理咨询中心报表
+    @RequestMapping(value = "/centerReport", method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject centerReport(HttpSession session) {
+        Integer i = (Integer) session.getAttribute("universityId");
+        UniversityModel u = universityRepository.findByUniversityId(i);
+        return operationService.getPsychologicalConsultData(u.getUniversityName());
+    }
 }
