@@ -31,14 +31,15 @@ public class ScaleController {
     }
 
     // 量表禁用接口
-    @PutMapping("/scaleDisable")
+    @PostMapping("/scaleDisable")
     @ResponseBody
-    public JSONObject putScaleDisable(@RequestBody JSONObject params){
-        return scaleService.putScaleDisable(params);
+    public JSONObject putScaleDisable(@RequestBody JSONObject params, HttpSession session){
+        params.put("userUniversityId", session.getAttribute("universityId"));
+        return scaleService.editScaleStatus(params);
     }
 
     // 量表删除接口
-    @DeleteMapping("/scaleDelete")
+    @PostMapping("/scaleDelete")
     @ResponseBody
     public JSONObject DeleteScale(@RequestBody JSONObject params) {
         return scaleService.DeleteScale(params);

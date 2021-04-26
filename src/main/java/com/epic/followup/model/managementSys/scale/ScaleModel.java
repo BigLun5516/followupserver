@@ -17,27 +17,10 @@ public class ScaleModel {
     @Column(name = "scale_name")
     private String scaleName;
 
-    // 是否内置
+    // 是否内置  1:内置  0:自定义
     @Column(name = "isnz")
-    private int isnz;
+    private Integer isnz;
 
-    // 量表分类
-    @Column(name = "classify")
-    private String classify;
-
-    // 评测人次
-    @Column(name = "num", columnDefinition = "tinyint default 0")
-    private int num;
-
-    // 高校名称
     @Column(name = "school_name")
     private String schoolName;
-
-    // 中心名称
-    @Column(name = "organization")
-    private String organization;
-
-    // 量表状态 0使用中，1编辑中，2待审核，3已禁用，4已注销
-    @Column(name = "status")
-    private int status;
 }

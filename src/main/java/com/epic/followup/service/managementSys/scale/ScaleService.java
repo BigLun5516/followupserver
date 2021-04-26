@@ -9,7 +9,7 @@ public interface ScaleService {
 
     JSONObject getScaleList(JSONObject params);
 
-    JSONObject putScaleDisable(JSONObject params);
+    JSONObject editScaleStatus(JSONObject params);
 
     JSONObject DeleteScale(JSONObject params);
 
