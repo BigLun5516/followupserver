@@ -31,7 +31,7 @@ public class ScaleController {
     }
 
     // 量表禁用接口
-    @PostMapping("/scaleDisable")
+    @PutMapping("/scaleDisable")
     @ResponseBody
     public JSONObject putScaleDisable(@RequestBody JSONObject params, HttpSession session){
         params.put("userUniversityId", session.getAttribute("universityId"));
@@ -39,7 +39,7 @@ public class ScaleController {
     }
 
     // 量表删除接口
-    @PostMapping("/scaleDelete")
+    @DeleteMapping("/scaleDelete")
     @ResponseBody
     public JSONObject DeleteScale(@RequestBody JSONObject params) {
         return scaleService.DeleteScale(params);
