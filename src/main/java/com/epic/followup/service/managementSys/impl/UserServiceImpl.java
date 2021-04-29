@@ -298,9 +298,9 @@ public class UserServiceImpl implements UserService {
 
     //Mini结果展示
     @Override
-    public JSONObject getMiniResult(Integer userUniversityId, Integer userCollegeId){
+    public JSONObject getMiniResult(Integer userUniversityId, List<Integer> userCollegeIdList){
         JSONObject res=new JSONObject();
-        List<Object> miniList=userRepository.getMiniResult(userUniversityId, userCollegeId);
+        List<Object> miniList=userRepository.getMiniResult(userUniversityId, userCollegeIdList);
         List<Map<String, Object>> data = new ArrayList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (Object o : miniList) {

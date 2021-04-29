@@ -48,7 +48,7 @@ public class StudentController {
     public JSONObject findStudent(@RequestBody JSONObject params, HttpSession session){
 
         params.put("userUniversityId", session.getAttribute("universityId"));
-        params.put("userCollegeId", session.getAttribute("collegeId"));
+        params.put("userCollegeIdList", session.getAttribute("collegeId"));
 
         return studentService.findStudent(params);
     }
@@ -98,12 +98,8 @@ public class StudentController {
     public List<StudentResultModel> findListByDepartmentAndCollege(@RequestBody JSONObject params, HttpSession session) {
 
         params.put("userUniversityId", session.getAttribute("universityId"));
-//        params.put("userCollegeId", session.getAttribute("collegeId"));
-//        给赵大树测试进行了一点修改
-        List<Integer> list=(List<Integer>)session.getAttribute("collegeId");
-        if(list.size()==1&&list.get(0)==-1){
-            params.put("userCollegeId", list.get(0));
-        }
+        params.put("userCollegeIdList", session.getAttribute("collegeId"));
+
 
         return this.collegeStudentResultService.findList(params);
     }

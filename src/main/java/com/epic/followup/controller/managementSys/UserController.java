@@ -86,9 +86,7 @@ public class UserController {
     @ResponseBody
     public JSONObject miniResult(HttpSession session) {
 
-//        为了测试进行了一点修改
-//        return userService.getMiniResult((Integer) session.getAttribute("universityId"), (Integer) session.getAttribute("collegeId"));
-        return userService.getMiniResult((Integer) session.getAttribute("universityId"), -1);
+        return userService.getMiniResult((Integer) session.getAttribute("universityId"), (List<Integer>) session.getAttribute("collegeId"));
     }
 
 }

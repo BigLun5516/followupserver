@@ -44,7 +44,7 @@ public class CollegeServiceImpl implements CollegeService {
         Integer pageNum = params.getInteger("pageNum");
         Integer pageSize = params.getInteger("pageSize");
         Integer userUniversityId = params.getInteger("userUniversityId");
-        Integer userCollegeId = params.getInteger("userCollegeId");
+        List<Integer> userCollegeIdList = params.getObject("userCollegeId", List.class);
 
 
         // 处理请求参数
@@ -69,14 +69,14 @@ public class CollegeServiceImpl implements CollegeService {
 
         List<Object> collegeModelList = collegeRepository.findCollegeModel(
                 universityName, collegeName, collegeStatus, filterDates.get(0), filterDates.get(1),
-                userUniversityId, userCollegeId, PageRequest.of(pageNum - 1, pageSize));
+                userUniversityId, userCollegeIdList, PageRequest.of(pageNum - 1, pageSize));
 
         JSONObject res = new JSONObject();
 
-        // 学院总数量
+        // 学院总数量 /////////////////////////////////////////////
         res.put("totalNum", collegeRepository.countCollegeModel(
                 universityName, collegeName, collegeStatus, filterDates.get(0), filterDates.get(1),
-                userUniversityId, userCollegeId
+                userUniversityId, userCollegeIdList
         ));
 
         // 院系管理表
