@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Service
 public interface UserService {
@@ -36,6 +37,6 @@ public interface UserService {
     JSONObject personalInfoEdit(HttpServletRequest req, JSONObject params);
 
     //Mini结果展示
-    JSONObject getMiniResult(Integer userUniversityId, Integer userCollegeId);
+    JSONObject getMiniResult(Integer userUniversityId, List<Integer> userCollegeIdList);
 
 }

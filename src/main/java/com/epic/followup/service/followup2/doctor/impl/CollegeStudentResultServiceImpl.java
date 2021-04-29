@@ -93,7 +93,7 @@ public class CollegeStudentResultServiceImpl implements CollegeStudentResultServ
         String universityName=params.getString("universityName");
         String illness=params.getString("illness");
         Integer userUniversityId = params.getInteger("userUniversityId");
-        Integer userCollegeId = params.getInteger("userCollegeId");
-        return studentResultRepository.findbyUniversityAndIllness(universityName,illness, userUniversityId, userCollegeId);
+        List<Integer> userCollegeIdList = params.getObject("userCollegeIdList", List.class);
+        return studentResultRepository.findbyUniversityAndIllness(universityName,illness, userUniversityId, userCollegeIdList);
     }
 }

@@ -156,8 +156,8 @@ public interface StudentResultRepository extends JpaRepository<StudentResultMode
 
     @Query(nativeQuery = true, value = "SELECT * FROM `aidoctor_studentresult` a, aidoctor_studentinfo s " +
             "WHERE a.userid = s.userid and (a.department= ?1 or ?1 = '') And (a.level= ?2 or ?2 = '') " +
-            "and (s.university_id = ?3 or ?3 = -1) and (s.college_id = ?4 or ?4 = -1)")
-    List<StudentResultModel> findbyUniversityAndIllness(String university,String illness, Integer userUniversityId, Integer userCollegeId);
+            "and (s.university_id = ?3 or ?3 = -1) and (s.college_id in ?4 or -1 in ?4)")
+    List<StudentResultModel> findbyUniversityAndIllness(String university,String illness, Integer userUniversityId, List<Integer> userCollegeIdList);
 
 
 }
