@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.epic.followup.temporary.followup2.session.BaseUserSession;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 
 @Service
@@ -18,10 +19,10 @@ public interface TaskService {
     JSONObject saveTask(JSONObject params);
 
     //创建任务
-    JSONObject addTask(JSONObject params);
+    JSONObject addTask(JSONObject params, HttpSession session);
 
     //查询任务
-    JSONObject findAllTask(Integer universityId) throws ParseException;
+    JSONObject findAllTask(Integer universityId, HttpSession session) throws ParseException;
 
     //编辑任务状态
 //    JSONObject editTask(JSONObject params);

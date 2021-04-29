@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.epic.followup.model.managementSys.RoleModel;
 import com.epic.followup.repository.managementSys.RoleRepository;
 import com.epic.followup.repository.managementSys.UserRepository;
+import com.epic.followup.repository.managementSys.task.TaskRepository;
 import com.epic.followup.service.managementSys.RoleService;
 import com.epic.followup.service.managementSys.UniversityService;
 import com.epic.followup.service.managementSys.UserService;
@@ -15,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +35,9 @@ public class testManagement {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
 
     @Test
@@ -78,5 +83,14 @@ public class testManagement {
         q.put("cid","2,3");
         userService.insertUser(q);
     }
+
+    @Test
+    public void testfindListByUid(){
+        List<Integer> l= new ArrayList<>();
+        l.add(-1);
+//        l.add(2);
+        System.out.print(taskRepository.findListByUid(1,l).size());
+    }
+
 
 }

@@ -12,6 +12,7 @@ import com.epic.followup.temporary.followup2.session.BaseUserSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -54,12 +55,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     // 查询该学生未完成的任务
+    @Override
     public JSONObject findTask2(BaseUserSession bus){
         JSONObject res = new JSONObject();
         List<Map<String, Object>> data = new ArrayList<>();
         Optional<StudentInfo> u=studentInfoRepository.findByUserId(bus.getUserId());
         StudentInfo stu=u.get();
-        List<Object> tasklist=taskStatusRepository.getTask2(bus.getUniversityId(),stu.getYear(),bus.getUserId());
+        List<Object> tasklist=taskStatusRepository.getTask2(bus.getUniversityId(),stu.getYear(),bus.getUserId(),stu.getCollegeId());
         for (Object o : tasklist) {
             Map<String, Object> item = new HashMap<>();
             Object[] obj = (Object[]) o;
@@ -79,6 +81,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     // 保存该学生的完成任务
+    @Override
     public JSONObject saveTask(JSONObject params){
         JSONObject res = new JSONObject();
         TaskFinishedModel t=new TaskFinishedModel();
@@ -92,25 +95,33 @@ public class TaskServiceImpl implements TaskService {
     }
 
     //创建任务
-    public JSONObject addTask(JSONObject params){
+    @Override
+    public JSONObject addTask(JSONObject params, HttpSession session){
+        //获取创建任务的人的学院id
+        List<Integer> colleges=(List<Integer>)session.getAttribute("collegeId");
         JSONObject res = new JSONObject();
-        TaskModel t=new TaskModel();
-        t.setContent(params.getString("content"));
-        t.setCreateTime(new Date());
-        t.setGrade(params.getString("grade"));
-        t.setScaleId(params.getLong("scale_id"));
-        t.setTitle(params.getString("title"));
-        t.setUniversityId(params.getInteger("universityId"));
-        taskRepository.save(t);
+        for(Integer c:colleges) {
+            TaskModel t = new TaskModel();
+            t.setContent(params.getString("content"));
+            t.setCreateTime(new Date());
+            t.setGrade(params.getString("grade"));
+            t.setScaleId(params.getLong("scale_id"));
+            t.setTitle(params.getString("title"));
+            t.setUniversityId(params.getInteger("universityId"));
+            t.setCollegeId(c);
+            taskRepository.save(t);
+        }
         res.put("errorCode", 200);
         res.put("errorMsg", "保存成功");
         return res;
     }
 
     //查询任务(此处是后台人员查看任务，应该根据登录人员的学校来查看内部的任务）
-    public JSONObject findAllTask(Integer universityId) throws ParseException {
+    @Override
+    public JSONObject findAllTask(Integer universityId,HttpSession session) throws ParseException {
+        List<Integer> colleges=(List<Integer>)session.getAttribute("collegeId");
         JSONObject res = new JSONObject();
-        List<Object> data = taskRepository.findListByUid(universityId);
+        List<Object> data = taskRepository.findListByUid(universityId,colleges);
         List<Map<String, Object>> taskTable = new ArrayList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for(Object o:data){
@@ -124,6 +135,11 @@ public class TaskServiceImpl implements TaskService {
             item.put("createTime",dateFormat.format(temp[5]));
             item.put("university",temp[6]);
             item.put("scale",temp[7]);
+            if(temp[8]==null||temp[8]==""){
+                item.put("college","全部");
+            }else{
+                item.put("college",temp[8]);
+            }
             taskTable.add(item);
         }
         res.put("errorCode", 200);

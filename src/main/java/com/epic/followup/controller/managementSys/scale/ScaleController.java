@@ -49,6 +49,15 @@ public class ScaleController {
     @PostMapping("/findScaleName")
     @ResponseBody
     public JSONObject findScaleName(HttpSession session){
-        return scaleService.findScaleName((Integer)session.getAttribute("universityId"));
+
+        JSONObject params=new JSONObject();
+        params.put("pageNum",1);
+        params.put("pageSize",10);
+        params.put("scalename","");
+        params.put("schoolname","");
+        params.put("isnz","");
+        params.put("status",1);
+        params.put("userUniversityId", session.getAttribute("universityId"));
+        return scaleService.getScaleList(params);
     }
 }

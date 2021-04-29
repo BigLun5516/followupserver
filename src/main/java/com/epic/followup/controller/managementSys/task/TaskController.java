@@ -36,7 +36,7 @@ public class TaskController {
         return taskService.findTask1(bus);
     }
 
-    // 查询该学生未完成的任务
+    // 查询该学生未完成的任务(先不考虑未完成但已经被禁用的情况，即被禁用的表依然会显示在未完成的量表中）
     @RequestMapping(value = "/student/find2", method = RequestMethod.POST)
     @ResponseBody
     public JSONObject find2(HttpServletRequest request ){
@@ -63,7 +63,7 @@ public class TaskController {
         HttpSession session = req.getSession();
         Integer universityId= (Integer) session.getAttribute("universityId");
         params.put("universityId",universityId);
-        return taskService.addTask(params);
+        return taskService.addTask(params,session);
     }
 
     //查询任务
@@ -73,7 +73,7 @@ public class TaskController {
         HttpSession session = req.getSession();
         Integer universityId= (Integer) session.getAttribute("universityId");
         System.out.println("用户学校id："+universityId);
-        return taskService.findAllTask(universityId);
+        return taskService.findAllTask(universityId,session);
     }
 
 //    //编辑任务状态

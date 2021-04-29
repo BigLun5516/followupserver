@@ -125,7 +125,7 @@ public class ScaleServiceImpl implements ScaleService {
         ScaleModel scaleModel = byScaleId.get();
 
         // 修改量表状态
-        if (status == 1) {
+        if (status == 0) {
             // 改为启用
             try {
                 scaleForbiddenRepository.deleteByScaleIdAndUniversityName(scaleId, universityModel.getUniversityName());

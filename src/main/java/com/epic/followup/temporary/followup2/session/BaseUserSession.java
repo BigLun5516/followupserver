@@ -12,6 +12,7 @@ public class BaseUserSession {
     private Long time;
     private Integer universityId;
 
+
     public Integer getUniversityId() {
         return universityId;
     }

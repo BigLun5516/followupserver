@@ -87,6 +87,7 @@ public class BaseUserServiceImpl implements BaseUserService {
         this.studentInfoRepository = studentInfoRepository;
         this.nlpService = nlpService;
         this.universityRepository=universityRepository;
+
         this.userMap = ExpiringMap.builder()
                 .maxSize(FollowupStaticConfig.MAX_USERNUM)
                 .expiration(1, TimeUnit.DAYS)
@@ -318,7 +319,7 @@ public class BaseUserServiceImpl implements BaseUserService {
         s.setUserId(user.getUserId());
         s.setType(user.getType());
         s.setTime(new Date().getTime());
-        s.setUniversityId(universityRepository.findByUniversityName(user.getDepartment()).getUniversityId());
+        s.setUniversityId(studentInfoRepository.findByUserId(user.getUserId()).get().getUniversityId());
         String md = DigestUtils.md5DigestAsHex((s.getTel()+s.getUserId()+s.getType()+s.getTime()).getBytes());
         userMap.put(md, s);
         // 成功返回

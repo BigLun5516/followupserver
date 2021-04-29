@@ -43,5 +43,8 @@ public class TaskModel {
     @Column(name = "university_id",  nullable = false)
     private Integer universityId;
 
+    // 任务对应学校的学院
+    @Column(name = "college_id",  nullable = false)
+    private Integer collegeId;
 
 }
