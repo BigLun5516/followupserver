@@ -46,6 +46,7 @@ public class TaskServiceImpl implements TaskService {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             item.put("create_time", dateFormat.format(obj[3]));
             item.put("scale_name", obj[4]);
+            item.put("scale_id", obj[5]);
             data.add(item);
         }
         res.put("errorCode", 200);
@@ -72,6 +73,7 @@ public class TaskServiceImpl implements TaskService {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             item.put("create_time", dateFormat.format(obj[3]));
             item.put("scale_name", obj[4]);
+            item.put("scale_id", obj[5]);
             data.add(item);
         }
         res.put("errorCode", 200);
