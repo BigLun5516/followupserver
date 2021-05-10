@@ -39,6 +39,18 @@ public class PatientDiaryModel {
     @Column(name = "tel", length = 11, nullable = true)
     private String tel;
 
+    // 是否自杀
+    @Column(name = "zisha", nullable = true)
+    private Integer zisha;
+
+    public Integer getZisha() {
+        return zisha;
+    }
+
+    public void setZisha(Integer zisha) {
+        this.zisha = zisha;
+    }
+
     public Long getId() {
         return Id;
     }

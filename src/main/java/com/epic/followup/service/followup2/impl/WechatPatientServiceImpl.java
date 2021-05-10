@@ -3,6 +3,7 @@ package com.epic.followup.service.followup2.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.epic.followup.conf.PatientConfig;
+import com.epic.followup.conf.WeChatConfig;
 import com.epic.followup.model.app.MiniScaleModel;
 import com.epic.followup.model.app.PatientBodyInformationModel;
 import com.epic.followup.model.app.PatientDiaryModel;
@@ -16,10 +17,13 @@ import com.epic.followup.temporary.followup2.session.BaseUserSession;
 import com.epic.followup.temporary.wechat.patient.diary.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class WechatPatientServiceImpl implements WechatPatientService {
@@ -31,6 +35,12 @@ public class WechatPatientServiceImpl implements WechatPatientService {
 
     @Autowired
     MiniScaleRepository miniScaleRepository;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
+    private WeChatConfig weChatConfig;
 
 
 
@@ -80,6 +90,15 @@ public class WechatPatientServiceImpl implements WechatPatientService {
             diary.setMood(saveDiaryRequest.getMood());
             diary.setTime(saveDiaryRequest.getTime());
             diary.setTel(bps.getTel());
+            //判断是否含有自杀的想法
+            String regEx_html = "<[^>]+>"; // 定义HTML标签的正则表达式
+            Pattern p_html = Pattern.compile(regEx_html, Pattern.CASE_INSENSITIVE);
+            Matcher m_html = p_html.matcher(saveDiaryRequest.getHtml());
+            String temp = m_html.replaceAll(""); // 过滤html标签
+            JSONObject req = new JSONObject();
+            req.put("msg",temp);
+            diary.setZisha(Integer.parseInt(this.restTemplate.postForObject(weChatConfig.getIsZisha(), req, String.class)));
+
             patientDiaryRepository.save(diary);
             List<PatientDiaryModel> ou = patientDiaryRepository.findAllByTel(bps.getTel());
             PatientDiaryModel lasttm=ou.get(ou.size()-1);
@@ -102,6 +121,16 @@ public class WechatPatientServiceImpl implements WechatPatientService {
             diary.setMood(saveDiaryRequest.getMood());
             diary.setTime(saveDiaryRequest.getTime());
             diary.setTel(bps.getTel());
+            //判断是否含有自杀的想法
+            String regEx_html = "<[^>]+>"; // 定义HTML标签的正则表达式
+            Pattern p_html = Pattern.compile(regEx_html, Pattern.CASE_INSENSITIVE);
+            Matcher m_html = p_html.matcher(saveDiaryRequest.getHtml());
+            String temp = m_html.replaceAll(""); // 过滤html标签
+            System.out.println("内容："+temp);
+            JSONObject req = new JSONObject();
+            req.put("msg",temp);
+            diary.setZisha(Integer.parseInt(this.restTemplate.postForObject(weChatConfig.getIsZisha(), req, String.class)));
+
             patientDiaryRepository.save(diary);
             res.setId(diary.getId());
             res.setErrorCode(200);

@@ -40,6 +40,16 @@ public class WeChatConfig {
 
     private String guoguang;
 
+    private String isZisha;
+
+    public String getIsZisha() {
+        return isZisha;
+    }
+
+    public void setIsZisha(String isZisha) {
+        this.isZisha = isZisha;
+    }
+
     public String getGuoguang() {
         return guoguang;
     }

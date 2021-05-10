@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -90,6 +92,16 @@ public class testManagement {
         l.add(-1);
 //        l.add(2);
         System.out.print(taskRepository.findListByUid(1,l).size());
+    }
+
+    @Test
+    public void testRegix(){
+        String htmlStr="<p><img src=\"http://follwup.cmas2020.cn/img/diaryImg/1618543088906-tmp_87cc43307e2e4bfa20eb7e55555caeca55d03bdbc02f36e4.jpg\"></p><hr><h2><br></h2><p><br></p><hr><ul data-checked=\"false\"><li><br></li></ul>";
+        String regEx_html = "<[^>]+>"; // 定义HTML标签的正则表达式
+        Pattern p_html = Pattern.compile(regEx_html, Pattern.CASE_INSENSITIVE);
+        Matcher m_html = p_html.matcher(htmlStr);
+        htmlStr = m_html.replaceAll(""); // 过滤html标签
+        System.out.println(htmlStr);
     }
 
 
