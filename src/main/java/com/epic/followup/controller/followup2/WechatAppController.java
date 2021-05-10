@@ -557,7 +557,9 @@ public class WechatAppController {
     public String question(HttpServletRequest request, @RequestBody JSONObject obj){
         System.out.println("question接受到了");
         String q=obj.getString("q");
-        return this.knowledgeMapService.knowledgeMapAnswer(request.getHeader("sessionId"), q);
+        String pattern=obj.getString("pattern");
+        String location=obj.getString("location");
+        return this.knowledgeMapService.knowledgeMapAnswer(request.getHeader("sessionId"), q,pattern,location);
     }
 
     // CCBT 评估模块

@@ -52,11 +52,13 @@ public class KnowledgeMapServiceImpl implements KnowledgeMapService {
     }
 
     @Override
-    public String knowledgeMapAnswer(String sessionId, String question) {
+    public String knowledgeMapAnswer(String sessionId, String question,String pattern ,String location) {
         String tmp = update(sessionId);
         ChatRobotRequest req = new ChatRobotRequest();
         req.msg = question;
         req.sessionId = tmp;
+        req.pattern = pattern;
+        req.location = location;
         return this.restTemplate.postForObject(weChatConfig.getGuoguang()+QuestionAnswerUrl, req, String.class);
     }
 

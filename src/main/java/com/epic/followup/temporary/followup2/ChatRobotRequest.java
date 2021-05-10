@@ -8,4 +8,7 @@ public class ChatRobotRequest {
 
     public String sessionId;
     public String msg;
+    public String pattern;
+    public String location;
+
 }

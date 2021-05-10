@@ -10,5 +10,5 @@ public interface KnowledgeMapService {
     /**
      * 获取知识图谱问答
      */
-    String knowledgeMapAnswer(String sessionId, String question);
+    String knowledgeMapAnswer(String sessionId, String question,String pattern,String location);
 }
