@@ -30,8 +30,19 @@ public class PatientBodyInformationModel {
     @Column(name = "datetime", nullable = true)
     private String time;
 
+    @Column(name = "medicine", nullable = true)
+    private String medicine;
+
     @Column(name = "pid", nullable = false)
     private Long pid;
+
+    public String getMedicine() {
+        return medicine;
+    }
+
+    public void setMedicine(String medicine) {
+        this.medicine = medicine;
+    }
 
     public Long getId() {
         return id;

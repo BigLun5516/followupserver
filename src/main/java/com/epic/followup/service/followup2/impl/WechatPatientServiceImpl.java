@@ -226,6 +226,7 @@ public class WechatPatientServiceImpl implements WechatPatientService {
             bi.setTime(information.getString("datetime"));
             bi.setPain(information.getString("pain"));
             bi.setSleep(information.getString("sleep"));
+            bi.setMedicine(information.getString("medicine"));
             bi.setWeight(information.getFloat("weight"));
             bi.setPid(bps.getUserId());
             patientBodyInformationRepository.save(bi);
@@ -238,6 +239,7 @@ public class WechatPatientServiceImpl implements WechatPatientService {
             p.setPain(information.getString("pain"));
             p.setSleep(information.getString("sleep"));
             p.setWeight(information.getFloat("weight"));
+            p.setMedicine(information.getString("medicine"));
             patientBodyInformationRepository.save(p);
             res.setErrorCode(200);
             res.setErrorMsg("更新成功");
@@ -260,7 +262,7 @@ public class WechatPatientServiceImpl implements WechatPatientService {
             res.put("appetite",p.getAppetite());
             res.put("sleep",p.getSleep());
             res.put("weight",p.getWeight());
-
+            res.put("medicine",p.getMedicine());
         }
         return res;
     }
