@@ -39,8 +39,14 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
     @Query(nativeQuery = true, value = "SELECT b.stname,b.stid,b.age,b.department,b.college,b.stype,b.year," +
             "a.mini_time,a.mini_result FROM `mini_scale` a LEFT JOIN aidoctor_studentinfo b ON a.userid=" +
             "b.userid " +
-            "where (b.university_id = ?1 or ?1 = -1) and (b.college_id in ?2 or -1 in ?2)")
+            "where (b.university_id = ?1 or ?1 = -1) and (b.college_id in ?2 or -1 in ?2) ORDER BY a.mini_time DESC")
     List<Object> getMiniResult(Integer userUniversityId, List<Integer>  userCollegeIdList);
+
+    @Query(nativeQuery = true, value = "SELECT b.stname,b.stid,b.age,b.department,b.college,b.stype,b.year," +
+            "a.mini_time,a.mini_result FROM `mini_scale` a LEFT JOIN aidoctor_studentinfo b ON a.userid=" +
+            "b.userid " +
+            "where (b.stid = ?1 ) ORDER BY a.mini_time DESC")
+    List<Object> getOneMiniResult(String stid);
 
     @Transactional
     @Modifying

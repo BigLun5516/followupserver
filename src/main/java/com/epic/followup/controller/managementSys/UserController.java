@@ -89,4 +89,11 @@ public class UserController {
         return userService.getMiniResult((Integer) session.getAttribute("universityId"), (List<Integer>) session.getAttribute("collegeId"));
     }
 
+    //mini结果个人接口
+    @PostMapping("/personalMiniResult")
+    @ResponseBody
+    public JSONObject personalMiniResult(@RequestBody JSONObject params) {
+        return userService.getOneMiniResult(params.getString("stid"));
+    }
+
 }
