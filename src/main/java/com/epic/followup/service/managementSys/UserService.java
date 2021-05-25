@@ -36,11 +36,7 @@ public interface UserService {
     //个人信息编辑
     JSONObject personalInfoEdit(HttpServletRequest req, JSONObject params);
 
-    //Mini结果展示（不重复的）
-    JSONObject getMiniResult(Integer userUniversityId, List<Integer> userCollegeIdList);
+    //Mini结果展示（包括不重复的展示和个人的展示）
+    JSONObject getMiniResult(Integer userUniversityId, List<Integer> userCollegeIdList,String stid);
 
-    //mini结果个人展示
-    JSONObject getOneMiniResult(String stid);
-
-
-    }
+}

@@ -81,19 +81,13 @@ public class UserController {
         return userService.personalInfoEdit(req,params);
     }
 
-    //获取Mini量表接口
+    //获取Mini量表接口（包括不重复的展示和个人的展示）
     @PostMapping("/miniResult")
     @ResponseBody
-    public JSONObject miniResult(HttpSession session) {
+    public JSONObject miniResult(HttpSession session,@RequestBody JSONObject params) {
 
-        return userService.getMiniResult((Integer) session.getAttribute("universityId"), (List<Integer>) session.getAttribute("collegeId"));
+        return userService.getMiniResult((Integer) session.getAttribute("universityId"), (List<Integer>) session.getAttribute("collegeId"),params.getString("stid"));
     }
 
-    //mini结果个人接口
-    @PostMapping("/personalMiniResult")
-    @ResponseBody
-    public JSONObject personalMiniResult(@RequestBody JSONObject params) {
-        return userService.getOneMiniResult(params.getString("stid"));
-    }
 
 }
