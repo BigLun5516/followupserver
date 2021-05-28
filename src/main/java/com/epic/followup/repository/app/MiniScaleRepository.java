@@ -13,8 +13,8 @@ public interface MiniScaleRepository extends JpaRepository<MiniScaleModel, Long>
      */
     @Query(value = "SELECT count(*) \n" +
             "FROM mini_scale m left join aidoctor_studentinfo s on m.userid = s.userid\n" +
-            "where s.university_id = 1\n" +
-            "    and (m.mini_time between \"2010-1-1\" and \"2030-1-1\")"
+            "where s.university_id = ?1\n" +
+            "    and (m.mini_time between ?2 and ?3)"
             , nativeQuery = true)
     Integer countEvaluationFromMiniscaleByUniversityId(Integer universityId, String startDate, String endDate);
 
