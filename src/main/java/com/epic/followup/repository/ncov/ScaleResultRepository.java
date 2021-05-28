@@ -19,4 +19,16 @@ public interface ScaleResultRepository extends JpaRepository<NCovResultModel, Lo
             "WHERE openid = ?1 AND scale_id = ?2 " +
             "ORDER BY answer_time DESC LIMIT 1")
     List<NCovResultModel> getLastScaleByOpenIdAndScaleId(String openid, int scaleId);
+
+    /**
+     * 根据学校id 查询aidoctor_ncov_result表中的评测数
+     * @param universityId
+     * @return
+     */
+    @Query(value = "SELECT count(*) \n" +
+            "FROM aidoctor_ncov_result r left join aidoctor_studentinfo s on r.userid = s.userid\n" +
+            "where s.university_id = ?1\n" +
+            "    and (r.answer_time between ?2 and ?3)"
+            , nativeQuery = true)
+    Integer countEvaluationFromNcovresultByUniversityId(Integer universityId, String startDate, String endDate);
 }

@@ -160,4 +160,13 @@ public interface StudentResultRepository extends JpaRepository<StudentResultMode
     List<StudentResultModel> findbyUniversityAndIllness(String university,String illness, Integer userUniversityId, List<Integer> userCollegeIdList);
 
 
+    /**
+     * 根据学校id 获取重度抑郁的学生数
+     */
+    @Query(value = "SELECT count(*) \n" +
+            "FROM aidoctor_studentresult r left join aidoctor_studentinfo s on r.userid = s.userid\n" +
+            "where s.university_id = ?1 and r.level = '重度抑郁' \n" +
+            "    and r.update_time between ?2 and ?3"
+            , nativeQuery = true)
+    Integer countSeriousStuNumByUniversityId(Integer universityId, String startDate, String endDate);
 }

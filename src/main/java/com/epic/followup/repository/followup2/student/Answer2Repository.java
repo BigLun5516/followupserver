@@ -74,4 +74,16 @@ public interface Answer2Repository extends JpaRepository<AnswerModel, Long> {
             "where aidoctor_studentinfo.university_id = ? and aidoctor_studentinfo.userid = aidoctor_answer.userid"
             , nativeQuery = true)
     Integer countAnswerByUniversityId(Integer universityId);
+
+    /**
+     * 根据学校id 查询aidoctor_answer表中的评测数
+     * @param universityId
+     * @return
+     */
+    @Query(value = "SELECT count(*) \n" +
+            "FROM aidoctor_answer a left join aidoctor_studentinfo s on a.userid = s.userid\n" +
+            "where s.university_id = ?1\n" +
+            "    and (a.answer_time between ?2 and ?3)"
+            , nativeQuery = true)
+    Integer countEvaluationFromAnswerByUniversityId(Integer universityId, String startDate, String endDate);
 }

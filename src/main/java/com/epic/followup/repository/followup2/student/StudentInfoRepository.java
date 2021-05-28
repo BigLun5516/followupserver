@@ -65,4 +65,46 @@ public interface StudentInfoRepository extends JpaRepository<StudentInfo, Long> 
             , nativeQuery = true)
     Integer countStudentInfo(String studentName, String universityName, Integer studenType
             , String StartTime, String endTime, Integer userUniversityId, List<Integer> collegeIdList);
+
+    // 获取指定学校的学生生源地分布
+    @Query(value = "SELECT province, count(*) \n" +
+            "FROM aidoctor_studentinfo\n" +
+            "where university_id = ?1\n" +
+            "group by province"
+            , nativeQuery = true)
+    List<Object> countProvinceByUniversityId(Integer universityId);
+
+    // 获取指定学校的学生性别分布
+    @Query(value = "SELECT gender, count(*) \n" +
+            "FROM aidoctor_studentinfo\n" +
+            "where university_id = ?1\n" +
+            "group by gender"
+            , nativeQuery = true)
+    List<Object> countGenderByUniversityId(Integer universityId);
+
+    // 获取一些学院的学生人数分布
+    @Query(value = "SELECT college_id, college, count(*) \n" +
+            "FROM aidoctor_studentinfo\n" +
+            "where university_id = ?1\n" +
+            "group by college_id, college"
+            , nativeQuery = true)
+    List<Object> countCollegeStuNumByUniversityId(Integer universityId);
+
+    // 获取指定学院的学生生源地分布
+    @Query(value = "SELECT province, count(*) \n" +
+            "FROM aidoctor_studentinfo\n" +
+            "where college_id = ?1\n" +
+            "group by province"
+            , nativeQuery = true)
+    List<Object> countProvinceByCollegeId(Integer collegeId);
+
+    // 获取指定学院的学生性别分布
+    @Query(value = "SELECT gender, count(*) \n" +
+            "FROM aidoctor_studentinfo\n" +
+            "where college_id = ?1\n" +
+            "group by gender"
+            , nativeQuery = true)
+    List<Object> countGenderByCollegeId(Integer collegeId);
+
+
 }
