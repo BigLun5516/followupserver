@@ -48,4 +48,6 @@ public interface WechatPatientService {
     // 查询量表历史记录时间（不包含mini量表）
     JSONObject getScaleHistory(Long userId);
 
+    //保存新生量表
+    JSONObject saveNewStudentResult(Long userId, JSONObject submitInfo);
 }

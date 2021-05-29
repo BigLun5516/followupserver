@@ -124,8 +124,16 @@ public class WechatPatientController {
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
 
         return JSON.toJSONString(wechatPatientService.saveMiniResult(bus.getUserId(), miniSubmitRequest));
+    }
 
+    //新生量表结果保存
+    @PostMapping(value = "/newStudent/submit")
+    @ResponseBody
+    public JSONObject submitNewStudentScale(HttpServletRequest request, @RequestBody JSONObject submitInfo){
 
+        BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
+
+        return wechatPatientService.saveNewStudentResult(bus.getUserId(), submitInfo);
     }
 
 

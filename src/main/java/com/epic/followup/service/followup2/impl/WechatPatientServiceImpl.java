@@ -7,9 +7,11 @@ import com.epic.followup.conf.WeChatConfig;
 import com.epic.followup.model.app.MiniScaleModel;
 import com.epic.followup.model.app.PatientBodyInformationModel;
 import com.epic.followup.model.app.PatientDiaryModel;
+import com.epic.followup.model.managementSys.NewStudentScaleModel;
 import com.epic.followup.repository.app.MiniScaleRepository;
 import com.epic.followup.repository.app.PatientBodyInformationRepository;
 import com.epic.followup.repository.app.PatientDiaryRepository;
+import com.epic.followup.repository.managementSys.NewStudentScaleRepository;
 import com.epic.followup.service.followup2.WechatPatientService;
 import com.epic.followup.temporary.DealMessageResponse;
 import com.epic.followup.temporary.app.MiniSubmitRequest;
@@ -42,12 +44,14 @@ public class WechatPatientServiceImpl implements WechatPatientService {
     @Autowired
     private WeChatConfig weChatConfig;
 
+    @Autowired
+    private NewStudentScaleRepository newStudentScaleRepository;
 
 
     @Override
-    public upLoadDiaryImgResponse uploadDiaryImg(MultipartFile file){
-        upLoadDiaryImgResponse res=new upLoadDiaryImgResponse();
-        if(file.getOriginalFilename().equals("")){
+    public upLoadDiaryImgResponse uploadDiaryImg(MultipartFile file) {
+        upLoadDiaryImgResponse res = new upLoadDiaryImgResponse();
+        if (file.getOriginalFilename().equals("")) {
             res.setErrorCode(502);
             res.setErrorMsg("文件名不能为空");
             res.setImgUrl("");
@@ -60,16 +64,16 @@ public class WechatPatientServiceImpl implements WechatPatientService {
             String UUID = new Date().getTime() + "-";
             //组合成新文件名避免有重复的文件名
             String newFileName = UUID + fileName;
-            File destFile = new File(new File(path).getAbsolutePath()+ "/" + newFileName);
+            File destFile = new File(new File(path).getAbsolutePath() + "/" + newFileName);
             //判断该文件下的上级文件夹是否存在 不存在创建
-            if(!destFile.getParentFile().exists()) {
+            if (!destFile.getParentFile().exists()) {
                 destFile.getParentFile().mkdirs();
             }
             //上传文件
             file.transferTo(destFile);//这一步结束就上传成功了。
             res.setErrorCode(200);
             res.setErrorMsg("上传文件成功");
-            res.setImgUrl(PatientConfig.diary_query+newFileName);
+            res.setImgUrl(PatientConfig.diary_query + newFileName);
         } catch (Exception e) {
             e.printStackTrace();
             res.setErrorCode(502);
@@ -80,10 +84,10 @@ public class WechatPatientServiceImpl implements WechatPatientService {
     }
 
     @Override
-    public savePatientDiaryResponse saveDiary(BaseUserSession bps, savePatientDiaryRequest saveDiaryRequest){
-        savePatientDiaryResponse res=new savePatientDiaryResponse();
-        PatientDiaryModel diary=new PatientDiaryModel();
-        if(saveDiaryRequest.getId()==-1){//新建日记
+    public savePatientDiaryResponse saveDiary(BaseUserSession bps, savePatientDiaryRequest saveDiaryRequest) {
+        savePatientDiaryResponse res = new savePatientDiaryResponse();
+        PatientDiaryModel diary = new PatientDiaryModel();
+        if (saveDiaryRequest.getId() == -1) {//新建日记
             diary.setBrief(saveDiaryRequest.getBrief());
             diary.setHtml(saveDiaryRequest.getHtml());
             diary.setImg(saveDiaryRequest.getImg());
@@ -96,19 +100,19 @@ public class WechatPatientServiceImpl implements WechatPatientService {
             Matcher m_html = p_html.matcher(saveDiaryRequest.getHtml());
             String temp = m_html.replaceAll(""); // 过滤html标签
             JSONObject req = new JSONObject();
-            req.put("msg",temp);
+            req.put("msg", temp);
             diary.setZisha(Integer.parseInt(this.restTemplate.postForObject(weChatConfig.getIsZisha(), req, String.class)));
 
             patientDiaryRepository.save(diary);
             List<PatientDiaryModel> ou = patientDiaryRepository.findAllByTel(bps.getTel());
-            PatientDiaryModel lasttm=ou.get(ou.size()-1);
+            PatientDiaryModel lasttm = ou.get(ou.size() - 1);
             res.setId(lasttm.getId());
             res.setErrorCode(200);
             res.setErrorMsg("日记插入成功");
             return res;
-        }else{//更新日记
+        } else {//更新日记
             Optional<PatientDiaryModel> ou = patientDiaryRepository.findById(saveDiaryRequest.getId());
-            if (!ou.isPresent()){
+            if (!ou.isPresent()) {
                 res.setId((long) -1);
                 res.setErrorCode(504);
                 res.setErrorMsg("不存在这篇日记");
@@ -126,9 +130,9 @@ public class WechatPatientServiceImpl implements WechatPatientService {
             Pattern p_html = Pattern.compile(regEx_html, Pattern.CASE_INSENSITIVE);
             Matcher m_html = p_html.matcher(saveDiaryRequest.getHtml());
             String temp = m_html.replaceAll(""); // 过滤html标签
-            System.out.println("内容："+temp);
+            System.out.println("内容：" + temp);
             JSONObject req = new JSONObject();
-            req.put("msg",temp);
+            req.put("msg", temp);
             diary.setZisha(Integer.parseInt(this.restTemplate.postForObject(weChatConfig.getIsZisha(), req, String.class)));
 
             patientDiaryRepository.save(diary);
@@ -140,11 +144,11 @@ public class WechatPatientServiceImpl implements WechatPatientService {
     }
 
     @Override
-    public getPatientDiaryResponse getPatientDiaryById(diaryIdRequest diaryId){
-        Long id=diaryId.getId();
-        getPatientDiaryResponse res=new getPatientDiaryResponse();
+    public getPatientDiaryResponse getPatientDiaryById(diaryIdRequest diaryId) {
+        Long id = diaryId.getId();
+        getPatientDiaryResponse res = new getPatientDiaryResponse();
         Optional<PatientDiaryModel> ou = patientDiaryRepository.findById(id);
-        if (!ou.isPresent()){
+        if (!ou.isPresent()) {
             res.setId((long) -1);
             res.setHtml("");
             res.setMood("");
@@ -153,7 +157,7 @@ public class WechatPatientServiceImpl implements WechatPatientService {
             res.setErrorMsg("不存在这篇日记");
             return res;
         }
-        PatientDiaryModel diary=ou.get();
+        PatientDiaryModel diary = ou.get();
         res.setId(diary.getId());
         res.setHtml(diary.getHtml());
         res.setMood(diary.getMood());
@@ -164,11 +168,11 @@ public class WechatPatientServiceImpl implements WechatPatientService {
     }
 
     @Override
-    public DealMessageResponse delPatientDiaryById(diaryIdRequest diaryId){
-        Long id=diaryId.getId();
-        DealMessageResponse res=new DealMessageResponse();
+    public DealMessageResponse delPatientDiaryById(diaryIdRequest diaryId) {
+        Long id = diaryId.getId();
+        DealMessageResponse res = new DealMessageResponse();
         Optional<PatientDiaryModel> ou = patientDiaryRepository.findById(id);
-        if (!ou.isPresent()){
+        if (!ou.isPresent()) {
             res.setErrorCode(504);
             res.setErrorMsg("不存在这篇日记");
             return res;
@@ -180,12 +184,12 @@ public class WechatPatientServiceImpl implements WechatPatientService {
     }
 
     @Override
-    public getAllPatientDiaryResponse getAllPatientDiary(BaseUserSession bps){
-        getAllPatientDiaryResponse res=new getAllPatientDiaryResponse();
+    public getAllPatientDiaryResponse getAllPatientDiary(BaseUserSession bps) {
+        getAllPatientDiaryResponse res = new getAllPatientDiaryResponse();
         List<PatientDiaryModel> ou = patientDiaryRepository.findAllByTel(bps.getTel());
-        List<Diary> res_diary=new LinkedList<>();
+        List<Diary> res_diary = new LinkedList<>();
         for (PatientDiaryModel patientDiaryModel : ou) {
-            Diary temp=new Diary();
+            Diary temp = new Diary();
             temp.setBrief(patientDiaryModel.getBrief());
             temp.setId(patientDiaryModel.getId());
             temp.setImg(patientDiaryModel.getImg());
@@ -203,7 +207,7 @@ public class WechatPatientServiceImpl implements WechatPatientService {
     public getAllMoodsResponse getAllPatientMoods(BaseUserSession bps) {
         List list = patientDiaryRepository.findBySqlTel(bps.getTel());
         List<MoodList> moodLists = new ArrayList<>();
-        for (Object row : list){
+        for (Object row : list) {
             Object[] cells = (Object[]) row;
             Map m = new HashMap();
             moodLists.add(new MoodList(cells[0].toString(), cells[1].toString()));
@@ -217,9 +221,9 @@ public class WechatPatientServiceImpl implements WechatPatientService {
     }
 
     @Override
-    public DealMessageResponse saveorupdateInformation(BaseUserSession bps, JSONObject information){
-        DealMessageResponse res=new DealMessageResponse();
-        Optional<PatientBodyInformationModel> ou = patientBodyInformationRepository.findByTimeAndPid(information.getString("datetime"),bps.getUserId());
+    public DealMessageResponse saveorupdateInformation(BaseUserSession bps, JSONObject information) {
+        DealMessageResponse res = new DealMessageResponse();
+        Optional<PatientBodyInformationModel> ou = patientBodyInformationRepository.findByTimeAndPid(information.getString("datetime"), bps.getUserId());
         if (!ou.isPresent()) {
             PatientBodyInformationModel bi = new PatientBodyInformationModel();
             bi.setAppetite(information.getString("appetite"));
@@ -233,8 +237,8 @@ public class WechatPatientServiceImpl implements WechatPatientService {
             res.setErrorCode(200);
             res.setErrorMsg("插入成功");
             return res;
-        }else{
-            PatientBodyInformationModel p=ou.get();
+        } else {
+            PatientBodyInformationModel p = ou.get();
             p.setAppetite(information.getString("appetite"));
             p.setPain(information.getString("pain"));
             p.setSleep(information.getString("sleep"));
@@ -248,52 +252,52 @@ public class WechatPatientServiceImpl implements WechatPatientService {
     }
 
     @Override
-    public JSONObject retrieveInformation(BaseUserSession bps,JSONObject information){
-        Optional<PatientBodyInformationModel> ou = patientBodyInformationRepository.findByTimeAndPid(information.getString("datetime"),bps.getUserId());
-        JSONObject res=new JSONObject();
+    public JSONObject retrieveInformation(BaseUserSession bps, JSONObject information) {
+        Optional<PatientBodyInformationModel> ou = patientBodyInformationRepository.findByTimeAndPid(information.getString("datetime"), bps.getUserId());
+        JSONObject res = new JSONObject();
         if (!ou.isPresent()) {
-            res.put("errorCode",502);
-            res.put("errorMsg","未查找到信息");
-        }else{
-            PatientBodyInformationModel p=ou.get();
-            res.put("errorCode",200);
-            res.put("errorMsg","查找成功");
-            res.put("pain",p.getPain());
-            res.put("appetite",p.getAppetite());
-            res.put("sleep",p.getSleep());
-            res.put("weight",p.getWeight());
-            res.put("medicine",p.getMedicine());
+            res.put("errorCode", 502);
+            res.put("errorMsg", "未查找到信息");
+        } else {
+            PatientBodyInformationModel p = ou.get();
+            res.put("errorCode", 200);
+            res.put("errorMsg", "查找成功");
+            res.put("pain", p.getPain());
+            res.put("appetite", p.getAppetite());
+            res.put("sleep", p.getSleep());
+            res.put("weight", p.getWeight());
+            res.put("medicine", p.getMedicine());
         }
         return res;
     }
 
     @Override
     public JSONObject getSevenDaysBodyInfo(BaseUserSession bps) {
-        List<PatientBodyInformationModel>  bodyInfoList = patientBodyInformationRepository.findBodyInfoByPid(bps.getUserId());
-        JSONObject res=new JSONObject();
+        List<PatientBodyInformationModel> bodyInfoList = patientBodyInformationRepository.findBodyInfoByPid(bps.getUserId());
+        JSONObject res = new JSONObject();
         if (bodyInfoList == null || bodyInfoList.isEmpty()) {
-            res.put("errorCode",502);
-            res.put("errorMsg","未查找到信息");
-        }else{
+            res.put("errorCode", 502);
+            res.put("errorMsg", "未查找到信息");
+        } else {
             Collections.reverse(bodyInfoList);
-            res.put("errorCode",200);
-            res.put("errorMsg","查找成功");
-            res.put("data",bodyInfoList);
+            res.put("errorCode", 200);
+            res.put("errorMsg", "查找成功");
+            res.put("data", bodyInfoList);
         }
         return res;
     }
 
     @Override
     public JSONObject getDaysByMonth(BaseUserSession bps, String month) {
-        List<String>  bodyInfoList = patientBodyInformationRepository.findDayByMonth(bps.getUserId(), month);
-        JSONObject res=new JSONObject();
+        List<String> bodyInfoList = patientBodyInformationRepository.findDayByMonth(bps.getUserId(), month);
+        JSONObject res = new JSONObject();
         if (bodyInfoList == null || bodyInfoList.isEmpty()) {
-            res.put("errorCode",502);
-            res.put("errorMsg","未查找到信息");
-        }else{
-            res.put("errorCode",200);
-            res.put("errorMsg","查找成功");
-            res.put("data",bodyInfoList);
+            res.put("errorCode", 502);
+            res.put("errorMsg", "未查找到信息");
+        } else {
+            res.put("errorCode", 200);
+            res.put("errorMsg", "查找成功");
+            res.put("data", bodyInfoList);
         }
         return res;
     }
@@ -307,13 +311,14 @@ public class WechatPatientServiceImpl implements WechatPatientService {
 
     /**
      * 保存mini量表结果
+     *
      * @param userId
      * @param miniSubmitRequest
      * @return
      */
 
     @Override
-    public DealMessageResponse saveMiniResult(Long userId, MiniSubmitRequest miniSubmitRequest){
+    public DealMessageResponse saveMiniResult(Long userId, MiniSubmitRequest miniSubmitRequest) {
         DealMessageResponse dealMessageResponse = new DealMessageResponse();
 
         MiniScaleModel miniScaleModel = new MiniScaleModel();
@@ -329,4 +334,24 @@ public class WechatPatientServiceImpl implements WechatPatientService {
 
         return dealMessageResponse;
     }
+
+    //保存新生量表（0代表症状自测，1代表人格测试）
+    @Override
+    public JSONObject saveNewStudentResult(Long userId, JSONObject submitInfo) {
+        JSONObject res = new JSONObject();
+
+        NewStudentScaleModel n =new NewStudentScaleModel();
+        n.setAnswerArray(submitInfo.getString("answerArray"));
+        n.setAnswerResult(submitInfo.getString("answerResult"));
+        n.setAnswerTime(new Date());
+        n.setScaleId(submitInfo.getInteger("scaleId"));
+        n.setUserId(userId);
+
+        newStudentScaleRepository.save(n);
+
+        res.put("errorCode", 200);
+        res.put("errorMsg", "保存成功");
+        return res;
+    }
+
 }
