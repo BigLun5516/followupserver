@@ -20,4 +20,6 @@ public interface TaskStatusRepository extends JpaRepository<TaskFinishedModel, L
             "WHERE a.university_id=?1 AND a.grade=?2 And (a.college_id=-1 or a.college_id =?4)  " +
             "AND a.task_id NOT in(SELECT b.task_id FROM management_task_finished b WHERE b.user_id=?3 )) ")
     List<Object> getTask2(Integer university_id,String grade,Long userId,Integer college_id);
+
+    TaskFinishedModel findByTaskIdAndUserId(Long taskId,Long userId);
 }

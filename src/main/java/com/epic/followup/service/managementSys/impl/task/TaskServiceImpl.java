@@ -86,6 +86,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public JSONObject saveTask(JSONObject params){
         JSONObject res = new JSONObject();
+        if(taskStatusRepository.findByTaskIdAndUserId(params.getLong("task_id"),params.getLong("user_id"))!=null){
+            res.put("errorCode", 502);
+            res.put("errorMsg", "已经做过这个任务了");
+            return res;
+        }
         TaskFinishedModel t=new TaskFinishedModel();
         t.setTaskId(params.getLong("task_id"));
         t.setUserId(params.getLong("user_id"));
