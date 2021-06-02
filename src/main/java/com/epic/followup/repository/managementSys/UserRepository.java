@@ -28,6 +28,8 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
     @Query(nativeQuery = true, value = " UPDATE management_user a SET a.user_type = -1 WHERE a.user_type = ?1")
     void upDateUserType(Long id);
 
+    List<UserModel> findByUserType(Long userType);
+
 
     @Query(nativeQuery = true, value = "SELECT a.id,a.image_url,a.`password`,a.tel,a.user_name,any_value(b.university_name) university,c.`name` as role_name " +
             ",GROUP_CONCAT(d.college_name) college from management_user a LEFT JOIN management_data_permission p " +

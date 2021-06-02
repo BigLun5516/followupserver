@@ -2,9 +2,11 @@ package com.epic.followup.service.managementSys.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.epic.followup.model.managementSys.RoleModel;
+import com.epic.followup.model.managementSys.UserModel;
 import com.epic.followup.repository.managementSys.RoleRepository;
 import com.epic.followup.repository.managementSys.UserRepository;
 import com.epic.followup.service.managementSys.RoleService;
+import com.epic.followup.service.managementSys.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 查询全部角色
@@ -61,7 +66,10 @@ public class RoleServiceImpl implements RoleService {
 
         try {
             roleRepository.deleteById(id);
-            userRepository.upDateUserType(id);//角色删除后，相应的用户对应的角色也要删除
+            List<UserModel> delUserList = userRepository.findByUserType(id);
+            for(UserModel u:delUserList){
+                userService.deleteUser(u.getUserId());//角色删除后，相应的用户也要删除
+            }
         }catch (EmptyResultDataAccessException e){
             res.put("errorCode", 500);
             res.put("errorMsg", "删除失败");
