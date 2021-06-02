@@ -9,6 +9,7 @@ import com.epic.followup.service.KnowledgeMapService;
 import com.epic.followup.service.NLPService;
 import com.epic.followup.service.followup2.BaseUserService;
 import com.epic.followup.service.followup2.WechatAppUserService;
+import com.epic.followup.service.followup2.WechatCCBTService;
 import com.epic.followup.service.followup2.doctor.StudentResultService;
 import com.epic.followup.service.followup2.student.*;
 import com.epic.followup.temporary.*;
@@ -23,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.xmlrpc.XmlRpcException;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -61,6 +63,9 @@ public class WechatAppController {
 
     @Autowired
     public CCBTAccessAnswerService ccbtAccessAnswerService;
+
+    @Autowired
+    WechatCCBTService wechatCCBTService; // 小程序CCBT
 
     @Autowired
     public WechatAppController(WechatAppUserService wechatAppUserService,
@@ -617,6 +622,27 @@ public class WechatAppController {
             res.put("errorMsg","查找成功");
             res.put("data",model);
         }
+        return res;
+    }
+
+    // CCBT 查询/提交 数据统一接口（数据是用户的回答）
+    @PostMapping(value = "/ccbt/data")
+    @ResponseBody
+    public JSONObject ccbtData(HttpServletRequest request, @RequestBody JSONObject param) {
+
+        Integer status = param.getInteger("status");
+        BaseUserSession session = baseUserService.findBySessionId(request.getHeader("sessionId"));
+
+        JSONObject res;
+
+        if (status == 0) {
+            // 0为存储数据
+            res = wechatCCBTService.saveCCBTData(param, session);
+        } else {
+            // 1为获取数据
+            res = wechatCCBTService.getCCBTData(param, session);
+        }
+
         return res;
     }
 }
