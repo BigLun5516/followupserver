@@ -28,9 +28,9 @@ public interface BaseUserRepository extends JpaRepository<BaseUserModel, Long> {
      */
     @Query(value = "SELECT count(*)\n" +
             "FROM aidoctor_baseuser u left join aidoctor_studentinfo s on u.userid = s.userid\n" +
-            "where s.university_id = ?1"
+            "where s.university_id = ?1 and (s.stype = ?2 or ?2 = '') and (s.college_id = ?3 or ?3 = '')"
             , nativeQuery = true)
-    Integer countUserByUniversityId(Integer universityId);
+    Integer countUserByUniversityId(Integer universityId, String sType, String collegeId);
 
 
 

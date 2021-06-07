@@ -22,9 +22,8 @@ public class DataReportController {
      * @return
      */
     @PostMapping("/universitySrc")
-    public JSONObject universitySourceDistribution(HttpSession session) {
+    public JSONObject universitySourceDistribution(HttpSession session, @RequestBody JSONObject param) {
 
-        JSONObject param = new JSONObject();
         param.put("userUniversityId", session.getAttribute("universityId"));
         JSONObject res = dataReportService.universitySourceDistribution(param);
         return res;
@@ -35,9 +34,8 @@ public class DataReportController {
      * @return
      */
     @PostMapping("/collegeStuNum")
-    public JSONObject collegeStuNumDistribution(HttpSession session) {
+    public JSONObject collegeStuNumDistribution(HttpSession session, @RequestBody JSONObject param) {
 
-        JSONObject param = new JSONObject();
         param.put("userUniversityId", session.getAttribute("universityId"));
         JSONObject res = dataReportService.collegeStuNumDistribution(param);
         return res;
@@ -60,9 +58,8 @@ public class DataReportController {
      * @return
      */
     @PostMapping("/evaluation")
-    public JSONObject getEvaluationReport(HttpSession session) {
+    public JSONObject getEvaluationReport(HttpSession session, @RequestBody JSONObject param) {
 
-        JSONObject param = new JSONObject();
         param.put("userUniversityId", session.getAttribute("universityId"));
         JSONObject res = dataReportService.getEvaluationReport(param);
         return res;

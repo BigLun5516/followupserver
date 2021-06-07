@@ -80,10 +80,10 @@ public interface Answer2Repository extends JpaRepository<AnswerModel, Long> {
      * @param universityId
      * @return
      */
-    @Query(value = "SELECT count(*) \n" +
+    @Query(value = "SELECT count(*)\n" +
             "FROM aidoctor_answer a left join aidoctor_studentinfo s on a.userid = s.userid\n" +
-            "where s.university_id = ?1\n" +
-            "    and (a.answer_time between ?2 and ?3)"
+            "where s.university_id = ?1 and (s.stype = ?2 or ?2 = '') and (s.college_id = ?3 or ?3 = '')\n" +
+            "\t\tand (a.answer_time between ?4 and ?5)"
             , nativeQuery = true)
-    Integer countEvaluationFromAnswerByUniversityId(Integer universityId, String startDate, String endDate);
+    Integer countEvaluationFromAnswerByUniversityId(Integer universityId, String sType, String collegeId, String startDate, String endDate);
 }

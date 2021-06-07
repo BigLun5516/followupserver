@@ -67,44 +67,44 @@ public interface StudentInfoRepository extends JpaRepository<StudentInfo, Long> 
             , String StartTime, String endTime, Integer userUniversityId, List<Integer> collegeIdList);
 
     // 获取指定学校的学生生源地分布
-    @Query(value = "SELECT province, count(*) \n" +
-            "FROM aidoctor_studentinfo\n" +
-            "where university_id = ?1\n" +
-            "group by province"
+    @Query(value = "SELECT s.province, count(*)\n" +
+            "FROM aidoctor_studentinfo s left join aidoctor_studentresult r on s.userid = r.userid\n" +
+            "where s.university_id = ?1 and (s.stype = ?2 or ?2 = '') and (r.level = ?3 or ?3 = '')\n" +
+            "group by s.province"
             , nativeQuery = true)
-    List<Object> countProvinceByUniversityId(Integer universityId);
+    List<Object> countProvinceByUniversityId(Integer universityId, String sType, String yiyuLabel);
 
     // 获取指定学校的学生性别分布
-    @Query(value = "SELECT gender, count(*) \n" +
-            "FROM aidoctor_studentinfo\n" +
-            "where university_id = ?1\n" +
-            "group by gender"
+    @Query(value = "SELECT s.gender, count(*)\n" +
+            "FROM aidoctor_studentinfo s left join aidoctor_studentresult r on s.userid = r.userid\n" +
+            "where s.university_id = ?1 and (s.stype = ?2 or ?2 = '') and (r.level = ?3 or ?3 = '')\n" +
+            "group by s.gender"
             , nativeQuery = true)
-    List<Object> countGenderByUniversityId(Integer universityId);
+    List<Object> countGenderByUniversityId(Integer universityId, String sType, String yiyuLabel);
 
     // 获取一些学院的学生人数分布
-    @Query(value = "SELECT college_id, college, count(*) \n" +
-            "FROM aidoctor_studentinfo\n" +
-            "where university_id = ?1\n" +
-            "group by college_id, college"
+    @Query(value = "SELECT s.college_id, s.college, count(*)\n" +
+            "FROM aidoctor_studentinfo s left join aidoctor_studentresult r on s.userid = r.userid\n" +
+            "where s.university_id = ?1 and (s.stype = ?2 or ?2 = '') and (r.level = ?3 or ?3 = '')\n" +
+            "group by s.college_id, s.college"
             , nativeQuery = true)
-    List<Object> countCollegeStuNumByUniversityId(Integer universityId);
+    List<Object> countCollegeStuNumByUniversityId(Integer universityId, String sType, String yiyuLabel);
 
     // 获取指定学院的学生生源地分布
-    @Query(value = "SELECT province, count(*) \n" +
-            "FROM aidoctor_studentinfo\n" +
-            "where college_id = ?1\n" +
-            "group by province"
+    @Query(value = "SELECT s.province, count(*)\n" +
+            "FROM aidoctor_studentinfo s left join aidoctor_studentresult r on s.userid = r.userid\n" +
+            "where s.college_id = ?1 and (s.stype = ?2 or ?2 = '') and (r.level = ?3 or ?3 = '')\n" +
+            "group by s.province"
             , nativeQuery = true)
-    List<Object> countProvinceByCollegeId(Integer collegeId);
+    List<Object> countProvinceByCollegeId(Integer collegeId, String sType, String yiyuLabel);
 
     // 获取指定学院的学生性别分布
-    @Query(value = "SELECT gender, count(*) \n" +
-            "FROM aidoctor_studentinfo\n" +
-            "where college_id = ?1\n" +
-            "group by gender"
+    @Query(value = "SELECT s.gender, count(*)\n" +
+            "FROM aidoctor_studentinfo s left join aidoctor_studentresult r on s.userid = r.userid\n" +
+            "where s.college_id = ?1 and (s.stype = ?2 or ?2 = '') and (r.level = ?3 or ?3 = '')\n" +
+            "group by s.gender"
             , nativeQuery = true)
-    List<Object> countGenderByCollegeId(Integer collegeId);
+    List<Object> countGenderByCollegeId(Integer collegeId, String sType, String yiyuLabel);
 
 
 }

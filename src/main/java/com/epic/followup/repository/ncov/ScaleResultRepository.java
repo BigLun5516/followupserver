@@ -25,10 +25,10 @@ public interface ScaleResultRepository extends JpaRepository<NCovResultModel, Lo
      * @param universityId
      * @return
      */
-    @Query(value = "SELECT count(*) \n" +
+    @Query(value = "SELECT count(*)\n" +
             "FROM aidoctor_ncov_result r left join aidoctor_studentinfo s on r.userid = s.userid\n" +
-            "where s.university_id = ?1\n" +
-            "    and (r.answer_time between ?2 and ?3)"
+            "where s.university_id = ?1  and (s.stype = ?2 or ?2 = '') and (s.college_id = ?3 or ?3 = '')\n" +
+            "    and (r.answer_time between ?4 and ?5)"
             , nativeQuery = true)
-    Integer countEvaluationFromNcovresultByUniversityId(Integer universityId, String startDate, String endDate);
+    Integer countEvaluationFromNcovresultByUniversityId(Integer universityId, String sType, String collegeID, String startDate, String endDate);
 }
