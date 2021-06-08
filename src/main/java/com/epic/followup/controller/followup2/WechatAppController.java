@@ -645,4 +645,25 @@ public class WechatAppController {
 
         return res;
     }
+
+    // CCBT 查询/提交 用户目前进行的模块标号
+    @PostMapping(value = "/ccbt/progress")
+    @ResponseBody
+    public JSONObject ccbtProgess(HttpServletRequest request, @RequestBody JSONObject param) {
+
+        Integer status = param.getInteger("status");
+        BaseUserSession session = baseUserService.findBySessionId(request.getHeader("sessionId"));
+
+        JSONObject res;
+
+        if (status == 0) {
+            // 0为存储数据
+            res = wechatCCBTService.saveCCBTProgess(param, session);
+        } else {
+            // 1为获取数据
+            res = wechatCCBTService.getCCBTProgess(param, session);
+        }
+
+        return res;
+    }
 }

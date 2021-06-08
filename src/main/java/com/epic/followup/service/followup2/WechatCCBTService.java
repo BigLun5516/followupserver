@@ -23,4 +23,20 @@ public interface WechatCCBTService {
      * @return
      */
     JSONObject getCCBTData(JSONObject param, BaseUserSession session);
+
+    /**
+     * 存储用户目前进行的模块标号
+     * @param param
+     * @param session
+     * @return
+     */
+    JSONObject saveCCBTProgess(JSONObject param, BaseUserSession session);
+
+    /**
+     * 获取用户目前进行的模块标号
+     * @param param
+     * @param session
+     * @return
+     */
+    JSONObject getCCBTProgess(JSONObject param, BaseUserSession session);
 }
