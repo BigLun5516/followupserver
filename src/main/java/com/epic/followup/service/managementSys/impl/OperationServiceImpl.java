@@ -414,7 +414,7 @@ public class OperationServiceImpl implements OperationService {
 
         // 高校中心理指标雷达图
         List<Map<String, Object>> radar = new ArrayList<>();
-        for (int year = 2018; year < 2021; year++) {
+        for (int year = 2019; year < 2022; year++) {
             String startTime = year + "-1-1";
             String endTime = year + "-12-31";
             Map<String, Object> item = new HashMap<>();
