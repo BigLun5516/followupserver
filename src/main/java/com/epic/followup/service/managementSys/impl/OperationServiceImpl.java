@@ -383,7 +383,7 @@ public class OperationServiceImpl implements OperationService {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String todayDateStr = dateFormat.format(todayDate);
         List<String> scaleList = new ArrayList<String>(){{
-            add("suicide"); add("depress"); add("anxiety"); add("insomnia"); add("others");
+            add("others"); add("depress"); add("anxiety"); add("insomnia"); add("suicide");
         }};
         List<Integer> scoreList = new ArrayList<Integer>(){{
             add(4); add(4); add(4); add(7); add(8);
