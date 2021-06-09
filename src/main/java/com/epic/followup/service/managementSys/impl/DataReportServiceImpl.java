@@ -6,6 +6,7 @@ import com.epic.followup.repository.followup2.BaseUserRepository;
 import com.epic.followup.repository.followup2.doctor.StudentResultRepository;
 import com.epic.followup.repository.followup2.student.Answer2Repository;
 import com.epic.followup.repository.followup2.student.StudentInfoRepository;
+import com.epic.followup.repository.managementSys.NewStudentScaleRepository;
 import com.epic.followup.repository.managementSys.UserRepository;
 import com.epic.followup.repository.managementSys.scale.ScaleRepository;
 import com.epic.followup.repository.ncov.ScaleResultRepository;
@@ -36,6 +37,9 @@ public class DataReportServiceImpl implements DataReportService {
 
     @Autowired
     StudentResultRepository studentResultRepository;
+
+    @Autowired
+    NewStudentScaleRepository newStudentScaleRepository;
 
     @Override
     public JSONObject universitySourceDistribution(JSONObject param) {
@@ -238,8 +242,9 @@ public class DataReportServiceImpl implements DataReportService {
         Integer answerNum = answer2Repository.countEvaluationFromAnswerByUniversityId(userUniversityId, sType, collegeId, "1970-1-1", "3000-1-1");
         Integer ncovresultNum = scaleResultRepository.countEvaluationFromNcovresultByUniversityId(userUniversityId, sType, collegeId, "1970-1-1", "3000-1-1");
         Integer miniNum = miniScaleRepository.countEvaluationFromMiniscaleByUniversityId(userUniversityId, sType, collegeId, "1970-1-1", "3000-1-1");
+        Integer newstudentsaleNum = newStudentScaleRepository.countEvaluationFromNewstudentscaleByUniversityId(userUniversityId, sType, collegeId, "1970-1-1", "3000-1-1");
 
-        res.put("evaNum", answerNum / 20 + ncovresultNum / 4 + miniNum);
+        res.put("evaNum", answerNum / 20 + ncovresultNum / 4 + miniNum + newstudentsaleNum);
 
         Integer seriousNum = studentResultRepository.countSeriousStuNumByUniversityId(userUniversityId, sType, collegeId, "1970-1-1", "3000-1-1");
         res.put("seriousNum", seriousNum);
@@ -263,7 +268,8 @@ public class DataReportServiceImpl implements DataReportService {
             answerNum = answer2Repository.countEvaluationFromAnswerByUniversityId(userUniversityId, sType, collegeId, startDate, endDate);
             ncovresultNum = scaleResultRepository.countEvaluationFromNcovresultByUniversityId(userUniversityId, sType, collegeId, startDate, endDate);
             miniNum = miniScaleRepository.countEvaluationFromMiniscaleByUniversityId(userUniversityId, sType, collegeId, startDate, endDate);
-            evaTrend.add(answerNum / 20 + ncovresultNum / 4 + miniNum);
+            newstudentsaleNum = newStudentScaleRepository.countEvaluationFromNewstudentscaleByUniversityId(userUniversityId, sType, collegeId, startDate, endDate);
+            evaTrend.add(answerNum / 20 + ncovresultNum / 4 + miniNum + newstudentsaleNum);
 
             seriousNum = studentResultRepository.countSeriousStuNumByUniversityId(userUniversityId, sType, collegeId, startDate, endDate);
             seriousTrend.add(seriousNum);
