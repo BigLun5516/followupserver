@@ -334,4 +334,31 @@ public class UserServiceImpl implements UserService {
         res.put("errorMsg", "查询成功");
         return res;
     }
+
+    //获取当前登录后台用户的学校的所有注册账号
+    @Override
+    public JSONObject getRegisterUser(Integer universityId){
+        JSONObject res=new JSONObject();
+        List<Object> userList=userRepository.getRegisterUser(universityId);
+        List<Map<String, Object>> data = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (Object o : userList) {
+            Map<String, Object> item = new HashMap<>();
+            Object[] obj = (Object[]) o;
+            item.put("department", obj[0]);
+            item.put("college", obj[1]);
+            item.put("stid", obj[2]);
+            item.put("tel", obj[3]);
+            item.put("province", obj[4]);
+            item.put("stname", obj[5]);
+            item.put("stype", obj[6]);
+            item.put("year", obj[7]);
+            item.put("create_time", dateFormat.format(obj[8]));
+            data.add(item);
+        }
+        res.put("data",data);
+        res.put("errorCode", 200);
+        res.put("errorMsg", "查询成功");
+        return res;
+    }
 }

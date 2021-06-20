@@ -50,4 +50,9 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
     @Query(nativeQuery = true, value = " DELETE FROM management_data_permission a WHERE a.user_id = ?1")
     void deletePermission(Long id);
 
+    @Query(nativeQuery = true, value = "select b.department,s.college,b.stid,b.tel,s.province,s.stname,s.stype,s.`year`,b.create_time " +
+            "FROM aidoctor_baseuser b LEFT JOIN aidoctor_studentinfo s ON b.userid=s.userid where s.university_id=?1 ORDER BY b.create_time ")
+    List<Object> getRegisterUser(Integer userUniversityId);
+
+
 }

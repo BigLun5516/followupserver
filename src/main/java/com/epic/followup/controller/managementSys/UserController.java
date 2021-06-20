@@ -89,5 +89,12 @@ public class UserController {
         return userService.getMiniResult((Integer) session.getAttribute("universityId"), (List<Integer>) session.getAttribute("collegeId"),params.getString("stid"));
     }
 
+    @PostMapping("/registerUser")
+    @ResponseBody
+    public JSONObject registerUser(HttpSession session) {
+
+        return userService.getRegisterUser((Integer) session.getAttribute("universityId"));
+    }
+
 
 }

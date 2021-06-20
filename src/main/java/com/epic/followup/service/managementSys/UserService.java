@@ -39,4 +39,6 @@ public interface UserService {
     //Mini结果展示（包括不重复的展示和个人的展示）
     JSONObject getMiniResult(Integer userUniversityId, List<Integer> userCollegeIdList,String stid);
 
+    //获取当前登录后台用户的学校的所有注册账号
+    JSONObject getRegisterUser(Integer universityId);
 }
