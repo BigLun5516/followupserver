@@ -68,7 +68,7 @@ public class OperationServiceImpl implements OperationService {
         List<UniversityModel> universityModelOrderByStar = universityRepository.getUniversityModelOrderByStar();
         List<Map<String, Object>> keyUniversity = new ArrayList<>();
         int i;
-        for(i=1; i<5; i++){
+        for(i=0; i<Math.min(4,universityModelOrderByStar.size()); i++){
             Map<String, Object> item = new HashMap<>();
             UniversityModel universityModel = universityModelOrderByStar.get(i);
             item.put("provinve", universityModel.getProvince());
