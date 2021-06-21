@@ -168,7 +168,7 @@ public class UserServiceImpl implements UserService {
         JSONObject res = new JSONObject();
 
         UserModel userModel = new UserModel();
-        userModel.setImageUrl("http://follwup.cmas2020.cn/img/diaryImg/1608689964159-tmp_05359ec4032c588ac2c397854ff6ce60e4ceab585b864509.jpg");
+        userModel.setImageUrl("http://119.3.234.22:8013/img/diaryImg/1608689964159-tmp_05359ec4032c588ac2c397854ff6ce60e4ceab585b864509.jpg");
         userModel.setPassword(params.getString("password"));
         userModel.setTel(params.getString("tel"));
         userModel.setUserName(params.getString("name"));
