@@ -29,7 +29,7 @@ public interface ScaleResult2Repository extends JpaRepository<NCovResultModel, L
      * @param userId
      * @return
      */
-    @Query(nativeQuery = true, value = "SELECT DATE_FORMAT(answer_time,'%Y-%m-%d %H:%i') time, level FROM aidoctor_ncov_result WHERE userid = ?1" +
+    @Query(nativeQuery = true, value = "SELECT DATE_FORMAT(answer_time,'%Y-%m-%d %H:%i:%s') time, level FROM aidoctor_ncov_result WHERE userid = ?1" +
             "  AND scale_id = 1  ORDER BY answer_time DESC LIMIT 100")
     List getLastScaleByUserId(Long userId);
 

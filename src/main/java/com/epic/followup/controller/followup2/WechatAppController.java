@@ -539,7 +539,7 @@ public class WechatAppController {
     public String getResultByDate(HttpServletRequest request, @RequestBody JSONObject obj){
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
         String date = obj.getString("date");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = null;
         try {
             now = sdf.parse(date);
@@ -548,7 +548,7 @@ public class WechatAppController {
         }
         // 取前后两分钟范围内的记录
         Date afterDate = new Date(now .getTime() + 120000);
-        Date beforeDate = new Date(now.getTime() - 120000);
+        Date beforeDate = new Date(now.getTime() - 5000);
 
         GetScaleResultResponse gsr = scaleResult2Service.getResultByDate(bus.getUserId(), sdf.format(beforeDate)+":00", sdf.format(afterDate)+":00");
         gsr.setErrorCode(200);
