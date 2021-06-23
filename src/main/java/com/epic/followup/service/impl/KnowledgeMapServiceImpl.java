@@ -13,6 +13,9 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -52,16 +55,25 @@ public class KnowledgeMapServiceImpl implements KnowledgeMapService {
     }
 
     @Override
-    public String knowledgeMapAnswer(String sessionId, String question,String pattern ,String location) {
-        String tmp = update(sessionId);
+    public HttpEntity<String> knowledgeMapAnswer(String session, String question,String pattern ,String location) {
+        String tmp = update(session);
         ChatRobotRequest req = new ChatRobotRequest();
         req.msg = question;
-        req.sessionId = tmp;
         req.pattern = pattern;
         req.location = location;
-        return this.restTemplate.postForObject(weChatConfig.getGuoguang()+QuestionAnswerUrl, req, String.class);
+
+        HttpHeaders headers = new HttpHeaders();
+        if(session!=null && !"".equals(session)){
+            headers.set("cookie", "session="+session);
+        }
+        HttpEntity<ChatRobotRequest> r = new HttpEntity<ChatRobotRequest>(req, headers);
+//        return this.restTemplate.postForObject(weChatConfig.getGuoguang()+QuestionAnswerUrl, r, String.class);
+        HttpEntity<String> response =  this.restTemplate.exchange(weChatConfig.getGuoguang()+QuestionAnswerUrl, HttpMethod.POST, r, String.class);
+        return response;
     }
 
+
+    // @TODO
     private String update(String sessionId){
         if (this.sessionIdMap.containsKey(sessionId)){
             String tmp = sessionIdMap.get(sessionId);

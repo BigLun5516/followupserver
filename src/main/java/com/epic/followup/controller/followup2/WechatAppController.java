@@ -24,13 +24,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.xmlrpc.XmlRpcException;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -559,12 +563,29 @@ public class WechatAppController {
 
     @PostMapping("/question")
     @ResponseBody
-    public String question(HttpServletRequest request, @RequestBody JSONObject obj){
+    public String question(HttpServletRequest request, HttpServletResponse response, @RequestBody JSONObject obj){
+        Cookie[] a = request.getCookies();
+        String value ="";
+        if(a != null){
+            for(Cookie c:a){
+                if("session".equals(c.getName())){
+                    value = c.getValue();
+                    break;
+                }
+            }
+        }
         System.out.println("question接受到了");
         String q=obj.getString("q");
         String pattern=obj.getString("pattern");
         String location=obj.getString("location");
-        return this.knowledgeMapService.knowledgeMapAnswer(request.getHeader("sessionId"), q,pattern,location);
+        HttpEntity<String> repFromRemote = this.knowledgeMapService.knowledgeMapAnswer(value, q,pattern,location);
+        HttpHeaders headers = repFromRemote.getHeaders();
+        List<String> cookies = headers.get("Set-Cookie");
+        for(String c:cookies){
+            response.addHeader("Set-Cookie", c);
+
+        }
+        return repFromRemote.getBody();
     }
 
     // CCBT 评估模块
