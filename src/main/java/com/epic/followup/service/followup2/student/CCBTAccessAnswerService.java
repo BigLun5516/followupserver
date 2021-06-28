@@ -4,6 +4,8 @@ import com.epic.followup.model.followup2.student.CCBTAccessAnswerModel;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhaoyiting
@@ -20,7 +22,7 @@ public interface CCBTAccessAnswerService {
 
     void saveAccessAnswer(CCBTAccessAnswerModel model);
 
-    CCBTAccessAnswerModel getLastestHistory(Long userId);
+    List<Map<String, Object>> getLastestHistory(Long userId);
 
 
 }

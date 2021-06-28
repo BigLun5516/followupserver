@@ -633,9 +633,9 @@ public class WechatAppController {
     @ResponseBody
     public JSONObject getLastestHistory(HttpServletRequest request){
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
-        CCBTAccessAnswerModel model = ccbtAccessAnswerService.getLastestHistory(bus.getUserId());
+        List<Map<String, Object>> model = ccbtAccessAnswerService.getLastestHistory(bus.getUserId());
         JSONObject res = new JSONObject();
-        if (model == null) {
+        if (model == null || model.size()==0) {
             res.put("errorCode",502);
             res.put("errorMsg","未查找到信息");
         }else{
