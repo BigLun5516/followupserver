@@ -5,6 +5,7 @@
         <!--  输出路径  -->
 <!--                <Property name="logpath">C:/Users/lgg/Desktop/log</Property>-->
         <Property name="logpath">/home/followup/follw/</Property>
+
     </Properties>
     <Appenders>
         <!-- 优先级从高到低分别是 OFF、FATAL、ERROR、WARN、INFO、DEBUG、ALL -->
