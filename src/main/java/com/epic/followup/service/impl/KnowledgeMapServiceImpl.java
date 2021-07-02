@@ -64,7 +64,7 @@ public class KnowledgeMapServiceImpl implements KnowledgeMapService {
 
         HttpHeaders headers = new HttpHeaders();
         if(session!=null && !"".equals(session)){
-            headers.set("cookie", "session="+session);
+            headers.set("Cookie", "session="+session);
         }
         HttpEntity<ChatRobotRequest> r = new HttpEntity<ChatRobotRequest>(req, headers);
 //        return this.restTemplate.postForObject(weChatConfig.getGuoguang()+QuestionAnswerUrl, r, String.class);

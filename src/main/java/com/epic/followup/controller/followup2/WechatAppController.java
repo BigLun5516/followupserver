@@ -574,6 +574,7 @@ public class WechatAppController {
                 }
             }
         }
+        System.out.println("cookie是你吗："+value);
         System.out.println("question接受到了");
         String q=obj.getString("q");
         String pattern=obj.getString("pattern");
@@ -581,9 +582,11 @@ public class WechatAppController {
         HttpEntity<String> repFromRemote = this.knowledgeMapService.knowledgeMapAnswer(value, q,pattern,location);
         HttpHeaders headers = repFromRemote.getHeaders();
         List<String> cookies = headers.get("Set-Cookie");
-        for(String c:cookies){
-            response.addHeader("Set-Cookie", c);
+        if(cookies!=null) {
+            for (String c : cookies) {
+                response.addHeader("Set-Cookie", c);
 
+            }
         }
         return repFromRemote.getBody();
     }
