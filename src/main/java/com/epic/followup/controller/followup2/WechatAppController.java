@@ -634,9 +634,9 @@ public class WechatAppController {
 
     @PostMapping(value = "/getLastestHistory")
     @ResponseBody
-    public JSONObject getLastestHistory(HttpServletRequest request){
+    public JSONObject getLastestHistory(HttpServletRequest request, @RequestBody JSONObject param){
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
-        List<Map<String, Object>> model = ccbtAccessAnswerService.getLastestHistory(bus.getUserId());
+        List<Map<String, Object>> model = ccbtAccessAnswerService.getLastestHistory(bus.getUserId(),param.getInteger("num"));
         JSONObject res = new JSONObject();
         if (model == null || model.size()==0) {
             res.put("errorCode",502);

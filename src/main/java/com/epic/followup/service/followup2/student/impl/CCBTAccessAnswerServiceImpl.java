@@ -30,14 +30,14 @@ public class CCBTAccessAnswerServiceImpl implements CCBTAccessAnswerService {
     }
 
     @Override
-    public List<Map<String, Object>> getLastestHistory(Long userId) {
-        List<Object> list1 = answerRepository.getLastestHistory1(userId);
-        List<Object> list2 = answerRepository.getLastestHistory2(userId);
-        List<Object> list3 = answerRepository.getLastestHistory3(userId);
-        List<Object> list4 = answerRepository.getLastestHistory4(userId);
-        List<Object> list5 = answerRepository.getLastestHistory5(userId);
+    public List<Map<String, Object>> getLastestHistory(Long userId,int num) {
+        List<Object> list1 = answerRepository.getLastestHistory1(userId,num);
+        List<Object> list2 = answerRepository.getLastestHistory2(userId,num);
+        List<Object> list3 = answerRepository.getLastestHistory3(userId,num);
+        List<Object> list4 = answerRepository.getLastestHistory4(userId,num);
+        List<Object> list5 = answerRepository.getLastestHistory5(userId,num);
         List<Map<String, Object>> data = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < num; i++) {
             Map<String, Object> item = new HashMap<>();
             if(i>=list1.size()){
                 item.put("depress_answer",null);

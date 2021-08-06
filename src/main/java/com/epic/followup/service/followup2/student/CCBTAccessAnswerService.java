@@ -22,7 +22,7 @@ public interface CCBTAccessAnswerService {
 
     void saveAccessAnswer(CCBTAccessAnswerModel model);
 
-    List<Map<String, Object>> getLastestHistory(Long userId);
+    List<Map<String, Object>> getLastestHistory(Long userId,int num);
 
 
 }
