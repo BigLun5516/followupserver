@@ -82,7 +82,7 @@ public class WechatAppController {
                                StudentResultService studentResultService,
                                ScaleResult2Service scaleResult2Service,
                                KnowledgeMapService knowledgeMapService
-                               ){
+    ) {
         this.wechatAppUserService = wechatAppUserService;
         this.weChatConfig = weChatConfig;
         this.answer2Service = answer2Service;
@@ -97,7 +97,7 @@ public class WechatAppController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     @ResponseBody
-    public String getLoginStatus(@RequestParam(value = "code", required = true) String code){
+    public String getLoginStatus(@RequestParam(value = "code", required = true) String code) {
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("secret", weChatConfig.getAppSecert());
@@ -108,18 +108,18 @@ public class WechatAppController {
         String result = null;
         try {
             result = get(weChatConfig.getUrl(), params, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         JSONObject r = JSON.parseObject(result);
-        if (r.getString("openid") != null){
+        if (r.getString("openid") != null) {
 
             WechatAppUserModel u = wechatAppUserService.findByOpenId(r.getString("openid"));
-            if (u!=null){
+            if (u != null) {
                 u.setSessionKey(r.getString("session_key"));
                 u.setOpenId(r.getString("openid"));
-            }else {
+            } else {
                 u = new WechatAppUserModel();
                 u.setSessionKey(r.getString("session_key"));
                 u.setOpenId(r.getString("openid"));
@@ -129,16 +129,16 @@ public class WechatAppController {
             wechatAppUserService.updateUser(u);
 
             r.put("errorCode", 200);
-            r.put("sessionId" ,u.getSessionId() == null ? "-" : u.getSessionId());
+            r.put("sessionId", u.getSessionId() == null ? "-" : u.getSessionId());
             return JSON.toJSONString(r);
-        }else {
+        } else {
             return result;
         }
     }
 
     @RequestMapping(value = "/answer/test", method = RequestMethod.GET)
     @ResponseBody
-    public int rpcServerTest(HttpServletRequest request){
+    public int rpcServerTest(HttpServletRequest request) {
 //        BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
         int i = nlpService.fun_add();
         System.out.println(i);
@@ -147,25 +147,25 @@ public class WechatAppController {
 
     @RequestMapping(value = "/answer/submit", method = RequestMethod.POST)
     @ResponseBody
-    public String getLoginStatus(HttpServletRequest request, @RequestBody AnsewerSubmitRequest answerInfo){
+    public String getLoginStatus(HttpServletRequest request, @RequestBody AnsewerSubmitRequest answerInfo) {
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
         AnswerResponse dm = new AnswerResponse();
 
         // 判断上传合法性（1.是否为同一天小于5分钟且问题序号为上一条加一 2.是否为当天最近数据）
         AnswerModel lastAnswer = answer2Service.getLastAnswer(bus.getUserId());
-        if (lastAnswer != null ){
+        if (lastAnswer != null) {
             // 判断是否为今天数据
             Date nowDate = new Date();
-            if ((int)((nowDate.getTime() - lastAnswer.getAnswerTime().getTime())/(24*60*60*1000)) == 0){
+            if ((int) ((nowDate.getTime() - lastAnswer.getAnswerTime().getTime()) / (24 * 60 * 60 * 1000)) == 0) {
                 // 今天有数据，判断是否为下一题
-                if (answerInfo.getQuestion() - lastAnswer.getNumber() != 1){
+                if (answerInfo.getQuestion() - lastAnswer.getNumber() != 1) {
                     dm.setErrorCode(504);
-                    dm.setErrorMsg("题目序号错误，下一题应为["+(lastAnswer.getNumber()+1)+"].");
-                    dm.setNextQuestion(lastAnswer.getNumber()+1);
+                    dm.setErrorMsg("题目序号错误，下一题应为[" + (lastAnswer.getNumber() + 1) + "].");
+                    dm.setNextQuestion(lastAnswer.getNumber() + 1);
                     return JSON.toJSONString(dm);
                 }
                 // 判断是否超时
-                if (nowDate.getTime() - lastAnswer.getAnswerTime().getTime() > (weChatConfig.getDelay()*60*1000)){
+                if (nowDate.getTime() - lastAnswer.getAnswerTime().getTime() > (weChatConfig.getDelay() * 60 * 1000)) {
                     dm.setErrorCode(504);
                     dm.setErrorMsg("回答超时.");
                     return JSON.toJSONString(dm);
@@ -176,11 +176,11 @@ public class WechatAppController {
 
         // 通过校验可以插入
         AnswerModel submitAnswer = Answer2Service.transformAnswerRequest(answerInfo, bus.getUserId());
-        if (answerInfo.getResult() == -1){
+        if (answerInfo.getResult() == -1) {
             double result;
             try {
                 result = nlpService.questionFunSelect(submitAnswer.getNumber(), submitAnswer.getAnswerResult());
-            }catch (XmlRpcException e){
+            } catch (XmlRpcException e) {
                 e.printStackTrace();
                 dm.setErrorCode(505);
                 dm.setErrorMsg("伺服器错误,RPC服务异常");
@@ -188,18 +188,18 @@ public class WechatAppController {
             }
 
             submitAnswer.setAnalyseResult(result);
-        }else {
+        } else {
             // 大于等于2 视为有症状
 
 //            submitAnswer.setAnalyseResult(answerInfo.getResult() >= 2 ? 1 : 0);
             submitAnswer.setAnalyseResult(answerInfo.getResult() >= 0 ? answerInfo.getResult() : 0);
         }
 
-        if (answer2Service.insert(submitAnswer)){
+        if (answer2Service.insert(submitAnswer)) {
             dm.setErrorCode(200);
             dm.setErrorMsg("succ");
             return JSON.toJSONString(dm);
-        }else {
+        } else {
             dm.setErrorCode(505);
             dm.setErrorMsg("伺服器错误");
             return JSON.toJSONString(dm);
@@ -209,22 +209,22 @@ public class WechatAppController {
     @RequestMapping(value = "/answer/query", method = RequestMethod.POST)
     @ResponseBody
     @Transactional
-    public String getLoginStatus(HttpServletRequest request, @RequestBody AnswerQueryRequest answerInfo) throws Exception{
+    public String getLoginStatus(HttpServletRequest request, @RequestBody AnswerQueryRequest answerInfo) throws Exception {
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
         AnswerResponse dm = new AnswerResponse();
 
         //  checkOrEnd : 1 查询 ；2 测评失败删除0； 3 测评成功设置1；
-        if (answerInfo.getCheckOrEnd() == 1){
+        if (answerInfo.getCheckOrEnd() == 1) {
             AnswerModel lastAnswer = answer2Service.getLastAnswer(bus.getUserId());
 
-            if (lastAnswer == null){
+            if (lastAnswer == null) {
                 dm.setErrorCode(200);
                 dm.setErrorMsg("无数据");
                 dm.setNextQuestion(1);
                 return JSON.toJSONString(dm);
             }
-            Date nowDate=new Date();
-            if (nowDate.getTime() - lastAnswer.getAnswerTime().getTime() > (weChatConfig.getDelay()*60*1000)){
+            Date nowDate = new Date();
+            if (nowDate.getTime() - lastAnswer.getAnswerTime().getTime() > (weChatConfig.getDelay() * 60 * 1000)) {
                 // 超时直接删除
                 answer2Service.deleteOutData(bus.getUserId());
                 wechatFile2Service.deleteOutData(bus.getUserId());
@@ -237,23 +237,23 @@ public class WechatAppController {
             dm.setErrorMsg("succ");
             dm.setNextQuestion(lastAnswer.getNumber() + 1);
             return JSON.toJSONString(dm);
-        }else if (answerInfo.getCheckOrEnd() == 2){
+        } else if (answerInfo.getCheckOrEnd() == 2) {
             answer2Service.deleteOutData(bus.getUserId());
             wechatFile2Service.deleteOutData(bus.getUserId());
             dm.setErrorCode(200);
             dm.setErrorMsg("succ，已删除");
             dm.setNextQuestion(1);
             return JSON.toJSONString(dm);
-        }else if (answerInfo.getCheckOrEnd() == 3){
+        } else if (answerInfo.getCheckOrEnd() == 3) {
             // 添加result
             List<AnswerModel> al = answer2Service.getAppointDayUnsuccData(bus.getUserId(), 0);
             List<WechatFileModel> fl = wechatFile2Service.getAppointDayUnsuccData(bus.getUserId(), 0);
             long[] aa = new long[al.size()];
             long[] fa = new long[fl.size()];
-            for (int i = 0; i < al.size(); i++){
+            for (int i = 0; i < al.size(); i++) {
                 aa[i] = al.get(i).getId();
             }
-            for (int i = 0; i < fl.size(); i++){
+            for (int i = 0; i < fl.size(); i++) {
                 fa[i] = fl.get(i).getId();
             }
             ResultModel rm = new ResultModel();
@@ -278,9 +278,9 @@ public class WechatAppController {
                 睡眠障碍 食欲异常 动作缓慢、容易烦躁 时而躁狂 社会关系、不安全感 焦虑、抑郁
             */
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < al.size(); i++){
+            for (int i = 0; i < al.size(); i++) {
 //                log.info(Integer.toString((int)al.get(i).getAnalyseResult()));
-                sb.append(Integer.toString((int)al.get(i).getAnalyseResult()));
+                sb.append(Integer.toString((int) al.get(i).getAnalyseResult()));
             }
             this.studentResultService.addResult(bus.getUserId(), stinfo, sb.toString(), rm.getScore(), rm.getLevel());
 
@@ -291,7 +291,7 @@ public class WechatAppController {
             dm.setErrorMsg("succ,已添加");
             dm.setNextQuestion(0);
             return JSON.toJSONString(dm);
-        }else {
+        } else {
             dm.setErrorCode(503);
             dm.setErrorMsg("错误参数.");
             return JSON.toJSONString(dm);
@@ -300,17 +300,17 @@ public class WechatAppController {
 
     @RequestMapping(value = "/chart", method = RequestMethod.POST)
     @ResponseBody
-    public String getData(HttpServletRequest request, @RequestBody NormalUserRequest userInfo){
+    public String getData(HttpServletRequest request, @RequestBody NormalUserRequest userInfo) {
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
         ChartResponse dm = new ChartResponse();
 
         // 计算最近得分
         List<AnswerModel> lastSuccs = answer2Service.getLastSucces(bus.getUserId(), weChatConfig.getAnswerNums());
-        if (lastSuccs.size() != weChatConfig.getAnswerNums()){
+        if (lastSuccs.size() != weChatConfig.getAnswerNums()) {
             dm.setErrorCode(501);
             dm.setErrorMsg("/wechat/chart: 无最近测评数据");
             return JSON.toJSONString(dm);
-        }else {
+        } else {
             dm.setScore(answer2Service.countScore(lastSuccs));
         }
 
@@ -322,35 +322,35 @@ public class WechatAppController {
 
         // 计算每日得分
         ChartData[] cd = new ChartData[7];
-        for (int i = 0; i < 7; i++){
+        for (int i = 0; i < 7; i++) {
             List<AnswerModel> l = answer2Service.getAppointDayData(bus.getUserId(), i);
             cd[i] = new ChartData();
             // 星期几
             cd[i].setDay(DateTimeUtils.getDayOfWeek(i));
             // 缓存数据
             List<Integer> dataList = new ArrayList<Integer>();
-            for (int z = 0; z < l.size(); z+=weChatConfig.getAnswerNums()){
+            for (int z = 0; z < l.size(); z += weChatConfig.getAnswerNums()) {
 
                 // 无数据 或 数据不足
-                if (l.size()+1 - z < weChatConfig.getAnswerNums()){
+                if (l.size() + 1 - z < weChatConfig.getAnswerNums()) {
                     break;
-                }else {
+                } else {
                     cd[i].setDay(DateTimeUtils.getDayOfWeek(i));
                     cd[i].setTime(l.get(z).getAnswerTime());
-                    dataList.add(answer2Service.countScore(l.subList(z, z+weChatConfig.getAnswerNums())));
-                    cd[i].setLevel(answer2Service.getDPLevel(l.subList(z, z+weChatConfig.getAnswerNums())));
+                    dataList.add(answer2Service.countScore(l.subList(z, z + weChatConfig.getAnswerNums())));
+                    cd[i].setLevel(answer2Service.getDPLevel(l.subList(z, z + weChatConfig.getAnswerNums())));
                 }
             }
             // 取均值
-            if (!dataList.isEmpty()){
+            if (!dataList.isEmpty()) {
                 int sum = 0;
                 int tmp[] = new int[dataList.size()];
-                for (int y = 0; y < dataList.size(); y ++){
+                for (int y = 0; y < dataList.size(); y++) {
                     tmp[y] = dataList.get(y);
                     sum += tmp[y];
                 }
                 cd[i].setData(tmp);
-                cd[i].setTitle(sum/dataList.size());
+                cd[i].setTitle(sum / dataList.size());
 
             }
         }
@@ -405,9 +405,9 @@ public class WechatAppController {
             fileNowName = UUIDUtil.getUUID2() + "." + fileName.substring(fileName.lastIndexOf(".") + 1); // 生成唯一的名字 没有需要的包
             File dest = new File(paths + "/" + fileNowName);
             relativePath = paths + "/" + fileNowName;
-            dest=new File(dest.getAbsolutePath());
+            dest = new File(dest.getAbsolutePath());
 
-            long lastModified=dest.lastModified();
+            long lastModified = dest.lastModified();
 
             if (!f.exists()) {
                 f.mkdirs();
@@ -439,7 +439,7 @@ public class WechatAppController {
 
     @RequestMapping(value = "/submitscale", method = RequestMethod.POST)
     @ResponseBody
-    public String submitData(HttpServletRequest request, @RequestBody SubmitScaleRequest userInfo){
+    public String submitData(HttpServletRequest request, @RequestBody SubmitScaleRequest userInfo) {
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
         SubmitScaleResponse dm = new SubmitScaleResponse();
 
@@ -463,13 +463,14 @@ public class WechatAppController {
 
     /**
      * 删除未做完的测评结果
+     *
      * @param request
      * @param obj
      * @return
      */
     @RequestMapping(value = "/deleteScaleResult", method = RequestMethod.POST)
     @ResponseBody
-    public String submitData(HttpServletRequest request, @RequestBody JSONObject obj){
+    public String submitData(HttpServletRequest request, @RequestBody JSONObject obj) {
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
         scaleResult2Service.deleteResult(bus.getUserId(), obj.getLong("count"));
         AnswerResponse dm = new AnswerResponse();
@@ -483,7 +484,7 @@ public class WechatAppController {
      */
     @RequestMapping(value = "/getresults", method = RequestMethod.POST)
     @ResponseBody
-    public String getResult(HttpServletRequest request, @RequestBody NormalUserRequest userInfo){
+    public String getResult(HttpServletRequest request, @RequestBody NormalUserRequest userInfo) {
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
         DealMessageResponse dm = new DealMessageResponse();
 
@@ -499,48 +500,50 @@ public class WechatAppController {
      */
     @RequestMapping(value = "/getInfo")
     @ResponseBody
-    public StudentInfo getInfo(HttpServletRequest request){
+    public StudentInfo getInfo(HttpServletRequest request) {
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
 
         StudentInfo s = this.baseUserService.getStudentInfoByUserID(bus.getUserId());
-        if (s == null){
+        if (s == null) {
             return null;
-        }else {
+        } else {
             return s;
         }
     }
 
     /**
      * 查询最近100天的历史记录的日期
+     *
      * @param request
      * @return
      */
     @PostMapping(value = "/history")
     @ResponseBody
-    public JSONObject getHistoryTime(HttpServletRequest request){
+    public JSONObject getHistoryTime(HttpServletRequest request) {
         System.out.println("history接受到了");
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
         List<Map<String, String>> timeList = scaleResult2Service.getHistoryDate(bus.getUserId());
         JSONObject res = new JSONObject();
         if (timeList == null || timeList.isEmpty()) {
-            res.put("errorCode",502);
-            res.put("errorMsg","未查找到信息");
-        }else{
-            res.put("errorCode",200);
-            res.put("errorMsg","查找成功");
-            res.put("data",timeList);
+            res.put("errorCode", 502);
+            res.put("errorMsg", "未查找到信息");
+        } else {
+            res.put("errorCode", 200);
+            res.put("errorMsg", "查找成功");
+            res.put("data", timeList);
         }
         return res;
     }
 
     /**
      * 根据日期查询当天的评测结果
+     *
      * @param request
      * @return
      */
     @PostMapping(value = "/getResultByDate")
     @ResponseBody
-    public String getResultByDate(HttpServletRequest request, @RequestBody JSONObject obj){
+    public String getResultByDate(HttpServletRequest request, @RequestBody JSONObject obj) {
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
         String date = obj.getString("date");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -551,10 +554,10 @@ public class WechatAppController {
             e.printStackTrace();
         }
         // 取前后两分钟范围内的记录
-        Date afterDate = new Date(now .getTime() + 120000);
+        Date afterDate = new Date(now.getTime() + 120000);
         Date beforeDate = new Date(now.getTime() - 5000);
 
-        GetScaleResultResponse gsr = scaleResult2Service.getResultByDate(bus.getUserId(), sdf.format(beforeDate)+":00", sdf.format(afterDate)+":00");
+        GetScaleResultResponse gsr = scaleResult2Service.getResultByDate(bus.getUserId(), sdf.format(beforeDate) + ":00", sdf.format(afterDate) + ":00");
         gsr.setErrorCode(200);
         gsr.setErrorMsg("succ");
         return JSON.toJSONString(gsr);
@@ -563,26 +566,26 @@ public class WechatAppController {
 
     @PostMapping("/question")
     @ResponseBody
-    public String question(HttpServletRequest request, HttpServletResponse response, @RequestBody JSONObject obj){
+    public String question(HttpServletRequest request, HttpServletResponse response, @RequestBody JSONObject obj) {
         Cookie[] a = request.getCookies();
-        String value ="";
-        if(a != null){
-            for(Cookie c:a){
-                if("session".equals(c.getName())){
+        String value = "";
+        if (a != null) {
+            for (Cookie c : a) {
+                if ("session".equals(c.getName())) {
                     value = c.getValue();
                     break;
                 }
             }
         }
-        System.out.println("cookie是你吗："+value);
+        System.out.println("cookie是你吗：" + value);
         System.out.println("question接受到了");
-        String q=obj.getString("q");
-        String pattern=obj.getString("pattern");
-        String location=obj.getString("location");
-        HttpEntity<String> repFromRemote = this.knowledgeMapService.knowledgeMapAnswer(value, q,pattern,location);
+        String q = obj.getString("q");
+        String pattern = obj.getString("pattern");
+        String location = obj.getString("location");
+        HttpEntity<String> repFromRemote = this.knowledgeMapService.knowledgeMapAnswer(value, q, pattern, location);
         HttpHeaders headers = repFromRemote.getHeaders();
         List<String> cookies = headers.get("Set-Cookie");
-        if(cookies!=null) {
+        if (cookies != null) {
             for (String c : cookies) {
                 response.addHeader("Set-Cookie", c);
 
@@ -594,7 +597,7 @@ public class WechatAppController {
     // CCBT 评估模块
     @PostMapping(value = "/saveAccessAnswer")
     @ResponseBody
-    public String submitData(HttpServletRequest request, @RequestBody CCBTAccessAnswerRequest ccbt){
+    public String submitData(HttpServletRequest request, @RequestBody CCBTAccessAnswerRequest ccbt) {
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
         // 0: 抑郁 1： 焦虑 2： 失眠 3：认知 4：人际关系
         int type = ccbt.getType();
@@ -602,26 +605,26 @@ public class WechatAppController {
         String date = formatter.format(ccbt.getDate());
         CCBTAccessAnswerModel model = ccbtAccessAnswerService.getAnswerByUserIdAndDate(bus.getUserId(), date);
 
-        
-        if(model == null){
+
+        if (model == null) {
             // 创建记录
             model = new CCBTAccessAnswerModel();
             model.setCreateTime(ccbt.getDate());
             model.setUserId(bus.getUserId());
         }
-        if(type == 0){
+        if (type == 0) {
             model.setDepressAnswer(StringUtils.join(ccbt.getAnswer(), ','));
             model.setDepressScore(ccbt.getScore());
-        }else if(type == 1){
+        } else if (type == 1) {
             model.setAnxiousAnswer(StringUtils.join(ccbt.getAnswer(), ','));
             model.setAnxiousScore(ccbt.getScore());
-        }else if(type == 2){
-            model.setSleepAnswer(StringUtils.join(ccbt.getAnswer(),','));
+        } else if (type == 2) {
+            model.setSleepAnswer(StringUtils.join(ccbt.getAnswer(), ','));
             model.setSleepScore(ccbt.getScore());
-        }else if(type == 3){
-            model.setCognitionAnswer(StringUtils.join(ccbt.getCognitionAnswer(),','));
-        }else if(type == 4){
-            model.setRelationshipAnswer(StringUtils.join(ccbt.getAnswer(),','));
+        } else if (type == 3) {
+            model.setCognitionAnswer(StringUtils.join(ccbt.getCognitionAnswer(), ','));
+        } else if (type == 4) {
+            model.setRelationshipAnswer(StringUtils.join(ccbt.getAnswer(), ','));
         }
         model.setStatus(type);
         ccbtAccessAnswerService.saveAccessAnswer(model);
@@ -634,17 +637,23 @@ public class WechatAppController {
 
     @PostMapping(value = "/getLastestHistory")
     @ResponseBody
-    public JSONObject getLastestHistory(HttpServletRequest request, @RequestBody JSONObject param){
+    public JSONObject getLastestHistory(HttpServletRequest request, @RequestBody(required=false) JSONObject param) {
         BaseUserSession bus = baseUserService.findBySessionId(request.getHeader("sessionId"));
-        List<Map<String, Object>> model = ccbtAccessAnswerService.getLastestHistory(bus.getUserId(),param.getInteger("num"));
+        int num = 0;
+        if (param == null || param.getInteger("num") == null) {
+            num = 5;
+        } else {
+            num = param.getInteger("num");
+        }
+        List<Map<String, Object>> model = ccbtAccessAnswerService.getLastestHistory(bus.getUserId(), num);
         JSONObject res = new JSONObject();
-        if (model == null || model.size()==0) {
-            res.put("errorCode",502);
-            res.put("errorMsg","未查找到信息");
-        }else{
-            res.put("errorCode",200);
-            res.put("errorMsg","查找成功");
-            res.put("data",model);
+        if (model == null || model.size() == 0) {
+            res.put("errorCode", 502);
+            res.put("errorMsg", "未查找到信息");
+        } else {
+            res.put("errorCode", 200);
+            res.put("errorMsg", "查找成功");
+            res.put("data", model);
         }
         return res;
     }
