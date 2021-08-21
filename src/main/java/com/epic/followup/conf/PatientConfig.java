@@ -14,13 +14,17 @@ public class PatientConfig {
     public final static String store_img="/home/followup/static/img/personImg";
 
     //个人信息头像访问地址
-    public final static String img_query="http://follwup.cmas2020.cn/img/personImg/";
+//    public final static String img_query="http://follwup.cmas2020.cn/img/personImg/";
+    public final static String img_query="http://follwup-test.cmas2020.cn/img/personImg/";
+
 
     //日记存储地址
     public final static String store_diary="/home/followup/static/img/diaryImg";
 
     //日记访问地址
-    public final static String diary_query="http://follwup.cmas2020.cn/img/diaryImg/";
+//    public final static String diary_query="http://follwup.cmas2020.cn/img/diaryImg/";
+    public final static String diary_query="http://follwup-test.cmas2020.cn/img/diaryImg/";
+
 
 
     // 性别
