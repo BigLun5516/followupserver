@@ -20,7 +20,7 @@ public class AiDoctor {
 
     @RequestMapping("")
     public String index() {
-        return "redirect:/aidoctor/admin/index/index.html";
+        return "redirect:/static/psychologicalManager/index.html";
     }
 
     /*
