@@ -32,6 +32,7 @@ public class NLPServiceImpl implements NLPService {
         try {
             XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
             config.setServerURL(new URL("http://127.0.0.1:8021/"));
+//            config.setServerURL(new URL("http://follwup-test.cmas2020.cn:8021/"));
 
             client = new XmlRpcClient();
             client.setConfig(config);
