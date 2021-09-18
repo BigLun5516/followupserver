@@ -18,6 +18,8 @@ public class WeChatConfig {
 
     private String appSecert;
     private String appID;
+    private String mas_appSecert;
+    private String mas_appID;
     private String url;
     private String grantType;
     private int delay;
@@ -200,5 +202,21 @@ public class WeChatConfig {
 
     public void setMaxScore(int maxScore) {
         this.maxScore = maxScore;
+    }
+
+    public String getMas_appSecert() {
+        return mas_appSecert;
+    }
+
+    public void setMas_appSecert(String mas_appSecert) {
+        this.mas_appSecert = mas_appSecert;
+    }
+
+    public String getMas_appID() {
+        return mas_appID;
+    }
+
+    public void setMas_appID(String mas_appID) {
+        this.mas_appID = mas_appID;
     }
 }

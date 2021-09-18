@@ -18,5 +18,10 @@ public interface PicService {
     // 编辑图文
     JSONObject editPic(JSONObject params);
 
+    // 获取token接口
+    JSONObject getToken(JSONObject params) throws Exception;
+
+
+
 
 }

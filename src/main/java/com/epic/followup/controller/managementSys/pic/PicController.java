@@ -41,4 +41,11 @@ public class PicController {
     public JSONObject editPic(@RequestBody JSONObject params){
         return picService.editPic(params);
     }
+
+    //公众号获取token的接口
+    @PostMapping("/getToken")
+    @ResponseBody
+    public JSONObject getToken(@RequestBody JSONObject params) throws Exception {
+        return picService.getToken(params);
+    }
 }
