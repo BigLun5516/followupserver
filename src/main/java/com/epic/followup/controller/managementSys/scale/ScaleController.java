@@ -1,9 +1,11 @@
 package com.epic.followup.controller.managementSys.scale;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.epic.followup.model.managementSys.NewScaleModel;
 import com.epic.followup.repository.managementSys.NewScaleRepository;
 import com.epic.followup.service.managementSys.scale.ScaleService;
+import com.epic.followup.util.ExcelUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,12 @@ import java.util.Map;
 @RequestMapping("/managementSystem/scale")
 @Slf4j
 public class ScaleController {
+
+    public static String PQ_PATH = "/home/followup/static/SchoolSurvey/PQ.xlsx";
+
+    public static String SQ_PATH = "/home/followup/static/SchoolSurvey/SQ.xlsx";
+
+    public static String TQ_PATH = "/home/followup/static/SchoolSurvey/TQ.xlsx";
 
     @Autowired
     private ScaleService scaleService;
@@ -75,28 +83,30 @@ public class ScaleController {
     @ResponseBody
     public JSONObject uploadScale(@RequestBody JSONObject req) {
         JSONObject res = new JSONObject();
-        JSONObject answer =  req.getJSONObject("answer");
+        JSONArray answer = req.getJSONArray("answer");
         log.info(answer.toString());
-        String phone = req.getString("phone");
         Integer scaleId = req.getInteger("scaleId");
-        //电话号码不能为空
-        if (phone == null || phone.length() == 0) {
-            res.put("code", "502");
-            res.put("msg", "手机号不能为空");
-            return res;
-        }
         //表id不能为空
         if(scaleId == null){
             res.put("code", "502");
             res.put("msg", "表id不能为空");
             return res;
         }
+        String path;
+        if(scaleId == 1){
+            path = SQ_PATH;
+        }else if(scaleId == 2){
+            path = PQ_PATH;
+        }else{
+            path = TQ_PATH;
+        }
+        ExcelUtils.writeExcel(path,answer);
 
         //数据入库
         NewScaleModel newScaleModel = new NewScaleModel();
         newScaleModel.setAnswer(answer.toString());
         newScaleModel.setAnswerTime(new Date());
-        newScaleModel.setPhone(phone);
+        newScaleModel.setPhone("");
         newScaleModel.setScaleId(scaleId);
         newScaleRepository.save(newScaleModel);
         res.put("code", "200");
