@@ -23,8 +23,19 @@ public class NewScaleModel {
     @Column(name = "scale_id")
     private Integer scaleId;
 
-    // 回答时间
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "answer_time")
-    private Date answerTime;
+    @Column(name = "start_time")
+    private String startTime;
+
+    @Column(name = "finish_time")
+    private String finishTime;
+
+    @Column(name = "ip")
+    private String ip;
+
+    @Column(name = "region")
+    private String region;
+
+
+
+
 }

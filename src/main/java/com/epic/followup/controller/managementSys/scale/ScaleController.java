@@ -6,11 +6,13 @@ import com.epic.followup.model.managementSys.NewScaleModel;
 import com.epic.followup.repository.managementSys.NewScaleRepository;
 import com.epic.followup.service.managementSys.scale.ScaleService;
 import com.epic.followup.util.ExcelUtils;
+import com.epic.followup.util.IpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.Map;
@@ -81,11 +83,16 @@ public class ScaleController {
     // 胡老师新增的量表的上传接口
     @PostMapping("/uploadScale")
     @ResponseBody
-    public JSONObject uploadScale(@RequestBody JSONObject req) {
+    public JSONObject uploadScale(@RequestBody JSONObject req, HttpServletRequest request) {
         JSONObject res = new JSONObject();
         JSONArray answer = req.getJSONArray("answer");
-        log.info(answer.toString());
+        String ipAddress = IpUtil.getIpAddr(request);
+        log.info(ipAddress);
+        String region = IpUtil.recordIp(ipAddress);
+        log.info(region);
         Integer scaleId = req.getInteger("scaleId");
+        String startTime = req.getString("startTime");
+        String finishTime = req.getString("finishTime");
         //表id不能为空
         if(scaleId == null){
             res.put("code", "502");
@@ -105,7 +112,10 @@ public class ScaleController {
         //数据入库
         NewScaleModel newScaleModel = new NewScaleModel();
         newScaleModel.setAnswer(answer.toString());
-        newScaleModel.setAnswerTime(new Date());
+        newScaleModel.setStartTime(startTime);
+        newScaleModel.setFinishTime(finishTime);
+        newScaleModel.setIp(ipAddress);
+        newScaleModel.setRegion(region);
         newScaleModel.setPhone("");
         newScaleModel.setScaleId(scaleId);
         newScaleRepository.save(newScaleModel);
