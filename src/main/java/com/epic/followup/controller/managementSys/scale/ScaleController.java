@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.Map;
+import java.util.Random;
 
 @Controller
 @CrossOrigin
@@ -23,11 +24,13 @@ import java.util.Map;
 @Slf4j
 public class ScaleController {
 
-    public static String PQ_PATH = "/home/followup/static/SchoolSurvey/PQ.xlsx";
+    public static String PQ_PATH = "/home/followup/static/SchoolSurvey/data/PQ.xlsx";
 
-    public static String SQ_PATH = "/home/followup/static/SchoolSurvey/SQ.xlsx";
+    public static String SQ_PATH = "/home/followup/static/SchoolSurvey/data/SQ.xlsx";
+    public static String SQTemplate_PATH = "/home/followup/static/SchoolSurvey/data/SQTemplate.xlsx";
 
-    public static String TQ_PATH = "/home/followup/static/SchoolSurvey/TQ.xlsx";
+    public static String TQ_PATH = "/home/followup/static/SchoolSurvey/data/TQ.xlsx";
+    public static String TQTemplate_PATH = "/home/followup/static/SchoolSurvey/data/TQTemplate.xlsx";
 
     @Autowired
     private ScaleService scaleService;
@@ -83,7 +86,7 @@ public class ScaleController {
     // 胡老师新增的量表的上传接口
     @PostMapping("/uploadScale")
     @ResponseBody
-    public JSONObject uploadScale(@RequestBody JSONObject req, HttpServletRequest request) {
+    public synchronized JSONObject uploadScale(@RequestBody JSONObject req, HttpServletRequest request) {
         JSONObject res = new JSONObject();
         JSONArray answer = req.getJSONArray("answer");
         String ipAddress = IpUtil.getIpAddr(request);
@@ -93,6 +96,7 @@ public class ScaleController {
         Integer scaleId = req.getInteger("scaleId");
         String startTime = req.getString("startTime");
         String finishTime = req.getString("finishTime");
+        Long timeDur = ExcelUtils.timeDuration(startTime, finishTime);
         //表id不能为空
         if(scaleId == null){
             res.put("code", "502");
@@ -107,6 +111,9 @@ public class ScaleController {
         }else{
             path = TQ_PATH;
         }
+        answer.add(0,ipAddress);
+        answer.add(0,timeDur + "秒");
+        answer.add(0,startTime);
         ExcelUtils.writeExcel(path,answer);
 
         //数据入库
