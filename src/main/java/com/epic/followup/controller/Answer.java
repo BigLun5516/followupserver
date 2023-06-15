@@ -45,6 +45,7 @@ public class Answer {
     public int rpcServerTest(){
         int i = nlpService.fun_add();
         System.out.println(i);
+
         return i;
     }
 

@@ -61,9 +61,7 @@ public class BaseUserController {
     @RequestMapping(value = "/stlogin", method = RequestMethod.POST)
     @ResponseBody
     public LoginResponse stLogin(@RequestBody LoginRequest userInfo){
-
         LoginResponse res = baseUserService.login(userInfo);
-
         // 更新微信用户表
         if (userInfo.getOpenID() != null){
             WechatAppUserModel u = wechatAppUserService.findByOpenId(userInfo.getOpenID());

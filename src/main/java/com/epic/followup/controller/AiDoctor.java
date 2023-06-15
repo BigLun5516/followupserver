@@ -29,6 +29,7 @@ public class AiDoctor {
     @GetMapping("kled6RWUya.txt")
     public String downloadZipFile(HttpServletRequest request, HttpServletResponse response){
         try{
+
             String filePathAndName = "kled6RWUya.txt";
             String fileRealName = "kled6RWUya.txt";
             // 以流的形式下载文件。

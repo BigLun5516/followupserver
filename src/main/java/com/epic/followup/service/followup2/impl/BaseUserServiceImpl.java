@@ -305,12 +305,12 @@ public class BaseUserServiceImpl implements BaseUserService {
         if (ob.isPresent()){
             if (!req.getPassword().equals(ob.get().getPassword())){
                 res.setErrorCode(401);
-                res.setErrorMsg("密码错误或账户不存在.");
+                res.setErrorMsg("密码错误");
                 return res;
             }
         }else {
             res.setErrorCode(401);
-            res.setErrorMsg("密码错误或账户不存在.");
+            res.setErrorMsg("账户不存在.");
             return res;
         }
         BaseUserSession s = new BaseUserSession();
